@@ -2,13 +2,18 @@
 
 ## Description
 
-Several data sets exist in `datamuseum` which have been processed from
+Several datasets exist in `datamuseum` which have been processed from
 their originally accessioned forms into digestible formats to exemplify
 the workflow made possible by the package. These are from the Global
 Biodiversity Information Facility (GBIF), Invert-E-Base (InvBase), the
 Biological Information System for Marine Life (BISMAL), Ocean
-Biodiversity Information System (OBIS), and one data set obtained by
-direct request from the National Museum of Nature and Science, Japan.
+Biodiversity Information System (OBIS), and one dataset obtained by
+direct request from the National Museum of Nature and Science, Japan
+(NSMT).
+
+The individual Japan-focused datasets can be found under **Example
+Data** at the [Reference
+page](https://btorgovitsky00.github.io/datamuseum/reference/index.html).
 
 Using the following packages:
 
@@ -31,7 +36,7 @@ library(sf)
 ## Individual Data Sets
 
 The raw and trimmed forms of each data set can be found [on
-Github](https://github.com/btorgovitsky00/datamuseum/tree/main/data-raw).
+Github](https://github.com/btorgovitsky00/datamuseum/blob/master/data-raw.zip).
 
 ### Global Biodiversity Information Facility (GBIF) Data
 
@@ -256,6 +261,10 @@ Octopodoidea, can be found at:
 > <https://www.kahaku.go.jp/english/>
 
 ## Concatenated Data Sets
+
+These datasets, made from combining the Japan-focused data, can be found
+under **Example Data** at the [Reference
+page](https://btorgovitsky00.github.io/datamuseum/reference/index.html).
 
 ### Japan Octopodoidea Data Set, `museum`
 
