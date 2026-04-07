@@ -1,10 +1,11 @@
 # Japan-filtered OBIS Octopodoidea occurrence records
 
-OBIS Octopodoidea occurrence records filtered to the Japan bounding box
-(latitude 25–50, longitude 125–150) and standardised to the common
-column set shared across all datamuseum Japan datasets. `SciName` is
-taken directly from the `species` field. Rows with `NA` in `Source`,
-`Family`, `Genus`, `SciName`, or `Year` are removed.
+Ocean Biodiversity Information System (OBIS) Octopodoidea occurrence
+records filtered to the Japan bounding box (latitude 25–50, longitude
+125–150) and standardized to the common column set shared across all
+datamuseum Japan data sets. `SciName` is taken directly from the
+`species` field. Rows with `NA` in `Source`, `Family`, `Genus`,
+`SciName`, or `Year` are removed.
 
 ## Usage
 

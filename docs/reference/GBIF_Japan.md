@@ -1,9 +1,10 @@
 # Japan-filtered GBIF Octopodoidea occurrence records
 
-GBIF Octopodoidea occurrence records filtered to the Japan bounding box
-(latitude 25–50, longitude 125–150) and standardised to the common
-column set shared across all datamuseum Japan datasets. Rows with `NA`
-in `Source`, `Family`, `Genus`, `SciName`, or `Year` are removed.
+Global Biodiversity Information Facility (GBIF) Octopodoidea occurrence
+records filtered to the Japan bounding box (latitude 25–50, longitude
+125–150) and standardized to the common column set shared across all
+datamuseum Japan datasets. Rows with `NA` in `Source`, `Family`,
+`Genus`, `SciName`,or `Year` are removed.
 
 ## Usage
 

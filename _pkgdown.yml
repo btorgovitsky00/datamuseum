@@ -1,0 +1,76 @@
+url: https://btorgovitsky00.github.io/datamuseum
+
+template:
+  bootstrap: 5
+  bootswatch: cosmo
+  bslib:
+    primary: "#0054AD"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+
+navbar:
+  structure:
+    left: [intro, reference, articles]
+  components:
+    intro:
+      text: Get Started
+      href: articles/datamuseum.html
+
+figures:
+  dev: ragg::agg_png
+  dpi: 300
+
+articles:
+  - title: Example Workflows
+    desc: In-depth workflows demonstrating datamuseum functions with real datasets.
+    contents:
+      - octopodoidea_japan
+
+reference:
+  - title: latlong
+    desc: Functions for managing latitude and longitude data.
+    contents:
+      - latlong_column
+      - latlong_convert
+      - latlong_combine
+      - latlong_filter
+      - latlong_format
+      - latlong_limits
+      - latlong_hemisphere
+      - latlong_range
+      - latlong_region
+      - latlong_split
+
+  - title: taxon
+    desc: Functions for managing taxonomic data.
+    contents:
+      - taxon_add
+      - taxon_cite
+      - taxon_cleaner
+      - taxon_column
+      - taxon_columntype
+      - taxon_combine
+      - taxon_spellcheck
+      - taxon_split
+      - taxon_sort
+      - taxon_validate
+
+  - title: Utilities
+    desc: General-purpose functions for data set management.
+    contents:
+      - deduplicate
+      - duplicate
+      - italicize
+
+  - title: Example Data
+    desc: Octopodoidea occurrence datasets for Japan compiled from five
+      museum and biodiversity sources, then compiled and refined with
+      taxon functions.
+    contents:
+      - GBIF_Japan
+      - InvBase_Japan
+      - BISMAL_Japan
+      - OBIS_Japan
+      - NSMT_Japan
+      - museum
+      - museum_taxon

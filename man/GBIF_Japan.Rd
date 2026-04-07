@@ -38,11 +38,12 @@ GBIF.org (30 March 2026) GBIF Occurrence Download.
 GBIF_Japan
 }
 \description{
-GBIF Octopodoidea occurrence records filtered to the Japan bounding box
-(latitude 25--50, longitude 125--150) and standardised to the common
-column set shared across all \pkg{datamuseum} Japan datasets. Rows with
-\code{NA} in \code{Source}, \code{Family}, \code{Genus}, \code{SciName},
-or \code{Year} are removed.
+Global Biodiversity Information Facility (GBIF) Octopodoidea occurrence
+records filtered to the Japan bounding box (latitude 25--50,
+longitude 125--150) and standardized to the common column set shared
+across all \pkg{datamuseum} Japan datasets.
+Rows with \code{NA} in \code{Source}, \code{Family}, \code{Genus},
+\code{SciName},or \code{Year} are removed.
 }
 \details{
 The raw and trimmed intermediate versions of this dataset are available

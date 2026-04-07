@@ -42,11 +42,12 @@ Data obtained directly from the museum, early 2024.
 NSMT_Japan
 }
 \description{
-NSMT Octopodoidea occurrence records filtered to the Japan bounding box
-(latitude 25--50, longitude 125--150) and standardised to the common
-column set shared across all \pkg{datamuseum} Japan datasets. Unlike other
-sources, coordinate columns were already named \code{Latitude} and
-\code{Longitude} in the raw data and required no renaming. \code{SciName}
+Japanese National Museum of Nature and Science (NSMT) Octopodoidea
+occurrence records filtered to the Japan bounding box
+(latitude 25--50, longitude 125--150) and standardized to the common
+column set shared across all \pkg{datamuseum} Japan data sets.
+Unlike other sources, coordinate columns were already named \code{Latitude}
+and \code{Longitude} in the raw data and required no renaming. \code{SciName}
 is constructed from \code{Genus}, \code{Species}, and \code{Subspecies},
 with trailing \code{NA} strings removed to handle records without a
 subspecies. This is the only source to incorporate a subspecies component

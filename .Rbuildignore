@@ -1,2 +1,6 @@
 ^dataMuseum\.Rproj$
 ^\.Rproj\.user$
+^data-raw$
+^_pkgdown\.yml$
+^docs$
+^README\.md$

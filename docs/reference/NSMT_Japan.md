@@ -1,15 +1,16 @@
 # Japan-filtered NSMT Octopodoidea occurrence records
 
-NSMT Octopodoidea occurrence records filtered to the Japan bounding box
-(latitude 25–50, longitude 125–150) and standardised to the common
-column set shared across all datamuseum Japan datasets. Unlike other
-sources, coordinate columns were already named `Latitude` and
-`Longitude` in the raw data and required no renaming. `SciName` is
-constructed from `Genus`, `Species`, and `Subspecies`, with trailing
-`NA` strings removed to handle records without a subspecies. This is the
-only source to incorporate a subspecies component in `SciName`. No rows
-were removed by the `NA` filter, giving the highest retention rate of
-all five sources at 79.9% of raw records.
+Japanese National Museum of Nature and Science (NSMT) Octopodoidea
+occurrence records filtered to the Japan bounding box (latitude 25–50,
+longitude 125–150) and standardized to the common column set shared
+across all datamuseum Japan data sets. Unlike other sources, coordinate
+columns were already named `Latitude` and `Longitude` in the raw data
+and required no renaming. `SciName` is constructed from `Genus`,
+`Species`, and `Subspecies`, with trailing `NA` strings removed to
+handle records without a subspecies. This is the only source to
+incorporate a subspecies component in `SciName`. No rows were removed by
+the `NA` filter, giving the highest retention rate of all five sources
+at 79.9% of raw records.
 
 ## Usage
 

@@ -23,9 +23,20 @@ Suggests:
     cachem,
     rnaturalearth,
     sf,
-    R.utils, 
-    furrr, 
-    future
+    R.utils,
+    furrr,
+    future,
+    knitr,
+    rmarkdown,
+    tidyr,
+    dplyr,
+    lubridate,
+    stringr,
+    googlesheets4,
+    ggplot2,
+    maps,
+    rnaturalearthdata
 LazyData: true
 LazyDataCompression: xz
 RoxygenNote: 7.3.3
+VignetteBuilder: knitr

@@ -4,6 +4,13 @@
 <url><loc>https://btorgovitsky00.github.io/datamuseum/index.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/404.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/index.html</loc></url>
+<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/GBIF_Japan.html</loc></url>
+<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/InvBase_Japan.html</loc></url>
+<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/BISMAL_Japan.html</loc></url>
+<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/OBIS_Japan.html</loc></url>
+<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/NSMT_Japan.html</loc></url>
+<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/museum.html</loc></url>
+<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/museum_taxon.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/deduplicate.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/duplicate.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/italicize.html</loc></url>
@@ -13,10 +20,12 @@
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/latlong_filter.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/latlong_format.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/latlong_hemisphere.html</loc></url>
+<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/latlong_limits.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/latlong_range.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/latlong_region.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/latlong_split.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/taxon_add.html</loc></url>
+<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/taxon_cite.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/taxon_cleaner.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/taxon_column.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/taxon_columntype.html</loc></url>
@@ -24,16 +33,9 @@
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/taxon_sort.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/taxon_spellcheck.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/taxon_split.html</loc></url>
-<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/latlong_limits.html</loc></url>
-<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/taxon_cite.html</loc></url>
 <url><loc>https://btorgovitsky00.github.io/datamuseum/reference/taxon_validate.html</loc></url>
-<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/GBIF_Japan.html</loc></url>
-<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/InvBase_Japan.html</loc></url>
-<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/BISMAL_Japan.html</loc></url>
-<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/OBIS_Japan.html</loc></url>
-<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/NSMT_Japan.html</loc></url>
-<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/museum.html</loc></url>
-<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/museum_taxon.html</loc></url>
-<url><loc>https://btorgovitsky00.github.io/datamuseum/reference/datamuseum-package.html</loc></url>
+<url><loc>https://btorgovitsky00.github.io/datamuseum/articles/index.html</loc></url>
+<url><loc>https://btorgovitsky00.github.io/datamuseum/articles/datamuseum.html</loc></url>
+<url><loc>https://btorgovitsky00.github.io/datamuseum/articles/octopodoidea_japan.html</loc></url>
 </urlset>
 

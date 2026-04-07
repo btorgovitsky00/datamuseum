@@ -1,15 +1,16 @@
 # ============================================================
-# GBIF
+# Global Biodiversity Information Facility (GBIF)
 # ============================================================
 
 #' Japan-filtered GBIF Octopodoidea occurrence records
 #'
 #' @description
-#' GBIF Octopodoidea occurrence records filtered to the Japan bounding box
-#' (latitude 25--50, longitude 125--150) and standardised to the common
-#' column set shared across all \pkg{datamuseum} Japan datasets. Rows with
-#' \code{NA} in \code{Source}, \code{Family}, \code{Genus}, \code{SciName},
-#' or \code{Year} are removed.
+#' Global Biodiversity Information Facility (GBIF) Octopodoidea occurrence
+#' records filtered to the Japan bounding box (latitude 25--50,
+#' longitude 125--150) and standardized to the common column set shared
+#' across all \pkg{datamuseum} Japan datasets.
+#' Rows with \code{NA} in \code{Source}, \code{Family}, \code{Genus},
+#' \code{SciName},or \code{Year} are removed.
 #'
 #' @format A data frame with 798 rows and 12 variables:
 #' \describe{
@@ -55,15 +56,16 @@
 
 
 # ============================================================
-# InvBase
+# Invert-E-Base (InvBase)
 # ============================================================
 
 #' Japan-filtered InvBase Octopodoidea occurrence records
 #'
 #' @description
-#' InvBase Octopodoidea occurrence records filtered to the Japan bounding box
-#' (latitude 25--50, longitude 125--150) and standardised to the common
-#' column set shared across all \pkg{datamuseum} Japan datasets.
+#' Invert-E-Base (InvBase) Octopodoidea occurrence records filtered
+#' to the Japan bounding box (latitude 25--50, longitude 125--150) and
+#' standardized to the common column set shared across all \pkg{datamuseum}
+#' Japan data sets.
 #' \code{SciName} is constructed by combining \code{Genus} and
 #' \code{specificEpithet} as no combined name field is present in the source.
 #' Rows with \code{NA} in \code{Source}, \code{Family}, \code{Genus},
@@ -105,15 +107,16 @@
 
 
 # ============================================================
-# BISMAL
+# Biological Information System for Marine Life (BISMAL)
 # ============================================================
 
 #' Japan-filtered BISMAL Octopodoidea occurrence records
 #'
 #' @description
-#' BISMAL Octopodoidea occurrence records filtered to the Japan bounding box
-#' (latitude 25--50, longitude 125--150) and standardised to the common
-#' column set shared across all \pkg{datamuseum} Japan datasets.
+#' Biological Information System for Marine Life (BISMAL) Octopodoidea
+#' occurrence records filtered to the Japan bounding box (latitude 25--50,
+#' longitude 125--150) and standardized to the common column set shared
+#' across all \pkg{datamuseum} Japan data sets.
 #' \code{SciName} is constructed by combining \code{Genus} and
 #' \code{specificEpithet} as no combined name field is present in the source.
 #' Rows with \code{NA} in \code{Source}, \code{Family}, \code{Genus},
@@ -155,15 +158,16 @@
 
 
 # ============================================================
-# OBIS
+# Ocean Biodiversity Information System (OBIS)
 # ============================================================
 
 #' Japan-filtered OBIS Octopodoidea occurrence records
 #'
 #' @description
-#' OBIS Octopodoidea occurrence records filtered to the Japan bounding box
-#' (latitude 25--50, longitude 125--150) and standardised to the common
-#' column set shared across all \pkg{datamuseum} Japan datasets.
+#' Ocean Biodiversity Information System (OBIS) Octopodoidea occurrence
+#' records filtered to the Japan bounding box (latitude 25--50,
+#' longitude 125--150) and standardized to the common column set shared
+#' across all \pkg{datamuseum} Japan data sets.
 #' \code{SciName} is taken directly from the \code{species} field. Rows with
 #' \code{NA} in \code{Source}, \code{Family}, \code{Genus}, \code{SciName},
 #' or \code{Year} are removed.
@@ -211,17 +215,18 @@
 
 
 # ============================================================
-# NSMT
+# National Museum of Nature and Science, Japan (NSMT)
 # ============================================================
 
 #' Japan-filtered NSMT Octopodoidea occurrence records
 #'
 #' @description
-#' NSMT Octopodoidea occurrence records filtered to the Japan bounding box
-#' (latitude 25--50, longitude 125--150) and standardised to the common
-#' column set shared across all \pkg{datamuseum} Japan datasets. Unlike other
-#' sources, coordinate columns were already named \code{Latitude} and
-#' \code{Longitude} in the raw data and required no renaming. \code{SciName}
+#' Japanese National Museum of Nature and Science (NSMT) Octopodoidea
+#' occurrence records filtered to the Japan bounding box
+#' (latitude 25--50, longitude 125--150) and standardized to the common
+#' column set shared across all \pkg{datamuseum} Japan data sets.
+#' Unlike other sources, coordinate columns were already named \code{Latitude}
+#' and \code{Longitude} in the raw data and required no renaming. \code{SciName}
 #' is constructed from \code{Genus}, \code{Species}, and \code{Subspecies},
 #' with trailing \code{NA} strings removed to handle records without a
 #' subspecies. This is the only source to incorporate a subspecies component

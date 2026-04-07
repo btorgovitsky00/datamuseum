@@ -37,9 +37,10 @@ Downloaded 30 March 2026. \url{https://obis.org}
 OBIS_Japan
 }
 \description{
-OBIS Octopodoidea occurrence records filtered to the Japan bounding box
-(latitude 25--50, longitude 125--150) and standardised to the common
-column set shared across all \pkg{datamuseum} Japan datasets.
+Ocean Biodiversity Information System (OBIS) Octopodoidea occurrence
+records filtered to the Japan bounding box (latitude 25--50,
+longitude 125--150) and standardized to the common column set shared
+across all \pkg{datamuseum} Japan data sets.
 \code{SciName} is taken directly from the \code{species} field. Rows with
 \code{NA} in \code{Source}, \code{Family}, \code{Genus}, \code{SciName},
 or \code{Year} are removed.

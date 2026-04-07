@@ -1,11 +1,12 @@
 # Japan-filtered BISMAL Octopodoidea occurrence records
 
-BISMAL Octopodoidea occurrence records filtered to the Japan bounding
-box (latitude 25–50, longitude 125–150) and standardised to the common
-column set shared across all datamuseum Japan datasets. `SciName` is
-constructed by combining `Genus` and `specificEpithet` as no combined
-name field is present in the source. Rows with `NA` in `Source`,
-`Family`, `Genus`, `specificEpithet`, or `Year` are removed.
+Biological Information System for Marine Life (BISMAL) Octopodoidea
+occurrence records filtered to the Japan bounding box (latitude 25–50,
+longitude 125–150) and standardized to the common column set shared
+across all datamuseum Japan data sets. `SciName` is constructed by
+combining `Genus` and `specificEpithet` as no combined name field is
+present in the source. Rows with `NA` in `Source`, `Family`, `Genus`,
+`specificEpithet`, or `Year` are removed.
 
 ## Usage
 

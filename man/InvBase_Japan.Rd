@@ -36,9 +36,10 @@ Downloaded 30 March 2026. \url{https://invertebase.org}
 InvBase_Japan
 }
 \description{
-InvBase Octopodoidea occurrence records filtered to the Japan bounding box
-(latitude 25--50, longitude 125--150) and standardised to the common
-column set shared across all \pkg{datamuseum} Japan datasets.
+Invert-E-Base (InvBase) Octopodoidea occurrence records filtered
+to the Japan bounding box (latitude 25--50, longitude 125--150) and
+standardized to the common column set shared across all \pkg{datamuseum}
+Japan data sets.
 \code{SciName} is constructed by combining \code{Genus} and
 \code{specificEpithet} as no combined name field is present in the source.
 Rows with \code{NA} in \code{Source}, \code{Family}, \code{Genus},

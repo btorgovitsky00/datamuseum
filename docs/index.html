@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Spatial and Taxonomic Data Utilities for Specimen Datasets • datamuseum</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -13,12 +18,13 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Spatial and Taxonomic Data Utilities for Specimen Datasets">
 <meta name="description" content="Functions for cleaning, validating, and standardising coordinate and taxonomic data in biological museum datasets.">
 <meta property="og:description" content="Functions for cleaning, validating, and standardising coordinate and taxonomic data in biological museum datasets.">
+<meta property="og:image" content="https://btorgovitsky00.github.io/datamuseum/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="index.html">datamuseum</a>
 
@@ -31,7 +37,9 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="articles/datamuseum.html">Get Started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/index.html">Articles</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -45,8 +53,91 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-Functions for cleaning, validating, and standardising coordinate and taxonomic data in biological museum datasets.
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="datamuseum-">datamuseum <a class="anchor" aria-label="anchor" href="#datamuseum-"></a>
+</h1>
+</div>
+<!-- badges: start -->
+
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p><code>datamuseum</code> provides functions and practice datasets for the management and refinement of biological specimens with geographic and/or taxonomic information.</p>
+<p>The package contents are organised into four main categories:</p>
+<ul>
+<li>
+<strong>Coordinate functions</strong> (<code>latlong_*</code>) — refine geographic information associated with biological specimens</li>
+<li>
+<strong>Taxonomic functions</strong> (<code>taxon_*</code>) — clean and validate taxonomies against the Global Biodiversity Information Facility (via <a href="https://CRAN.R-project.org/package=rgbif" class="external-link"><code>rgbif</code></a>) and the Integrated Taxonomic Information System (ITIS, via <a href="https://CRAN.R-project.org/package=taxize" class="external-link"><code>taxize</code></a>)</li>
+<li>
+<strong>Utilities</strong> — miscellaneous functions for dataset management and improved graphical outputs</li>
+<li>
+<strong>Example data</strong> — Japan-filtered occurrence records for specimens belonging to Superfamily Octopodoidea, compiled from the Global Biodiversity Information Facility (<a href="https://www.gbif.org" class="external-link">GBIF</a>), Invert-E-Base (<a href="https://invertebase.org" class="external-link">InvBase</a>), the Biological Information System for Marine Life (<a href="https://bismal.nisc.go.jp" class="external-link">BISMAL</a>), the Ocean Biodiversity Information System (<a href="https://obis.org" class="external-link">OBIS</a>), and the National Museum of Nature and Science, Japan (<a href="https://www.kahaku.go.jp" class="external-link">NSMT</a>), as well as the compiled datasets processed through <code>datamuseum</code>
+</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>Install the released version from CRAN:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"datamuseum"</span><span class="op">)</span></span></code></pre></div>
+<p>Or install the development version from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"btorgovitsky00/datamuseum"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<p><code>datamuseum</code> serves as a tool for researchers of all levels and backgrounds, as well as a pathway for improved data access from legacy sources like museum collections.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://btorgovitsky00.github.io/datamuseum">datamuseum</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Remove duplicate catalogue numbers</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/deduplicate.html">deduplicate</a></span><span class="op">(</span><span class="va">df</span>, id_col <span class="op">=</span> <span class="st">"catalogNumber"</span>, drop_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Filter occurrence data to a geographic bounding box</span></span>
+<span><span class="va">japan_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/latlong_range.html">latlong_range</a></span><span class="op">(</span><span class="va">df</span>, latitude <span class="op">=</span> <span class="st">"Latitude"</span>, longitude <span class="op">=</span> <span class="st">"Longitude"</span>,</span>
+<span>                            lat_min <span class="op">=</span> <span class="fl">25</span>, lat_max <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>                            lon_min <span class="op">=</span> <span class="fl">125</span>, lon_max <span class="op">=</span> <span class="fl">150</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Clean taxonomic names</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/taxon_cleaner.html">taxon_cleaner</a></span><span class="op">(</span><span class="va">df</span>, columns <span class="op">=</span> <span class="st">"Genus"</span>, drop_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Validate against GBIF</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/taxon_validate.html">taxon_validate</a></span><span class="op">(</span><span class="va">df</span>, column <span class="op">=</span> <span class="st">"Genus"</span>, source <span class="op">=</span> <span class="st">"gbif"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Append higher taxonomic ranks</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/taxon_add.html">taxon_add</a></span><span class="op">(</span><span class="va">df</span>, column <span class="op">=</span> <span class="st">"Genus"</span>, ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"order"</span>, <span class="st">"phylum"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Append authorship strings</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/taxon_cite.html">taxon_cite</a></span><span class="op">(</span><span class="va">df</span>, columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Family"</span>, <span class="st">"Genus"</span>, <span class="st">"Genus"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="getting-help">Getting help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
+</h2>
+<ul>
+<li>Full documentation and vignettes: <a href="https://btorgovitsky00.github.io/datamuseum" class="uri">https://btorgovitsky00.github.io/datamuseum</a>
+</li>
+<li>Report bugs: <a href="https://github.com/btorgovitsky00/datamuseum/issues" class="external-link uri">https://github.com/btorgovitsky00/datamuseum/issues</a>
+</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"datamuseum"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p>MIT © <a href="https://www.linkedin.com/in/bryson-torgovitsky/" class="external-link">Bryson Y. Torgovitsky</a>, <a href="https://https://cherylames.com/meet-the-lab/" class="external-link">Cheryl L. Ames</a></p>
+<p>The <code>datamuseum</code> hex logo was designed by <a href="https://www.linkedin.com/in/sophie-collier-2160532a9/" class="external-link">Sophie Collier</a>.</p>
+</div>
+</div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -80,7 +171,12 @@ Functions for cleaning, validating, and standardising coordinate and taxonomic d
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://CRAN.R-project.org/package=datamuseum" class="external-link"><img src="https://www.r-pkg.org/badges/version/datamuseum" alt="CRAN status"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>

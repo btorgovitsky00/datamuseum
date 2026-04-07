@@ -1,11 +1,11 @@
 # Japan-filtered InvBase Octopodoidea occurrence records
 
-InvBase Octopodoidea occurrence records filtered to the Japan bounding
-box (latitude 25–50, longitude 125–150) and standardised to the common
-column set shared across all datamuseum Japan datasets. `SciName` is
-constructed by combining `Genus` and `specificEpithet` as no combined
-name field is present in the source. Rows with `NA` in `Source`,
-`Family`, `Genus`, `specificEpithet`, or `Year` are removed.
+Invert-E-Base (InvBase) Octopodoidea occurrence records filtered to the
+Japan bounding box (latitude 25–50, longitude 125–150) and standardized
+to the common column set shared across all datamuseum Japan data sets.
+`SciName` is constructed by combining `Genus` and `specificEpithet` as
+no combined name field is present in the source. Rows with `NA` in
+`Source`, `Family`, `Genus`, `specificEpithet`, or `Year` are removed.
 
 ## Usage
 
