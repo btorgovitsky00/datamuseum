@@ -97,6 +97,7 @@ a ggplot2 graph!
 
 install.packages("hexSticker")
 library(hexSticker)
+library(ggplot2)
 
 p <- ggplot() +
   geom_point(aes(x = c(1,2,3), y = c(1,2,1)), 

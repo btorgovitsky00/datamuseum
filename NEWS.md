@@ -2,7 +2,14 @@
 
 ## datamuseum 0.1.0
 
-* Initial GitHub submission.
+Test second News update.
+
+* List item.
+
+## datamuseum 0.1.0
+
+Initial release of `datamuseum` to GitHub.
+
 * Functions for managing latitude and longitude data (`latlong_*`).
 * Functions for managing taxonomic data (`taxon_*`).
 * Utility functions for data set management (`deduplicate`, `duplicate`, `italicize`).
