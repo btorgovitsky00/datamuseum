@@ -19,7 +19,6 @@ navbar:
     ames:
       text: Ames Lab
       href: https://cherylames.com
-      class: ames-link
     github:
       icon: fa-github
       href: https://github.com/btorgovitsky00/datamuseum
