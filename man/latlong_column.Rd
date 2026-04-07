@@ -31,7 +31,7 @@ coordinate type not detected.
 \description{
 Detects latitude, longitude, and combined coordinate columns based on
 value ranges and format matching. Supports decimal degree, DMS
-(\code{DD°MM′SS″}), and base-60 (\code{DD°MM′}) coordinate formats.
+(\code{DDdeg MM'SS''}), and base-60 (\code{DDdeg MM'}) coordinate formats.
 Returns a named list with elements \code{combined}, \code{latitude}, and
 \code{longitude}, each containing the names and indices of detected columns.
 }

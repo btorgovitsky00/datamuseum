@@ -51,7 +51,7 @@ When \code{convert = "decimal"}, output columns are numeric. For
 }
 \description{
 Converts coordinate columns between decimal degrees, DMS
-(\code{DD°MM′SS″}), and base-60 (\code{DD°MM′}) formats. Handles separate
+(\code{DDdeg MM'SS''}), and base-60 (\code{DDdeg MM'}) formats. Handles separate
 latitude and longitude columns as well as combined coordinate columns.
 Columns are converted in place; combined columns may optionally be split
 into separate latitude and longitude columns.

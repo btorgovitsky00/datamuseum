@@ -4,8 +4,8 @@
 #' Removes rows where coordinates fall outside valid geographic ranges
 #' (\code{[-90, 90]} for latitude, \code{[-180, 180]} for longitude).
 #' Accepts either separate latitude and longitude columns, or a single combined
-#' coordinate column. Supports decimal degree, DMS (\code{DD°MM′SS″}), and
-#' base-60 (\code{DD°MM′}) coordinate formats.
+#' coordinate column. Supports decimal degree, DMS (\code{DDdeg MM'SS''}), and
+#' base-60 (\code{DDdeg MM'}) coordinate formats.
 #'
 #' @param data A data frame containing coordinate columns.
 #' @param latitude Optional. Column name of the latitude column, supplied
@@ -116,7 +116,7 @@ latlong_filter <- function(data,
                            combined_col = NULL,
                            sep          = ",",
                            drop_na      = FALSE) {
-  
+
   # Resolve column names — bare names or quoted strings
   latitude     <- if (!is.null(substitute(latitude)))
     gsub('^"|"$', '', deparse(substitute(latitude)))     else NULL
@@ -124,15 +124,15 @@ latlong_filter <- function(data,
     gsub('^"|"$', '', deparse(substitute(longitude)))    else NULL
   combined_col <- if (!is.null(substitute(combined_col)))
     gsub('^"|"$', '', deparse(substitute(combined_col))) else NULL
-  
+
   # Guard against "NULL" string from substituting default NULL
   if (identical(latitude,     "NULL")) latitude     <- NULL
   if (identical(longitude,    "NULL")) longitude    <- NULL
   if (identical(combined_col, "NULL")) combined_col <- NULL
-  
+
   if (is.null(combined_col) && (is.null(latitude) || is.null(longitude)))
     stop("Provide either 'combined_col' or both 'latitude' and 'longitude'.")
-  
+
   # --- Internal decimal parser ---
   parse_to_decimal <- function(val) {
     if (is.na(val)) return(NA_real_)
@@ -148,7 +148,7 @@ latlong_filter <- function(data,
     else if (deg < 0)                 dec <- -abs(dec)
     dec
   }
-  
+
   # --- Extract raw coordinate values ---
   if (!is.null(combined_col)) {
     parts   <- strsplit(as.character(data[[combined_col]]), sep, fixed = TRUE)
@@ -158,27 +158,27 @@ latlong_filter <- function(data,
     lat_raw <- as.character(data[[latitude]])
     lon_raw <- as.character(data[[longitude]])
   }
-  
+
   lat <- vapply(lat_raw, parse_to_decimal, numeric(1))
   lon <- vapply(lon_raw, parse_to_decimal, numeric(1))
-  
+
   # --- NA handling ---
   valid_na <- if (drop_na) !is.na(lat) & !is.na(lon) else rep(TRUE, length(lat))
-  
+
   # --- Range validation ---
   valid_range <- !is.na(lat) & !is.na(lon) &
     lat >= -90  & lat <= 90   &
     lon >= -180 & lon <= 180
-  
+
   keep    <- valid_na & valid_range
   removed <- data[!keep, , drop = FALSE]
   result  <- data[keep,  , drop = FALSE]
-  
+
   attr(result, "invalid") <- removed
-  
+
   message(sprintf("[latlong_filter] %d row(s) removed with invalid or out-of-range coordinates",
                   nrow(removed)))
-  
+
   result
 }
 

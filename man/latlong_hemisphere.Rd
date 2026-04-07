@@ -50,8 +50,8 @@ Rows removed by \code{drop_na = TRUE} are attached as
 Appends \code{NS_hemisphere} and \code{EW_hemisphere} columns to a data
 frame based on the sign of coordinate values. Accepts either separate
 latitude and longitude columns or a single combined coordinate column.
-Supports decimal degree, DMS (\code{DD°MM′SS″}), and base-60
-(\code{DD°MM′}) coordinate formats.
+Supports decimal degree, DMS (\code{DDdeg MM'SS''}), and base-60
+(\code{DDdeg MM'}) coordinate formats.
 }
 \details{
 All coordinate formats are parsed to decimal degrees internally before

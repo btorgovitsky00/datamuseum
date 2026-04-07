@@ -4,8 +4,8 @@
 #' Appends \code{NS_hemisphere} and \code{EW_hemisphere} columns to a data
 #' frame based on the sign of coordinate values. Accepts either separate
 #' latitude and longitude columns or a single combined coordinate column.
-#' Supports decimal degree, DMS (\code{DD°MM′SS″}), and base-60
-#' (\code{DD°MM′}) coordinate formats.
+#' Supports decimal degree, DMS (\code{DDdeg MM'SS''}), and base-60
+#' (\code{DDdeg MM'}) coordinate formats.
 #'
 #' @param data A data frame containing coordinate columns.
 #' @param latitude Optional. Column name of the latitude column, supplied
@@ -119,7 +119,7 @@ latlong_hemisphere <- function(data,
                                longitude    = NULL,
                                combined_col = NULL,
                                drop_na      = FALSE) {
-  
+
   # Resolve column names — bare names or quoted strings
   latitude     <- if (!is.null(substitute(latitude)))
     gsub('^"|"$', '', deparse(substitute(latitude)))     else NULL
@@ -127,14 +127,14 @@ latlong_hemisphere <- function(data,
     gsub('^"|"$', '', deparse(substitute(longitude)))    else NULL
   combined_col <- if (!is.null(substitute(combined_col)))
     gsub('^"|"$', '', deparse(substitute(combined_col))) else NULL
-  
+
   if (identical(latitude,     "NULL")) latitude     <- NULL
   if (identical(longitude,    "NULL")) longitude    <- NULL
   if (identical(combined_col, "NULL")) combined_col <- NULL
-  
+
   if (is.null(combined_col) && (is.null(latitude) || is.null(longitude)))
     stop("Provide either 'combined_col' or both 'latitude' and 'longitude'.")
-  
+
   # --- Internal decimal parser ---
   parse_to_decimal <- function(val) {
     if (is.na(val)) return(NA_real_)
@@ -150,7 +150,7 @@ latlong_hemisphere <- function(data,
     else if (deg < 0)                 dec <- -abs(dec)
     dec
   }
-  
+
   # --- Extract and parse coordinates ---
   if (!is.null(combined_col)) {
     if (!combined_col %in% names(data))
@@ -168,25 +168,25 @@ latlong_hemisphere <- function(data,
     lat_vals <- vapply(as.character(data[[latitude]]),  parse_to_decimal, numeric(1))
     lon_vals <- vapply(as.character(data[[longitude]]), parse_to_decimal, numeric(1))
   }
-  
+
   # --- NA handling ---
   na_idx  <- is.na(lat_vals) | is.na(lon_vals)
   removed <- data[na_idx, , drop = FALSE]
-  
+
   if (drop_na) {
     data     <- data[!na_idx, , drop = FALSE]
     lat_vals <- lat_vals[!na_idx]
     lon_vals <- lon_vals[!na_idx]
     message(sprintf("[latlong_hemisphere] %d NA row(s) removed", nrow(removed)))
   }
-  
+
   # --- Assign hemispheres ---
   data[["NS_hemisphere"]] <- ifelse(is.na(lat_vals), NA_character_,
                                     ifelse(lat_vals >= 0, "North", "South"))
   data[["EW_hemisphere"]] <- ifelse(is.na(lon_vals), NA_character_,
                                     ifelse(lon_vals >= 0, "East",  "West"))
-  
+
   attr(data, "removed_na") <- removed
-  
+
   data
 }

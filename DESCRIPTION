@@ -6,8 +6,8 @@ Authors@R: c(
     person("Cheryl L.", "Ames", email = "ames.cheryl.lynn.a1@tohoku.ac.jp", role = "aut"))
 Description: Functions for cleaning, validating, and standardising 
     coordinate and taxonomic data in biological museum datasets.
-URL: https://btorgovitsky00.github.io/datamuseum
-BugReports: https://github.com/btorgovitsky00/datamuseum/issues
+URL: https://btorgovitsky00.github.io/datamuseum/
+BugReports: https://github.com/btorgovitsky00/datamuseum/issues/
 License: MIT + file LICENSE  
 Encoding: UTF-8
 Imports:

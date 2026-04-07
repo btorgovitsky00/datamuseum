@@ -3,7 +3,7 @@
 #' @description
 #' Detects latitude, longitude, and combined coordinate columns based on
 #' value ranges and format matching. Supports decimal degree, DMS
-#' (\code{DD°MM′SS″}), and base-60 (\code{DD°MM′}) coordinate formats.
+#' (\code{DDdeg MM'SS''}), and base-60 (\code{DDdeg MM'}) coordinate formats.
 #' Returns a named list with elements \code{combined}, \code{latitude}, and
 #' \code{longitude}, each containing the names and indices of detected columns.
 #'
@@ -52,10 +52,10 @@
 #'
 #' \code{\link{latlong_filter}} for removing invalid coordinates from detected
 #' columns.
-#' 
+#'
 #' \code{\link[sf]{st_as_sf}} for converting detected coordinate columns to
 #' an \code{sf} spatial object,
-#' 
+#'
 #' \code{\link[tidygeocoder]{geocode}} for adding coordinates to a data frame
 #' from address strings.
 #'
@@ -94,25 +94,25 @@
 
 
 latlong_column <- function(data, sep = ",") {
-  
+
   cols <- names(data)
-  
+
   sample_vals <- function(x) {
     x <- as.character(x[!is.na(x)])
     x
   }
-  
+
   decimal <- "^\\s*-?\\d+(\\.\\d+)?\\s*$"
   dms     <- "^\\s*\\d+\u00b0\\d+\u2032\\d+\u2033[NnSsEeWw]?\\s*$"
   base60  <- "^\\s*\\d+\u00b0\\d+\u2032[NnSsEeWw]?\\s*$"
-  
+
   is_coord <- function(x) grepl(decimal, x) | grepl(dms, x) | grepl(base60, x)
-  
+
   extract_nums <- function(x) {
     nums <- suppressWarnings(as.numeric(sub(".*?(-?\\d+\\.?\\d*).*", "\\1", x)))
     nums[!is.na(nums)]
   }
-  
+
   is_combined <- function(x) {
     vals <- sample_vals(x)
     if (length(vals) == 0) return(FALSE)
@@ -122,7 +122,7 @@ latlong_column <- function(data, sep = ",") {
     )
     sum(valid_pairs) >= 1
   }
-  
+
   is_coord_col <- function(x, min_val, max_val) {
     vals  <- sample_vals(x)
     if (length(vals) == 0) return(FALSE)
@@ -132,22 +132,22 @@ latlong_column <- function(data, sep = ",") {
     if (length(nums) == 0) return(FALSE)
     all(nums >= min_val & nums <= max_val)
   }
-  
+
   combined_candidates <- cols[vapply(data, is_combined, logical(1))]
-  
+
   lat_candidates <- setdiff(
     cols[vapply(data, is_coord_col, logical(1), min_val = -90,  max_val = 90)],
     combined_candidates
   )
-  
+
   lon_candidates <- setdiff(
     cols[vapply(data, is_coord_col, logical(1), min_val = -180, max_val = 180)],
     c(combined_candidates, lat_candidates)
   )
-  
+
   make_index_list <- function(candidates)
     setNames(as.list(which(cols %in% candidates)), candidates)
-  
+
   list(
     combined  = make_index_list(combined_candidates),
     latitude  = make_index_list(lat_candidates),

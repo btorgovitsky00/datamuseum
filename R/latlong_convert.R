@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Converts coordinate columns between decimal degrees, DMS
-#' (\code{DD°MM′SS″}), and base-60 (\code{DD°MM′}) formats. Handles separate
+#' (\code{DDdeg MM'SS''}), and base-60 (\code{DDdeg MM'}) formats. Handles separate
 #' latitude and longitude columns as well as combined coordinate columns.
 #' Columns are converted in place; combined columns may optionally be split
 #' into separate latitude and longitude columns.
@@ -129,38 +129,38 @@
 latlong_convert <- function(data, column, convert = "decimal",
                             type = "auto", drop_na = FALSE,
                             split_combined = FALSE) {
-  
+
   col_sub <- substitute(column)
   cols <- if (is.call(col_sub) && deparse(col_sub[[1]]) == "c") {
     vapply(as.list(col_sub)[-1], function(x) gsub('^"|"$', '', deparse(x)), character(1))
   } else {
     gsub('^"|"$', '', deparse(col_sub))
   }
-  
+
   # --- Parse any format to decimal (direction-aware) ---
   parse_to_decimal <- function(val) {
-    
+
     if (is.numeric(val)) return(val)
-    
+
     val <- trimws(gsub("[\u200B-\u200D\uFEFF]", "", enc2utf8(as.character(val))))
-    
+
     if (is.na(val) || nchar(val) == 0 || val == "NA") return(NA_real_)
-    
+
     nums <- as.numeric(unlist(regmatches(val, gregexpr("-?\\d+\\.?\\d*", val))))
     if (length(nums) == 0) return(NA_real_)
-    
+
     deg <- nums[1]
     min <- ifelse(length(nums) >= 2, nums[2], 0)
     sec <- ifelse(length(nums) >= 3, nums[3], 0)
     dec <- abs(deg) + min / 60 + sec / 3600
-    
+
     if      (grepl("[Ss]|[Ww]", val)) dec <- -abs(dec)
     else if (grepl("[Nn]|[Ee]", val)) dec <-  abs(dec)
     else if (deg < 0)                 dec <- -abs(dec)
-    
+
     dec
   }
-  
+
   # --- Detect coordinate type from name or range ---
   detect_type <- function(name, values) {
     name <- tolower(name)
@@ -171,7 +171,7 @@ latlong_convert <- function(data, column, convert = "decimal",
     if (all(rng >= -180 & rng <= 180)) return("lon")
     return(NA)
   }
-  
+
   # --- Direction suffix ---
   add_direction <- function(val, type) {
     if (is.na(val)) return("")
@@ -179,7 +179,7 @@ latlong_convert <- function(data, column, convert = "decimal",
     if (type == "lon") return(ifelse(val < 0, "W", "E"))
     return("")
   }
-  
+
   # --- Formatters ---
   decimal_to_dms <- function(x, type) {
     if (is.na(x)) return(NA_character_)
@@ -190,7 +190,7 @@ latlong_convert <- function(data, column, convert = "decimal",
     sec      <- round((min_full - min) * 60)
     paste0(deg, "\u00b0", min, "\u2032", sec, "\u2033", add_direction(x, type))
   }
-  
+
   decimal_to_base60 <- function(x, type) {
     if (is.na(x)) return(NA_character_)
     x_abs <- abs(x)
@@ -198,28 +198,28 @@ latlong_convert <- function(data, column, convert = "decimal",
     min   <- round((x_abs - deg) * 60)
     paste0(deg, "\u00b0", min, "\u2032", add_direction(x, type))
   }
-  
+
   # --- Detect combined coordinate column ---
   is_combined <- function(val) {
     if (is.na(val)) return(FALSE)
     length(unlist(regmatches(as.character(val),
                              gregexpr("-?\\d+\\.?\\d*", as.character(val))))) >= 2
   }
-  
+
   # --- Process a single vector ---
   process_vector <- function(vec, name) {
-    
+
     vec_chr <- as.character(vec)
-    
+
     if (any(vapply(vec_chr, is_combined, logical(1)), na.rm = TRUE)) {
-      
+
       split_vals <- strsplit(vec_chr, ",")
       lat        <- vapply(split_vals, function(x) parse_to_decimal(x[1]), numeric(1))
       lon        <- vapply(split_vals, function(x) {
         if (length(x) < 2) return(NA_real_)
         parse_to_decimal(x[2])
       }, numeric(1))
-      
+
       if (convert == "decimal") {
         if (split_combined) return(data.frame(lat = lat, lon = lon))
         return(paste(lat, lon, sep = ", "))
@@ -237,24 +237,24 @@ latlong_convert <- function(data, column, convert = "decimal",
         return(paste(lat_fmt, lon_fmt, sep = ", "))
       }
     }
-    
+
     parsed   <- vapply(vec_chr, parse_to_decimal, numeric(1))
     col_type <- if (type == "auto") detect_type(name, parsed) else type
-    
+
     if (convert == "decimal") return(parsed)
     if (convert == "dms")     return(vapply(parsed, decimal_to_dms,    character(1), type = col_type))
     if (convert == "base60")  return(vapply(parsed, decimal_to_base60, character(1), type = col_type))
   }
-  
+
   # --- Apply to each column ---
   out <- data
-  
+
   for (col in cols) {
     if (!col %in% names(data))
       stop(paste0("[latlong_convert] column not found -> ", col))
-    
+
     result <- process_vector(data[[col]], col)
-    
+
     if (is.data.frame(result)) {
       out[[paste0(col, "_lat")]] <- result[[1]]
       out[[paste0(col, "_lon")]] <- result[[2]]
@@ -262,7 +262,7 @@ latlong_convert <- function(data, column, convert = "decimal",
       out[[col]] <- result
     }
   }
-  
+
   # --- Drop NA rows ---
   na_removed <- 0
   if (drop_na) {
@@ -270,8 +270,8 @@ latlong_convert <- function(data, column, convert = "decimal",
     na_removed <- sum(!keep)
     out        <- out[keep, , drop = FALSE]
   }
-  
+
   message(sprintf("[latlong_convert] NA rows removed: %d", na_removed))
-  
+
   return(out)
 }

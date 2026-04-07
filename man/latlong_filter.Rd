@@ -47,8 +47,8 @@ the total number of rows removed.
 Removes rows where coordinates fall outside valid geographic ranges
 (\code{[-90, 90]} for latitude, \code{[-180, 180]} for longitude).
 Accepts either separate latitude and longitude columns, or a single combined
-coordinate column. Supports decimal degree, DMS (\code{DD°MM′SS″}), and
-base-60 (\code{DD°MM′}) coordinate formats.
+coordinate column. Supports decimal degree, DMS (\code{DDdeg MM'SS''}), and
+base-60 (\code{DDdeg MM'}) coordinate formats.
 }
 \details{
 All coordinate formats are parsed to decimal degrees internally before
