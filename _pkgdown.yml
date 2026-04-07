@@ -34,8 +34,7 @@ articles:
     contents:
       - octopodoidea_japan
 
-  - title: Publications
-    desc: Manuscripts associated with datamuseum.
+  - title: ~
     navbar: Publications
     contents:
       - publications
