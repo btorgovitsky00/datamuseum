@@ -36,8 +36,8 @@
 #' The three recognised coordinate formats are:
 #' \itemize{
 #'   \item Decimal degrees: \code{"-12.345"} or \code{"51.5"}
-#'   \item DMS: \code{"12°34′56″N"}
-#'   \item Base-60: \code{"12°34′N"}
+#'   \item DMS: \code{"12°34'56''N"}
+#'   \item Base-60: \code{"12°34'N"}
 #' }
 #'
 #' Detection is based on value content, not column names, so columns with
