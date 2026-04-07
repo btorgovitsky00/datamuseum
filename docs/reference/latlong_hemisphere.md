@@ -3,8 +3,8 @@
 Appends `NS_hemisphere` and `EW_hemisphere` columns to a data frame
 based on the sign of coordinate values. Accepts either separate latitude
 and longitude columns or a single combined coordinate column. Supports
-decimal degree, DMS (`DD°MM′SS″`), and base-60 (`DD°MM′`) coordinate
-formats.
+decimal degree, DMS (`DDdeg MM'SS''}), and base-60 (\code{DDdeg MM'`)
+coordinate formats.
 
 ## Usage
 

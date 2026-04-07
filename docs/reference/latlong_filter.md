@@ -3,8 +3,8 @@
 Removes rows where coordinates fall outside valid geographic ranges
 (`[-90, 90]` for latitude, `[-180, 180]` for longitude). Accepts either
 separate latitude and longitude columns, or a single combined coordinate
-column. Supports decimal degree, DMS (`DD°MM′SS″`), and base-60
-(`DD°MM′`) coordinate formats.
+column. Supports decimal degree, DMS
+(`DDdeg MM'SS''}), and base-60 (\code{DDdeg MM'`) coordinate formats.
 
 ## Usage
 

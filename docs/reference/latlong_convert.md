@@ -1,10 +1,10 @@
 # Convert coordinate formats
 
-Converts coordinate columns between decimal degrees, DMS (`DD°MM′SS″`),
-and base-60 (`DD°MM′`) formats. Handles separate latitude and longitude
-columns as well as combined coordinate columns. Columns are converted in
-place; combined columns may optionally be split into separate latitude
-and longitude columns.
+Converts coordinate columns between decimal degrees, DMS
+(`DDdeg MM'SS''}), and base-60 (\code{DDdeg MM'`) formats. Handles
+separate latitude and longitude columns as well as combined coordinate
+columns. Columns are converted in place; combined columns may optionally
+be split into separate latitude and longitude columns.
 
 ## Usage
 

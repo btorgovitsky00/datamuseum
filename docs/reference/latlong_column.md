@@ -2,9 +2,9 @@
 
 Detects latitude, longitude, and combined coordinate columns based on
 value ranges and format matching. Supports decimal degree, DMS
-(`DD°MM′SS″`), and base-60 (`DD°MM′`) coordinate formats. Returns a
-named list with elements `combined`, `latitude`, and `longitude`, each
-containing the names and indices of detected columns.
+(`DDdeg MM'SS''}), and base-60 (\code{DDdeg MM'`) coordinate formats.
+Returns a named list with elements `combined`, `latitude`, and
+`longitude`, each containing the names and indices of detected columns.
 
 ## Usage
 
@@ -60,9 +60,9 @@ The three recognised coordinate formats are:
 
 - Decimal degrees: `"-12.345"` or `"51.5"`
 
-- DMS: `"12°34′56″N"`
+- DMS: `"12°34'56''N"`
 
-- Base-60: `"12°34′N"`
+- Base-60: `"12°34'N"`
 
 Detection is based on value content, not column names, so columns with
 non-standard names (e.g. `"point_y"`) will still be detected provided

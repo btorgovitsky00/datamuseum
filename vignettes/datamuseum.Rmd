@@ -66,7 +66,7 @@ in the region, as well as recent regional taxonomic updates.
 
 More specifically, *Octopus vulgaris* (Cuvier, 1797) in East Asia was recently
 re-described as the also valid *Octopus sinensis* (d'Orbigny, 1834) by
-[Gleadall et al. (2016)](https://doi.org/10.12782/specdiv.21.31).
+[Gleadall et al. (2016)](https://www.jstage.jst.go.jp/article/specdiv/21/1/21_31/_article).
 `datamuseum` would struggle to reflect a regional change like this since both
 species are still valid and accepted by GBIF and ITIS. As a result, we
 recommend adding a simple command like the one below to your `datamuseum`
