@@ -46,9 +46,9 @@ Rows with \code{NA} in \code{Source}, \code{Family}, \code{Genus},
 \code{specificEpithet}, or \code{Year} are removed.
 }
 \seealso{
-The raw and trimmed intermediate versions of this dataset are available
+The raw and trimmed intermediate versions of this data set are available
 as CSV files at \url{https://github.com/btorgovitsky00/datamuseum}.
 
-\code{\link{museum}} for the combined dataset including these records.
+\code{\link{museum}} for the combined data set including these records.
 }
 \keyword{datasets}

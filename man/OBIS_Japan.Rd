@@ -46,15 +46,15 @@ across all \pkg{datamuseum} Japan data sets.
 or \code{Year} are removed.
 }
 \details{
-The raw and trimmed intermediate versions of this dataset are available
+The raw and trimmed intermediate versions of this data set are available
 as CSV files in the package data repository. Note that those files
 contain non-ASCII characters in locality and collector name fields,
 reflecting the international scope of OBIS occurrence records.
 }
 \seealso{
-The raw and trimmed intermediate versions of this dataset are available
+The raw and trimmed intermediate versions of this data set are available
 as CSV files at \url{https://github.com/btorgovitsky00/datamuseum}.
 
-\code{\link{museum}} for the combined dataset including these records.
+\code{\link{museum}} for the combined data set including these records.
 }
 \keyword{datasets}

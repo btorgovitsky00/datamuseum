@@ -4,8 +4,8 @@ Version: 0.1.0
 Authors@R: c(
     person("Bryson Y.", "Torgovitsky", email = "torgovitsky.yerik.bryson.q7@dc.tohoku.ac.jp", role = c("aut", "cre")),
     person("Cheryl L.", "Ames", email = "ames.cheryl.lynn.a1@tohoku.ac.jp", role = "aut"))
-Description: Functions for cleaning, validating, and standardising 
-    coordinate and taxonomic data in biological museum datasets.
+Description: Functions for cleaning, validating, and standardizing 
+    coordinate and taxonomic data in biological museum data sets.
 URL: https://btorgovitsky00.github.io/datamuseum/
 BugReports: https://github.com/btorgovitsky00/datamuseum/issues/
 License: MIT + file LICENSE  

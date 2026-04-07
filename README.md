@@ -6,7 +6,7 @@
 
 ## Overview
 
-`datamuseum` provides functions and practice datasets for the management
+`datamuseum` provides functions and practice data sets for the management
 and refinement of biological specimens with geographic and/or taxonomic
 information.
 
@@ -32,7 +32,7 @@ The package contents are organized into four main categories:
   for Marine Life ([BISMAL](https://www.godac.jamstec.go.jp/bismal/e/)), the Ocean
   Biodiversity Information System ([OBIS](https://obis.org)), and the
   National Museum of Nature and Science, Japan
-  ([NSMT](https://www.kahaku.go.jp/english/)), as well as the compiled datasets
+  ([NSMT](https://www.kahaku.go.jp/english/)), as well as the compiled data sets
   processed through `datamuseum`
 
 ## Installation

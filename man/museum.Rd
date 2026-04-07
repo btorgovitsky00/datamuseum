@@ -7,20 +7,20 @@
 \format{
 A data frame with 2,633 rows and 13 variables:
 \describe{
-  \item{SciName}{Scientific name as recorded in the source dataset.}
+  \item{SciName}{Scientific name as recorded in the source data set.}
   \item{Genus}{Genus name.}
   \item{Family}{Family name.}
   \item{Year}{Year of occurrence record.}
   \item{Latitude}{Decimal latitude, filtered to \code{[25, 50]}.}
   \item{Longitude}{Decimal longitude, filtered to \code{[125, 150]}.}
-  \item{Country}{Country name or code as recorded in the source dataset.}
+  \item{Country}{Country name or code as recorded in the source data set.}
   \item{Prefecture}{State, province, or region as recorded in the source
-    dataset.}
+    data set.}
   \item{Precise Location}{Locality description as recorded in the source
-    dataset.}
+    data set.}
   \item{Source}{Institution code or group abbreviation identifying the
     collecting institution.}
-  \item{Data Frame}{Character. Identifies the source dataset for each row.
+  \item{Data Frame}{Character. Identifies the source data set for each row.
     One of \code{"GBIF"}, \code{"InvBase"}, \code{"BISMAL"},
     \code{"OBIS"}, or \code{"NSMT"}.}
   \item{catalogNumber}{Museum lot identification code used for duplicate
@@ -61,7 +61,7 @@ museum
 }
 \description{
 Combined Octopodoidea occurrence records for Japan produced by merging the
-five Japan-filtered source datasets (\code{\link{GBIF_Japan}},
+five Japan-filtered source data sets (\code{\link{GBIF_Japan}},
 \code{\link{InvBase_Japan}}, \code{\link{BISMAL_Japan}},
 \code{\link{OBIS_Japan}}, and \code{\link{NSMT_Japan}}) via \code{rbind}.
 Duplicate records are removed using \code{\link{deduplicate}} on the
@@ -73,7 +73,7 @@ taxonomically validated and enriched version.
 \details{
 Processing proceeds in the following steps:
 \enumerate{
-  \item The five Japan-filtered datasets are combined via \code{rbind}
+  \item The five Japan-filtered data sets are combined via \code{rbind}
     with a \code{Data Frame} column added to identify the source of each
     row, producing 2,707 observations.
   \item \code{\link{deduplicate}} is applied on \code{catalogNumber} with
@@ -89,7 +89,7 @@ Processing proceeds in the following steps:
 \seealso{
 \code{\link{GBIF_Japan}}, \code{\link{InvBase_Japan}},
 \code{\link{BISMAL_Japan}}, \code{\link{OBIS_Japan}},
-\code{\link{NSMT_Japan}} for the individual source datasets,
+\code{\link{NSMT_Japan}} for the individual source data sets,
 
 \code{\link{deduplicate}} for the deduplication function applied during
 processing,

@@ -17,14 +17,14 @@ A data frame with 2,222 rows and 20 variables:
   \item{Year}{Year of occurrence record.}
   \item{Latitude}{Decimal latitude, filtered to \code{[25, 50]}.}
   \item{Longitude}{Decimal longitude, filtered to \code{[125, 150]}.}
-  \item{Country}{Country name or code as recorded in the source dataset.}
+  \item{Country}{Country name or code as recorded in the source data set.}
   \item{Prefecture}{State, province, or region as recorded in the source
-    dataset.}
+    data set.}
   \item{Precise Location}{Locality description as recorded in the source
-    dataset.}
+    data set.}
   \item{Source}{Institution code or group abbreviation identifying the
     collecting institution.}
-  \item{Data Frame}{Character. Identifies the source dataset for each row.
+  \item{Data Frame}{Character. Identifies the source data set for each row.
     One of \code{"GBIF"}, \code{"InvBase"}, \code{"BISMAL"},
     \code{"OBIS"}, or \code{"NSMT"}.}
   \item{catalogNumber}{Museum lot identification code.}
@@ -72,7 +72,7 @@ Data obtained directly from the museum, early 2024.
 museum_taxon
 }
 \description{
-The combined Japan Octopodoidea dataset (\code{\link{museum}}) after full
+The combined Japan Octopodoidea data set (\code{\link{museum}}) after full
 taxonomic cleaning, validation, synonym resolution, rank enrichment,
 authorship appending, and italic formatting. Represents the final stage
 of the \pkg{datamuseum} workflow and is intended for direct use in
@@ -83,7 +83,7 @@ Processing proceeds in the following steps from \code{\link{museum}}:
 \enumerate{
   \item \code{\link{taxon_cleaner}} applied to \code{SciName} in place
     with \code{drop_na = TRUE}, removing uncertain names and reducing
-    the dataset from 2,633 to 2,222 observations.
+    the data set from 2,633 to 2,222 observations.
   \item \emph{Octopus vulgaris} manually corrected to
     \emph{Octopus sinensis} to reflect current accepted taxonomy for
     the Pacific form.
@@ -108,7 +108,7 @@ Processing proceeds in the following steps from \code{\link{museum}}:
 }
 }
 \seealso{
-\code{\link{museum}} for the combined pre-validation dataset,
+\code{\link{museum}} for the combined pre-validation data set,
 
 \code{\link{taxon_cleaner}} for the cleaning function applied during
 processing,

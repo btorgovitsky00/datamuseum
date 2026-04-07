@@ -8,7 +8,7 @@
 #' Global Biodiversity Information Facility (GBIF) Octopodoidea occurrence
 #' records filtered to the Japan bounding box (latitude 25--50,
 #' longitude 125--150) and standardized to the common column set shared
-#' across all \pkg{datamuseum} Japan datasets.
+#' across all \pkg{datamuseum} Japan data sets.
 #' Rows with \code{NA} in \code{Source}, \code{Family}, \code{Genus},
 #' \code{SciName},or \code{Year} are removed.
 #'
@@ -32,7 +32,7 @@
 #' }
 #'
 #' @details
-#' The raw and trimmed intermediate versions of this dataset are available
+#' The raw and trimmed intermediate versions of this data set are available
 #' as CSV files in the package data repository. Note that those files
 #' contain non-ASCII characters in locality and collector name fields,
 #' reflecting the international scope of GBIF occurrence records.
@@ -48,10 +48,10 @@
 #' \doi{10.15468/dl.2379hj}
 #'
 #' @seealso
-#' The raw and trimmed intermediate versions of this dataset are available
+#' The raw and trimmed intermediate versions of this data set are available
 #' as CSV files at \url{https://github.com/btorgovitsky00/datamuseum}.
 #'
-#' \code{\link{museum}} for the combined dataset including these records.
+#' \code{\link{museum}} for the combined data set including these records.
 "GBIF_Japan"
 
 
@@ -99,10 +99,10 @@
 #' Downloaded 30 March 2026. \url{https://invertebase.org}
 #'
 #' @seealso
-#' The raw and trimmed intermediate versions of this dataset are available
+#' The raw and trimmed intermediate versions of this data set are available
 #' as CSV files at \url{https://github.com/btorgovitsky00/datamuseum}.
 #'
-#' \code{\link{museum}} for the combined dataset including these records.
+#' \code{\link{museum}} for the combined data set including these records.
 "InvBase_Japan"
 
 
@@ -150,10 +150,10 @@
 #' Downloaded 30 March 2026. \url{https://www.godac.jamstec.go.jp/bismal/e/}
 #'
 #' @seealso
-#' The raw and trimmed intermediate versions of this dataset are available
+#' The raw and trimmed intermediate versions of this data set are available
 #' as CSV files at \url{https://github.com/btorgovitsky00/datamuseum}.
 #'
-#' \code{\link{museum}} for the combined dataset including these records.
+#' \code{\link{museum}} for the combined data set including these records.
 "BISMAL_Japan"
 
 
@@ -193,7 +193,7 @@
 #' }
 #'
 #' @details
-#' The raw and trimmed intermediate versions of this dataset are available
+#' The raw and trimmed intermediate versions of this data set are available
 #' as CSV files in the package data repository. Note that those files
 #' contain non-ASCII characters in locality and collector name fields,
 #' reflecting the international scope of OBIS occurrence records.
@@ -207,10 +207,10 @@
 #' Downloaded 30 March 2026. \url{https://obis.org}
 #'
 #' @seealso
-#' The raw and trimmed intermediate versions of this dataset are available
+#' The raw and trimmed intermediate versions of this data set are available
 #' as CSV files at \url{https://github.com/btorgovitsky00/datamuseum}.
 #'
-#' \code{\link{museum}} for the combined dataset including these records.
+#' \code{\link{museum}} for the combined data set including these records.
 "OBIS_Japan"
 
 
@@ -267,22 +267,22 @@
 #' \url{https://www.kahaku.go.jp/english/}
 #'
 #' @seealso
-#' The raw and trimmed intermediate versions of this dataset are available
+#' The raw and trimmed intermediate versions of this data set are available
 #' as CSV files at \url{https://github.com/btorgovitsky00/datamuseum}.
 #'
-#' \code{\link{museum}} for the combined dataset including these records.
+#' \code{\link{museum}} for the combined data set including these records.
 "NSMT_Japan"
 
 
 # ============================================================
-# Combined Japan Datasets
+# Combined Japan data sets
 # ============================================================
 
 #' Combined Japan Octopodoidea occurrence records
 #'
 #' @description
 #' Combined Octopodoidea occurrence records for Japan produced by merging the
-#' five Japan-filtered source datasets (\code{\link{GBIF_Japan}},
+#' five Japan-filtered source data sets (\code{\link{GBIF_Japan}},
 #' \code{\link{InvBase_Japan}}, \code{\link{BISMAL_Japan}},
 #' \code{\link{OBIS_Japan}}, and \code{\link{NSMT_Japan}}) via \code{rbind}.
 #' Duplicate records are removed using \code{\link{deduplicate}} on the
@@ -293,20 +293,20 @@
 #'
 #' @format A data frame with 2,633 rows and 13 variables:
 #' \describe{
-#'   \item{SciName}{Scientific name as recorded in the source dataset.}
+#'   \item{SciName}{Scientific name as recorded in the source data set.}
 #'   \item{Genus}{Genus name.}
 #'   \item{Family}{Family name.}
 #'   \item{Year}{Year of occurrence record.}
 #'   \item{Latitude}{Decimal latitude, filtered to \code{[25, 50]}.}
 #'   \item{Longitude}{Decimal longitude, filtered to \code{[125, 150]}.}
-#'   \item{Country}{Country name or code as recorded in the source dataset.}
+#'   \item{Country}{Country name or code as recorded in the source data set.}
 #'   \item{Prefecture}{State, province, or region as recorded in the source
-#'     dataset.}
+#'     data set.}
 #'   \item{Precise Location}{Locality description as recorded in the source
-#'     dataset.}
+#'     data set.}
 #'   \item{Source}{Institution code or group abbreviation identifying the
 #'     collecting institution.}
-#'   \item{Data Frame}{Character. Identifies the source dataset for each row.
+#'   \item{Data Frame}{Character. Identifies the source data set for each row.
 #'     One of \code{"GBIF"}, \code{"InvBase"}, \code{"BISMAL"},
 #'     \code{"OBIS"}, or \code{"NSMT"}.}
 #'   \item{catalogNumber}{Museum lot identification code used for duplicate
@@ -319,7 +319,7 @@
 #' @details
 #' Processing proceeds in the following steps:
 #' \enumerate{
-#'   \item The five Japan-filtered datasets are combined via \code{rbind}
+#'   \item The five Japan-filtered data sets are combined via \code{rbind}
 #'     with a \code{Data Frame} column added to identify the source of each
 #'     row, producing 2,707 observations.
 #'   \item \code{\link{deduplicate}} is applied on \code{catalogNumber} with
@@ -361,7 +361,7 @@
 #' @seealso
 #' \code{\link{GBIF_Japan}}, \code{\link{InvBase_Japan}},
 #' \code{\link{BISMAL_Japan}}, \code{\link{OBIS_Japan}},
-#' \code{\link{NSMT_Japan}} for the individual source datasets,
+#' \code{\link{NSMT_Japan}} for the individual source data sets,
 #'
 #' \code{\link{deduplicate}} for the deduplication function applied during
 #' processing,
@@ -377,7 +377,7 @@
 #' Taxonomically validated and enriched Japan Octopodoidea records
 #'
 #' @description
-#' The combined Japan Octopodoidea dataset (\code{\link{museum}}) after full
+#' The combined Japan Octopodoidea data set (\code{\link{museum}}) after full
 #' taxonomic cleaning, validation, synonym resolution, rank enrichment,
 #' authorship appending, and italic formatting. Represents the final stage
 #' of the \pkg{datamuseum} workflow and is intended for direct use in
@@ -395,14 +395,14 @@
 #'   \item{Year}{Year of occurrence record.}
 #'   \item{Latitude}{Decimal latitude, filtered to \code{[25, 50]}.}
 #'   \item{Longitude}{Decimal longitude, filtered to \code{[125, 150]}.}
-#'   \item{Country}{Country name or code as recorded in the source dataset.}
+#'   \item{Country}{Country name or code as recorded in the source data set.}
 #'   \item{Prefecture}{State, province, or region as recorded in the source
-#'     dataset.}
+#'     data set.}
 #'   \item{Precise Location}{Locality description as recorded in the source
-#'     dataset.}
+#'     data set.}
 #'   \item{Source}{Institution code or group abbreviation identifying the
 #'     collecting institution.}
-#'   \item{Data Frame}{Character. Identifies the source dataset for each row.
+#'   \item{Data Frame}{Character. Identifies the source data set for each row.
 #'     One of \code{"GBIF"}, \code{"InvBase"}, \code{"BISMAL"},
 #'     \code{"OBIS"}, or \code{"NSMT"}.}
 #'   \item{catalogNumber}{Museum lot identification code.}
@@ -427,7 +427,7 @@
 #' \enumerate{
 #'   \item \code{\link{taxon_cleaner}} applied to \code{SciName} in place
 #'     with \code{drop_na = TRUE}, removing uncertain names and reducing
-#'     the dataset from 2,633 to 2,222 observations.
+#'     the data set from 2,633 to 2,222 observations.
 #'   \item \emph{Octopus vulgaris} manually corrected to
 #'     \emph{Octopus sinensis} to reflect current accepted taxonomy for
 #'     the Pacific form.
@@ -476,7 +476,7 @@
 #' \url{https://www.kahaku.go.jp/english/}
 #'
 #' @seealso
-#' \code{\link{museum}} for the combined pre-validation dataset,
+#' \code{\link{museum}} for the combined pre-validation data set,
 #'
 #' \code{\link{taxon_cleaner}} for the cleaning function applied during
 #' processing,
