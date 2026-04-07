@@ -147,7 +147,7 @@
 #' \url{https://github.com/btorgovitsky00/datamuseum}.
 #'
 #' Biological Information System for Marine Life (BISMAL).
-#' Downloaded 30 March 2026. \url{https://bismal.nisc.go.jp}
+#' Downloaded 30 March 2026. \url{https://www.godac.jamstec.go.jp/bismal/e/}
 #'
 #' @seealso
 #' The raw and trimmed intermediate versions of this dataset are available
@@ -264,7 +264,7 @@
 #'
 #' National Museum of Nature and Science, Japan (NSMT).
 #' Data obtained directly from the museum, early 2024.
-#' \url{https://www.kahaku.go.jp}
+#' \url{https://www.kahaku.go.jp/english/}
 #'
 #' @seealso
 #' The raw and trimmed intermediate versions of this dataset are available
@@ -349,14 +349,14 @@
 #' \url{https://invertebase.org}
 #'
 #' Biological Information System for Marine Life (BISMAL).
-#' Downloaded 30 March 2026. \url{https://bismal.nisc.go.jp}
+#' Downloaded 30 March 2026. \url{https://www.godac.jamstec.go.jp/bismal/e/}
 #'
 #' Ocean Biodiversity Information System (OBIS).
 #' Downloaded 30 March 2026. \url{https://obis.org}
 #'
 #' National Museum of Nature and Science, Japan (NSMT).
 #' Data obtained directly from the museum, early 2024.
-#' \url{https://www.kahaku.go.jp}
+#' \url{https://www.kahaku.go.jp/english/}
 #'
 #' @seealso
 #' \code{\link{GBIF_Japan}}, \code{\link{InvBase_Japan}},
@@ -466,14 +466,14 @@
 #' \url{https://invertebase.org}
 #'
 #' Biological Information System for Marine Life (BISMAL).
-#' Downloaded 30 March 2026. \url{https://bismal.nisc.go.jp}
+#' Downloaded 30 March 2026. \url{https://www.godac.jamstec.go.jp/bismal/e/}
 #'
 #' Ocean Biodiversity Information System (OBIS).
 #' Downloaded 30 March 2026. \url{https://obis.org}
 #'
 #' National Museum of Nature and Science, Japan (NSMT).
 #' Data obtained directly from the museum, early 2024.
-#' \url{https://www.kahaku.go.jp}
+#' \url{https://www.kahaku.go.jp/english/}
 #'
 #' @seealso
 #' \code{\link{museum}} for the combined pre-validation dataset,

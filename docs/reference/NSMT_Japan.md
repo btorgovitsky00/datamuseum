@@ -87,7 +87,8 @@ and Science, Japan. Full source CSVs (raw, trimmed, and Japan-filtered)
 are available at <https://github.com/btorgovitsky00/datamuseum>.
 
 National Museum of Nature and Science, Japan (NSMT). Data obtained
-directly from the museum, early 2024. <https://www.kahaku.go.jp>
+directly from the museum, early 2024.
+<https://www.kahaku.go.jp/english/>
 
 ## See also
 

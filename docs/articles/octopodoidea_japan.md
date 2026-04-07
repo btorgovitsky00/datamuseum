@@ -165,7 +165,7 @@ superfamily Octopodoidea, can be found at:
 [`BISMAL_Japan`](https://btorgovitsky00.github.io/datamuseum/reference/BISMAL_Japan.html)
 
 > Biological Information System for Marine Life (BISMAL). Downloaded 30
-> March 2026. <https://bismal.nisc.go.jp>
+> March 2026. <https://www.godac.jamstec.go.jp/bismal/e/>
 
 ### Ocean Biodiversity Information System (OBIS)
 
@@ -252,7 +252,8 @@ Octopodoidea, can be found at:
 [`NSMT_Japan`](https://btorgovitsky00.github.io/datamuseum/reference/NSMT_Japan.html)
 
 > National Museum of Nature and Science, Japan (NSMT). Data obtained
-> directly from the museum, early 2024. <https://www.kahaku.go.jp>
+> directly from the museum, early 2024.
+> <https://www.kahaku.go.jp/english/>
 
 ## Concatenated Data Sets
 

@@ -30,7 +30,7 @@ Derived from the raw BISMAL occurrence download. Full source CSVs
 \url{https://github.com/btorgovitsky00/datamuseum}.
 
 Biological Information System for Marine Life (BISMAL).
-Downloaded 30 March 2026. \url{https://bismal.nisc.go.jp}
+Downloaded 30 March 2026. \url{https://www.godac.jamstec.go.jp/bismal/e/}
 }
 \usage{
 BISMAL_Japan

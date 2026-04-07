@@ -80,7 +80,7 @@ trimmed, and Japan-filtered) are available at
 <https://github.com/btorgovitsky00/datamuseum>.
 
 Biological Information System for Marine Life (BISMAL). Downloaded 30
-March 2026. <https://bismal.nisc.go.jp>
+March 2026. <https://www.godac.jamstec.go.jp/bismal/e/>
 
 ## See also
 

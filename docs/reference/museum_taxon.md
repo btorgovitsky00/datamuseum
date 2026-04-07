@@ -129,13 +129,14 @@ Global Biodiversity Information Facility (GBIF). GBIF.org (30 March
 Invert-E-Base. Downloaded 30 March 2026. <https://invertebase.org>
 
 Biological Information System for Marine Life (BISMAL). Downloaded 30
-March 2026. <https://bismal.nisc.go.jp>
+March 2026. <https://www.godac.jamstec.go.jp/bismal/e/>
 
 Ocean Biodiversity Information System (OBIS). Downloaded 30 March 2026.
 <https://obis.org>
 
 National Museum of Nature and Science, Japan (NSMT). Data obtained
-directly from the museum, early 2024. <https://www.kahaku.go.jp>
+directly from the museum, early 2024.
+<https://www.kahaku.go.jp/english/>
 
 ## Details
 

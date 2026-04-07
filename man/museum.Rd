@@ -47,14 +47,14 @@ Invert-E-Base. Downloaded 30 March 2026.
 \url{https://invertebase.org}
 
 Biological Information System for Marine Life (BISMAL).
-Downloaded 30 March 2026. \url{https://bismal.nisc.go.jp}
+Downloaded 30 March 2026. \url{https://www.godac.jamstec.go.jp/bismal/e/}
 
 Ocean Biodiversity Information System (OBIS).
 Downloaded 30 March 2026. \url{https://obis.org}
 
 National Museum of Nature and Science, Japan (NSMT).
 Data obtained directly from the museum, early 2024.
-\url{https://www.kahaku.go.jp}
+\url{https://www.kahaku.go.jp/english/}
 }
 \usage{
 museum

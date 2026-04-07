@@ -36,7 +36,7 @@ are available at \url{https://github.com/btorgovitsky00/datamuseum}.
 
 National Museum of Nature and Science, Japan (NSMT).
 Data obtained directly from the museum, early 2024.
-\url{https://www.kahaku.go.jp}
+\url{https://www.kahaku.go.jp/english/}
 }
 \usage{
 NSMT_Japan

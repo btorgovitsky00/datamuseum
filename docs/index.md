@@ -6,26 +6,30 @@
 and refinement of biological specimens with geographic and/or taxonomic
 information.
 
-The package contents are organised into four main categories:
+The package contents are organized into four main categories:
 
 - **Coordinate functions** (`latlong_*`) — refine geographic information
   associated with biological specimens
+
 - **Taxonomic functions** (`taxon_*`) — clean and validate taxonomies
   against the Global Biodiversity Information Facility (via
   [`rgbif`](https://CRAN.R-project.org/package=rgbif)) and the
   Integrated Taxonomic Information System (ITIS, via
   [`taxize`](https://CRAN.R-project.org/package=taxize))
-- **Utilities** — miscellaneous functions for dataset management and
+
+- **Utilities** — miscellaneous functions for data set management and
   improved graphical outputs
+
 - **Example data** — Japan-filtered occurrence records for specimens
   belonging to Superfamily Octopodoidea, compiled from the Global
   Biodiversity Information Facility ([GBIF](https://www.gbif.org)),
   Invert-E-Base ([InvBase](https://invertebase.org)), the Biological
   Information System for Marine Life
-  ([BISMAL](https://bismal.nisc.go.jp)), the Ocean Biodiversity
-  Information System ([OBIS](https://obis.org)), and the National Museum
-  of Nature and Science, Japan ([NSMT](https://www.kahaku.go.jp)), as
-  well as the compiled datasets processed through `datamuseum`
+  ([BISMAL](https://www.godac.jamstec.go.jp/bismal/e/)), the Ocean
+  Biodiversity Information System ([OBIS](https://obis.org)), and the
+  National Museum of Nature and Science, Japan
+  ([NSMT](https://www.kahaku.go.jp/english/)), as well as the compiled
+  datasets processed through `datamuseum`
 
 ## Installation
 
