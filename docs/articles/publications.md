@@ -1,0 +1,5 @@
+# Publications
+
+``` r
+library(datamuseum)
+```
