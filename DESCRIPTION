@@ -2,7 +2,7 @@ Package: datamuseum
 Title: Spatial and Taxonomic Data Utilities for Specimen Datasets
 Version: 0.1.0
 Authors@R: c(
-    person("Bryson Y.", "Torgovitsky", email = "torgovitsky.bryson.yerik.q7@dc.tohoku.ac.jp", role = c("aut", "cre")),
+    person("Bryson Y.", "Torgovitsky", email = "torgovitsky.yerik.bryson.q7@dc.tohoku.ac.jp", role = c("aut", "cre")),
     person("Cheryl L.", "Ames", email = "ames.cheryl.lynn.a1@tohoku.ac.jp", role = "aut"))
 Description: Functions for cleaning, validating, and standardising 
     coordinate and taxonomic data in biological museum datasets.
