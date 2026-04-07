@@ -1,5 +1,5 @@
 ---
-title: "Example Workflow: Octopodoidea in Japan"
+title: "Octopodoidea in Japan"
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -10,7 +10,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -26,7 +28,7 @@ direct request from the National Museum of Nature and Science, Japan.
 
 Using the following packages:
 
-```{r setup, eval = FALSE}
+```{r packages, eval = FALSE}
 library(datamuseum)
 
 library(tidyr)

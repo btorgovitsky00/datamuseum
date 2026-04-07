@@ -1,0 +1,8 @@
+.ames-logo {
+  background-image: url('../reference/figures/ames_logo.jpeg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: 80px;
+  height: 24px;
+}

@@ -1,4 +1,4 @@
-# Example Workflow: Octopodoidea in Japan
+# Octopodoidea in Japan
 
 ## Description
 

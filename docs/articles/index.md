@@ -5,11 +5,5 @@
 In-depth workflows demonstrating datamuseum functions with real
 datasets.
 
-- [Example Workflow: Octopodoidea in
+- [Octopodoidea in
   Japan](https://btorgovitsky00.github.io/datamuseum/articles/octopodoidea_japan.md):
-
-### Publications
-
-Manuscripts associated with datamuseum.
-
-- [Publications](https://btorgovitsky00.github.io/datamuseum/articles/publications.md):

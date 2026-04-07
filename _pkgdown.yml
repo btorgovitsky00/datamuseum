@@ -7,14 +7,6 @@ template:
     primary: "#0054AD"
     border-radius: 0.5rem
     btn-border-radius: 0.25rem
-  includes:
-    in_header: |
-      <style>
-      .ames-logo {
-        content: url('../reference/figures/ames_logo.jpeg');
-        height: 24px;
-      }
-      </style>
 
 navbar:
   structure:
@@ -24,12 +16,10 @@ navbar:
     intro:
       text: Get Started
       href: articles/datamuseum.html
-    search:
-      search: []
     ames:
-      text: "<img src='reference/figures/ames_logo.jpeg' height='24' alt='Ames Lab'/>"
+      text: Ames Lab
       href: https://cherylames.com
-      target: _blank
+      class: ames-link
     github:
       icon: fa-github
       href: https://github.com/btorgovitsky00/datamuseum
@@ -45,11 +35,10 @@ articles:
     contents:
       - octopodoidea_japan
 
-  - title: Publications
-    desc: Manuscripts associated with datamuseum.
+  - title: ~
+    navbar: ~
     contents:
       - publications
-
 
 reference:
   - title: latlong
