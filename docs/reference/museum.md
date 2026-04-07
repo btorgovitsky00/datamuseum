@@ -1,7 +1,7 @@
 # Combined Japan Octopodoidea occurrence records
 
 Combined Octopodoidea occurrence records for Japan produced by merging
-the five Japan-filtered source datasets
+the five Japan-filtered source data sets
 ([`GBIF_Japan`](https://btorgovitsky00.github.io/datamuseum/reference/GBIF_Japan.md),
 [`InvBase_Japan`](https://btorgovitsky00.github.io/datamuseum/reference/InvBase_Japan.md),
 [`BISMAL_Japan`](https://btorgovitsky00.github.io/datamuseum/reference/BISMAL_Japan.md),
@@ -29,7 +29,7 @@ A data frame with 2,633 rows and 13 variables:
 
 - SciName:
 
-  Scientific name as recorded in the source dataset.
+  Scientific name as recorded in the source data set.
 
 - Genus:
 
@@ -53,15 +53,15 @@ A data frame with 2,633 rows and 13 variables:
 
 - Country:
 
-  Country name or code as recorded in the source dataset.
+  Country name or code as recorded in the source data set.
 
 - Prefecture:
 
-  State, province, or region as recorded in the source dataset.
+  State, province, or region as recorded in the source data set.
 
 - Precise Location:
 
-  Locality description as recorded in the source dataset.
+  Locality description as recorded in the source data set.
 
 - Source:
 
@@ -70,7 +70,7 @@ A data frame with 2,633 rows and 13 variables:
 
 - Data Frame:
 
-  Character. Identifies the source dataset for each row. One of
+  Character. Identifies the source data set for each row. One of
   `"GBIF"`, `"InvBase"`, `"BISMAL"`, `"OBIS"`, or `"NSMT"`.
 
 - catalogNumber:
@@ -118,7 +118,7 @@ directly from the museum, early 2024.
 
 Processing proceeds in the following steps:
 
-1.  The five Japan-filtered datasets are combined via `rbind` with a
+1.  The five Japan-filtered data sets are combined via `rbind` with a
     `Data Frame` column added to identify the source of each row,
     producing 2,707 observations.
 
@@ -140,7 +140,7 @@ Processing proceeds in the following steps:
 [`BISMAL_Japan`](https://btorgovitsky00.github.io/datamuseum/reference/BISMAL_Japan.md),
 [`OBIS_Japan`](https://btorgovitsky00.github.io/datamuseum/reference/OBIS_Japan.md),
 [`NSMT_Japan`](https://btorgovitsky00.github.io/datamuseum/reference/NSMT_Japan.md)
-for the individual source datasets,
+for the individual source data sets,
 
 [`deduplicate`](https://btorgovitsky00.github.io/datamuseum/reference/deduplicate.md)
 for the deduplication function applied during processing,

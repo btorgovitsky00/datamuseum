@@ -2,9 +2,9 @@
 
 ## Overview
 
-`datamuseum` provides functions and practice datasets for the management
-and refinement of biological specimens with geographic and/or taxonomic
-information.
+`datamuseum` provides functions and practice data sets for the
+management and refinement of biological specimens with geographic and/or
+taxonomic information.
 
 The package contents are organized into four main categories:
 
@@ -29,7 +29,7 @@ The package contents are organized into four main categories:
   Biodiversity Information System ([OBIS](https://obis.org)), and the
   National Museum of Nature and Science, Japan
   ([NSMT](https://www.kahaku.go.jp/english/)), as well as the compiled
-  datasets processed through `datamuseum`
+  data sets processed through `datamuseum`
 
 ## Installation
 

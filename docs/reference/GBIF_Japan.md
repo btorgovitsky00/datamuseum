@@ -3,7 +3,7 @@
 Global Biodiversity Information Facility (GBIF) Octopodoidea occurrence
 records filtered to the Japan bounding box (latitude 25–50, longitude
 125–150) and standardized to the common column set shared across all
-datamuseum Japan datasets. Rows with `NA` in `Source`, `Family`,
+datamuseum Japan data sets. Rows with `NA` in `Source`, `Family`,
 `Genus`, `SciName`,or `Year` are removed.
 
 ## Usage
@@ -83,15 +83,15 @@ Global Biodiversity Information Facility (GBIF). GBIF.org (30 March
 
 ## Details
 
-The raw and trimmed intermediate versions of this dataset are available
+The raw and trimmed intermediate versions of this data set are available
 as CSV files in the package data repository. Note that those files
 contain non-ASCII characters in locality and collector name fields,
 reflecting the international scope of GBIF occurrence records.
 
 ## See also
 
-The raw and trimmed intermediate versions of this dataset are available
+The raw and trimmed intermediate versions of this data set are available
 as CSV files at <https://github.com/btorgovitsky00/datamuseum>.
 
 [`museum`](https://btorgovitsky00.github.io/datamuseum/reference/museum.md)
-for the combined dataset including these records.
+for the combined data set including these records.

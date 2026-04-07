@@ -1,6 +1,6 @@
 # Taxonomically validated and enriched Japan Octopodoidea records
 
-The combined Japan Octopodoidea dataset
+The combined Japan Octopodoidea data set
 ([`museum`](https://btorgovitsky00.github.io/datamuseum/reference/museum.md))
 after full taxonomic cleaning, validation, synonym resolution, rank
 enrichment, authorship appending, and italic formatting. Represents the
@@ -56,15 +56,15 @@ A data frame with 2,222 rows and 20 variables:
 
 - Country:
 
-  Country name or code as recorded in the source dataset.
+  Country name or code as recorded in the source data set.
 
 - Prefecture:
 
-  State, province, or region as recorded in the source dataset.
+  State, province, or region as recorded in the source data set.
 
 - Precise Location:
 
-  Locality description as recorded in the source dataset.
+  Locality description as recorded in the source data set.
 
 - Source:
 
@@ -73,7 +73,7 @@ A data frame with 2,222 rows and 20 variables:
 
 - Data Frame:
 
-  Character. Identifies the source dataset for each row. One of
+  Character. Identifies the source data set for each row. One of
   `"GBIF"`, `"InvBase"`, `"BISMAL"`, `"OBIS"`, or `"NSMT"`.
 
 - catalogNumber:
@@ -145,7 +145,7 @@ Processing proceeds in the following steps from
 
 1.  [`taxon_cleaner`](https://btorgovitsky00.github.io/datamuseum/reference/taxon_cleaner.md)
     applied to `SciName` in place with `drop_na = TRUE`, removing
-    uncertain names and reducing the dataset from 2,633 to 2,222
+    uncertain names and reducing the data set from 2,633 to 2,222
     observations.
 
 2.  *Octopus vulgaris* manually corrected to *Octopus sinensis* to
@@ -182,7 +182,7 @@ Processing proceeds in the following steps from
 ## See also
 
 [`museum`](https://btorgovitsky00.github.io/datamuseum/reference/museum.md)
-for the combined pre-validation dataset,
+for the combined pre-validation data set,
 
 [`taxon_cleaner`](https://btorgovitsky00.github.io/datamuseum/reference/taxon_cleaner.md)
 for the cleaning function applied during processing,

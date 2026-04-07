@@ -84,8 +84,8 @@ March 2026. <https://www.godac.jamstec.go.jp/bismal/e/>
 
 ## See also
 
-The raw and trimmed intermediate versions of this dataset are available
+The raw and trimmed intermediate versions of this data set are available
 as CSV files at <https://github.com/btorgovitsky00/datamuseum>.
 
 [`museum`](https://btorgovitsky00.github.io/datamuseum/reference/museum.md)
-for the combined dataset including these records.
+for the combined data set including these records.

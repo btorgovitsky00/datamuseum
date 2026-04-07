@@ -84,15 +84,15 @@ Ocean Biodiversity Information System (OBIS). Downloaded 30 March 2026.
 
 ## Details
 
-The raw and trimmed intermediate versions of this dataset are available
+The raw and trimmed intermediate versions of this data set are available
 as CSV files in the package data repository. Note that those files
 contain non-ASCII characters in locality and collector name fields,
 reflecting the international scope of OBIS occurrence records.
 
 ## See also
 
-The raw and trimmed intermediate versions of this dataset are available
+The raw and trimmed intermediate versions of this data set are available
 as CSV files at <https://github.com/btorgovitsky00/datamuseum>.
 
 [`museum`](https://btorgovitsky00.github.io/datamuseum/reference/museum.md)
-for the combined dataset including these records.
+for the combined data set including these records.
