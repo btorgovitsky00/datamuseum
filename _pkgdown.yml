@@ -16,8 +16,11 @@ navbar:
     intro:
       text: Get Started
       href: articles/datamuseum.html
+    news:
+      text: News
+      href: news/index.html
     ames:
-      text: Ames Lab
+      text: ""
       href: https://cherylames.com
     github:
       icon: fa-github

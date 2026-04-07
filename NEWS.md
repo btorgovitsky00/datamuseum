@@ -1,4 +1,6 @@
-# datamuseum 0.1.0
+# Changelog
+
+## datamuseum 0.1.0
 
 * Initial GitHub submission.
 * Functions for managing latitude and longitude data (`latlong_*`).
@@ -13,6 +15,7 @@
   [National Museum of Nature and Science, Japan (NSMT)](https://www.kahaku.go.jp/english/).
 * Example workflow for `datamuseum` with the article
   [Octopodoidea in Japan](https://btorgovitsky00.github.io/datamuseum/articles/octopodoidea_japan.html).
-  Shows the pipeline for combining the accessioned data sets into one combined data set [`museum`](https://btorgovitsky00.github.io/datamuseum/reference/museum.html)
-  and processing that data further with various `datamuseum` functions into the included dataset
+  Shows the pipeline for combining the accessioned data sets into one combined data set
+  [`museum`](https://btorgovitsky00.github.io/datamuseum/reference/museum.html)
+  and processing that data further with various `datamuseum` functions into the included data set
   [`museum_taxon`](https://btorgovitsky00.github.io/datamuseum/reference/museum_taxon.html).
