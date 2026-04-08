@@ -1,8 +1,4 @@
-<img src="man/figures/logo.png" align="left" height="200" alt="datamuseum logo" style="margin-right: 20px;"/>
-
-# datamuseum
-
-<br clear="left"/>
+# datamuseum <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/datamuseum)](https://CRAN.R-project.org/package=datamuseum)

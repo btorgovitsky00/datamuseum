@@ -1,9 +1,5 @@
 # datamuseum
 
-![datamuseum logo](reference/figures/logo.png)
-
-  
-
 ## Overview
 
 `datamuseum` provides functions and practice data sets for the
