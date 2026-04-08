@@ -1,6 +1,4 @@
-# Changelog
-
-## datamuseum 0.1.0
+## datamuseum 0.1.1
 
 Test second News update.
 
