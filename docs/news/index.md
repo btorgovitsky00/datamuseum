@@ -1,11 +1,5 @@
 # Changelog
 
-## datamuseum 0.1.1
-
-Test second News update.
-
-- List item.
-
 ## datamuseum 0.1.0
 
 Initial release of `datamuseum` to GitHub.
