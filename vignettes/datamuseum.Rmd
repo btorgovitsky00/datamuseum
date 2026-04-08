@@ -94,22 +94,35 @@ multiple individuals, and preparing your taxonomic data for presentation on
 a ggplot2 graph!
 
 ```{r logo, include = FALSE, echo = FALSE, eval = FALSE}
-
 library(hexSticker)
+library(ggplot2)
+library(png)
+library(grid)
+
+img <- readPNG("D:/TU_Research/TU Dissertation Chapter 1/dataMuseum/man/figures/sophie_logo.png")
+
+p <- ggplot() +
+  annotation_raster(img, xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf) +
+  coord_fixed(ratio = nrow(img) / ncol(img)) +
+  theme_void() +
+  theme(panel.background = element_rect(fill = "transparent", color = NA),
+        plot.background  = element_rect(fill = "transparent", color = NA))
 
 sticker(
-  subplot  = "D:/TU_Research/TU Dissertation Chapter 1/dataMuseum/man/figures/sophie_logo.png",
-  package  = "",          # empty since name is already in the image
-  p_size   = 0,           # no text size needed
+  subplot  = p,
+  package  = "",
+  p_size   = 0,
   p_color  = "#FFFFFF",
-  h_fill   = "#2596be",   # hex background
-  h_color  = "#003580",   # hex border color
-  s_x      = 1,           # center the image horizontally
-  s_y      = 1,         # center the image vertically
-  s_width  = 1,           # expand to fill hex
-  s_height = 1,           # expand to fill hex
+  h_fill   = "#c2edff",
+  h_color  = "#003580",
+  s_x      = 1,
+  s_y      = 1,
+  s_width  = 1.75,
+  s_height = 1.45,
+  white_around_sticker = FALSE,
   filename = "D:/TU_Research/TU Dissertation Chapter 1/dataMuseum/man/figures/logo.png"
 )
+```
 
 ```
 
