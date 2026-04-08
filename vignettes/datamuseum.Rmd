@@ -95,26 +95,19 @@ a ggplot2 graph!
 
 ```{r logo, include = FALSE, echo = FALSE, eval = FALSE}
 
-install.packages("hexSticker")
 library(hexSticker)
-library(ggplot2)
-
-p <- ggplot() +
-  geom_point(aes(x = c(1,2,3), y = c(1,2,1)), 
-             color = "white", size = 3) +
-  theme_void() +
-  theme(panel.background = element_rect(fill = "transparent"))
 
 sticker(
-  subplot  = p,
-  package  = "datamuseum",
-  p_size   = 20,
+  subplot  = "D:/TU_Research/TU Dissertation Chapter 1/dataMuseum/man/figures/sophie_logo.png",
+  package  = "",          # empty since name is already in the image
+  p_size   = 0,           # no text size needed
   p_color  = "#FFFFFF",
-  h_fill   = "#0054AD",
-  h_color  = "#003580",
-  s_x      = 1,
-  s_y      = 0.75,
-  s_width  = 0.5,
+  h_fill   = "#2596be",   # hex background
+  h_color  = "#003580",   # hex border color
+  s_x      = 1,           # center the image horizontally
+  s_y      = 1,         # center the image vertically
+  s_width  = 1,           # expand to fill hex
+  s_height = 1,           # expand to fill hex
   filename = "D:/TU_Research/TU Dissertation Chapter 1/dataMuseum/man/figures/logo.png"
 )
 
