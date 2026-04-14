@@ -130,7 +130,9 @@
 #'   species = c("Homo sapiens", "Panthera leo", "Canis lupus familiaris")
 #' )
 #'
-#' \dontrun{
+#' \donttest{
+#' if (requireNamespace("rgbif", quietly = TRUE) &&
+#'     requireNamespace("taxize", quietly = TRUE)) {
 #' # Validate against both ITIS and GBIF
 #' taxon_validate(df, column = species)
 #'
@@ -158,6 +160,7 @@
 #' # Enable parallel API calls
 #' taxon_validate(df, column = species, parallel = TRUE)
 #' }
+#' }
 #'
 #' @export
 
@@ -166,10 +169,10 @@
 taxon_validate <- function(data, column, source = "both",
                            update_related = FALSE, parallel = FALSE,
                            max_synonym_depth = 3, drop_na = FALSE) {
-  
+
   col_name <- gsub('^"|"$', '', deparse(substitute(column)))
   source   <- match.arg(tolower(source), c("gbif", "itis", "both"))
-  
+
   if (source %in% c("gbif", "both")) {
     if (!requireNamespace("rgbif",   quietly = TRUE))
       stop("Package 'rgbif' is required. Install with: install.packages('rgbif')")
@@ -186,7 +189,7 @@ taxon_validate <- function(data, column, source = "both",
     if (!requireNamespace("future", quietly = TRUE))
       stop("Package 'future' is required. Install with: install.packages('future')")
   }
-  
+
   validation_report <- tibble::tibble(
     column   = character(),
     original = character(),
@@ -194,55 +197,55 @@ taxon_validate <- function(data, column, source = "both",
     n        = integer(),
     status   = character()
   )
-  
+
   rank_map <- c(
     "scientificname" = "species", "species" = "species",
     "genus"          = "genus",   "family"  = "family",
     "order"          = "order",   "class"   = "class",
     "phylum"         = "phylum",  "kingdom" = "kingdom"
   )
-  
+
   is_valid_taxon_name <- function(name) {
     grepl("^[A-Z][a-z]+", name) &&
       !grepl("[0-9]", name) &&
       !grepl("[^a-zA-Z \\-]", name)
   }
-  
+
   safe_get <- function(expr, default = NULL)
     tryCatch(expr, error = function(e) default)
-  
+
   resolve_column <- function(data, col, matched_idx = NULL) {
-    
+
     if (!col %in% names(data)) {
       message(sprintf("[taxon_validate] column '%s' not found -- skipped", col))
       return(list(data = data, matched_idx = matched_idx, report = tibble::tibble()))
     }
-    
+
     if (drop_na) data <- data[!is.na(data[[col]]), ]
-    
+
     vals           <- as.character(data[[col]])
     vals_canonical <- trimws(sub("\\s*\\(.*\\)\\s*$", "", vals))
     unique_vals    <- unique(vals_canonical[!is.na(vals_canonical)])
-    
+
     if (length(vals) == 0 || length(unique_vals) == 0) {
       message(sprintf("[taxon_validate] column '%s' has no non-NA values -- skipped", col))
       return(list(data = data, matched_idx = matched_idx, report = tibble::tibble()))
     }
-    
-    col_rank           <- taxon_columntype(data, columns = col)[[1]]
+
+    col_rank           <- taxon_rank(data, columns = col)[[1]]
     expected_gbif_rank <- if (!is.na(col_rank) && col_rank %in% names(rank_map))
       rank_map[[col_rank]] else NULL
-    
+
     message(sprintf("[taxon_validate] column '%s' detected rank: %s -- %d unique name(s) to process",
                     col, if (is.null(expected_gbif_rank)) "unknown" else expected_gbif_rank,
                     length(unique_vals)))
-    
+
     valid_for_itis <- unique_vals[vapply(unique_vals, is_valid_taxon_name, logical(1))]
     invalid_names  <- setdiff(unique_vals, valid_for_itis)
     if (length(invalid_names) > 0)
       message(sprintf("[taxon_validate] %d name(s) skipped for ITIS (invalid format)",
                       length(invalid_names)))
-    
+
     known_genera <- unique(vapply(unique_vals, function(n) {
       parts <- strsplit(trimws(n), "\\s+")[[1]]
       if (length(parts) >= 1) parts[1] else NA_character_
@@ -250,13 +253,13 @@ taxon_validate <- function(data, column, source = "both",
     known_genera <- known_genera[!is.na(known_genera) & known_genera != "" &
                                    vapply(known_genera, function(g)
                                      !is.na(g) && is_valid_taxon_name(g), logical(1))]
-    
+
     known_epithets <- unique(unlist(lapply(unique_vals, function(n) {
       parts <- strsplit(trimws(n), "\\s+")[[1]]
       if (length(parts) >= 2) parts[length(parts)] else NA_character_
     })))
     known_epithets <- known_epithets[!is.na(known_epithets) & known_epithets != ""]
-    
+
     genus_distance_cache <- if (length(known_genera) > 0) {
       unique_input_genera <- unique(vapply(valid_for_itis, function(n) {
         parts <- strsplit(trimws(n), "\\s+")[[1]]
@@ -270,38 +273,38 @@ taxon_validate <- function(data, column, source = "both",
         known_genera[close_idx][order(distances[close_idx])]
       }), unique_input_genera)
     } else list()
-    
+
     gbif_author_lookup <- if (source %in% c("gbif", "both")) {
       memoise::memoise(function(canonical_name) {
-        
+
         if (is.null(canonical_name) || length(canonical_name) == 0 ||
             is.na(canonical_name) || nchar(trimws(canonical_name)) == 0)
           return(NA_character_)
-        
+
         res <- safe_get(rgbif::name_backbone(name = canonical_name, strict = TRUE))
-        
+
         gbif_author    <- NULL
         gbif_canonical <- canonical_name
-        
+
         if (!is.null(res) && nrow(res) > 0 && !isTRUE(res$matchType == "NONE")) {
-          
+
           canonical_check <- safe_get(res$canonicalName[1])
-          
+
           higherrank_mismatch <- isTRUE(res$matchType == "HIGHERRANK") &&
             !is.null(canonical_check) &&
             length(canonical_check) > 0 &&
             !identical(tolower(trimws(canonical_check)), tolower(trimws(canonical_name)))
-          
+
           if (!higherrank_mismatch &&
               !is.null(canonical_check) &&
               length(canonical_check) > 0 &&
               identical(tolower(trimws(canonical_check)), tolower(trimws(canonical_name)))) {
-            
+
             gbif_rank <- safe_get(tolower(res[["rank"]][1]))
             rank_ok   <- is.null(expected_gbif_rank) || is.null(gbif_rank) ||
               gbif_rank == expected_gbif_rank ||
               (expected_gbif_rank == "species" && gbif_rank == "genus")
-            
+
             if (rank_ok) {
               usage_key <- safe_get({
                 val <- res[["acceptedUsageKey"]]
@@ -310,7 +313,7 @@ taxon_validate <- function(data, column, source = "both",
                   if (!is.null(val2) && length(val2) > 0 && !is.na(val2[1])) val2[1] else NULL
                 }
               })
-              
+
               resolved <- if (!is.null(usage_key)) {
                 safe_get({
                   usage <- rgbif::name_usage(key = usage_key)$data
@@ -328,7 +331,7 @@ taxon_validate <- function(data, column, source = "both",
                   usage
                 })
               } else NULL
-              
+
               author_raw <- safe_get({
                 src <- if (!is.null(resolved)) resolved else res
                 val <- src[["authorship"]]
@@ -336,14 +339,14 @@ taxon_validate <- function(data, column, source = "both",
                     nchar(trimws(val[1])) > 0)
                   gsub("^\\(|\\)$", "", trimws(val[1])) else NULL
               })
-              
+
               if (!is.null(author_raw) &&
                   length(author_raw) > 0 &&
                   !grepl("^[,;\\s]", author_raw) &&
                   nchar(trimws(author_raw)) > 0) {
                 gbif_author <- author_raw
               }
-              
+
               gbif_canonical <- safe_get({
                 if (!is.null(resolved) && !is.null(resolved$canonicalName) &&
                     length(resolved$canonicalName) > 0 &&
@@ -352,13 +355,13 @@ taxon_validate <- function(data, column, source = "both",
                          length(canonical_check) > 0) canonical_check
                 else canonical_name
               }, canonical_name)
-              
+
               if (length(gbif_canonical) == 0 || is.na(gbif_canonical))
                 gbif_canonical <- canonical_name
             }
           }
         }
-        
+
         if (is.null(gbif_author) && source == "both" &&
             requireNamespace("taxize", quietly = TRUE)) {
           itis_author <- safe_get({
@@ -381,14 +384,14 @@ taxon_validate <- function(data, column, source = "both",
             return(result)
           }
         }
-        
+
         if (!is.null(gbif_author) && length(gbif_author) > 0)
           return(paste0(gbif_canonical, " (", gbif_author, ")"))
-        
+
         gbif_canonical
       })
     }
-    
+
     gbif_genus_check <- if (source %in% c("gbif", "both")) {
       memoise::memoise(function(genus_name) {
         res <- safe_get(rgbif::name_backbone(name = genus_name, strict = TRUE))
@@ -413,7 +416,7 @@ taxon_validate <- function(data, column, source = "both",
         } else FALSE
       })
     }
-    
+
     itis_lookup <- memoise::memoise(function(name) {
       if (!is_valid_taxon_name(name))
         return(list(matched = FALSE, canonical = NA_character_, synonym = FALSE))
@@ -438,11 +441,11 @@ taxon_validate <- function(data, column, source = "both",
            canonical = canonical,
            synonym   = !identical(tolower(trimws(canonical)), tolower(trimws(name))))
     })
-    
+
     itis_epithet_search <- memoise::memoise(function(name) {
       name_parts  <- strsplit(trimws(name), "\\s+")[[1]]
       input_words <- length(name_parts)
-      
+
       if (input_words == 1) {
         if (length(known_genera) == 0) return(NULL)
         distances        <- adist(tolower(name), tolower(known_genera))[1, ]
@@ -466,10 +469,10 @@ taxon_validate <- function(data, column, source = "both",
         }
         return(NULL)
       }
-      
+
       input_genus   <- name_parts[1]
       input_epithet <- name_parts[length(name_parts)]
-      
+
       close_genera <- if (!is.null(genus_distance_cache[[input_genus]])) {
         head(genus_distance_cache[[input_genus]], 5)
       } else {
@@ -479,7 +482,7 @@ taxon_validate <- function(data, column, source = "both",
           head(known_genera[close_idx][order(distances[close_idx])], 5)
         else character(0)
       }
-      
+
       for (genus in close_genera) {
         candidate <- paste(c(genus, name_parts[-1]), collapse = " ")
         tsn <- safe_get(suppressMessages(suppressWarnings(
@@ -499,13 +502,13 @@ taxon_validate <- function(data, column, source = "both",
         if (identical(tolower(trimws(canonical)), tolower(trimws(name)))) next
         return(canonical)
       }
-      
+
       epithet_distances <- adist(tolower(input_epithet), tolower(known_epithets))[1, ]
       close_idx         <- which(epithet_distances > 0 & epithet_distances <= 2)
       close_epithets    <- if (length(close_idx) > 0)
         head(known_epithets[close_idx][order(epithet_distances[close_idx])], 5)
       else character(0)
-      
+
       for (epithet in close_epithets) {
         candidate_parts                          <- name_parts
         candidate_parts[length(candidate_parts)] <- epithet
@@ -526,36 +529,36 @@ taxon_validate <- function(data, column, source = "both",
         if (identical(tolower(trimws(canonical)), tolower(trimws(name)))) next
         return(canonical)
       }
-      
+
       NULL
     })
-    
+
     gbif_strict <- if (source %in% c("gbif", "both")) {
       memoise::memoise(function(name) {
         res <- safe_get(rgbif::name_backbone(name = name, strict = TRUE))
         if (is.null(res) || nrow(res) == 0 || isTRUE(res$matchType == "NONE"))
           return(list(matched = FALSE, canonical = NA_character_,
                       usage_key = NULL, reason = "no_match"))
-        
+
         canonical_check <- safe_get(res$canonicalName[1])
         if (is.null(canonical_check) || length(canonical_check) == 0 ||
             !identical(tolower(trimws(canonical_check)), tolower(trimws(name))))
           return(list(matched = FALSE, canonical = NA_character_,
                       usage_key = NULL, reason = "no_match"))
-        
+
         gbif_rank <- safe_get(tolower(res[["rank"]][1]))
         if (!is.null(expected_gbif_rank) && !is.null(gbif_rank) &&
             gbif_rank != expected_gbif_rank)
           return(list(matched = FALSE, canonical = NA_character_,
                       usage_key = NULL, reason = "no_match"))
-        
+
         if (length(strsplit(trimws(canonical_check), "\\s+")[[1]]) > 1) {
           genus_part       <- strsplit(trimws(canonical_check), "\\s+")[[1]][1]
           genus_legitimate <- if (!is.null(gbif_genus_check)) gbif_genus_check(genus_part) else TRUE
           if (!genus_legitimate)
             return(list(matched = FALSE, canonical = NA_character_,
                         usage_key = NULL, reason = "phantom"))
-          
+
           # ITIS genus check only runs when GBIF genus check is suspicious
           # i.e. GBIF accepted the genus but without strong legitimacy signals
           # This catches GBIF misentries like Scaerugus without rejecting
@@ -574,12 +577,12 @@ taxon_validate <- function(data, column, source = "both",
                           usage_key = NULL, reason = "phantom"))
           }
         }
-        
+
         has_authorship <- safe_get({
           val <- res[["authorship"]]
           !is.null(val) && length(val) > 0 && !is.na(val[1]) && nchar(trimws(val[1])) > 0
         }, FALSE)
-        
+
         usage_key <- safe_get({
           val <- res[["acceptedUsageKey"]]
           if (!is.null(val) && length(val) > 0 && !is.na(val[1])) val[1] else {
@@ -587,7 +590,7 @@ taxon_validate <- function(data, column, source = "both",
             if (!is.null(val2) && length(val2) > 0 && !is.na(val2[1])) val2[1] else NULL
           }
         })
-        
+
         if (!has_authorship) {
           published <- if (!is.null(usage_key)) {
             safe_get({
@@ -601,12 +604,12 @@ taxon_validate <- function(data, column, source = "both",
             return(list(matched = FALSE, canonical = NA_character_,
                         usage_key = NULL, reason = "phantom"))
         }
-        
+
         list(matched = TRUE, canonical = canonical_check,
              usage_key = usage_key, reason = "matched")
       })
     }
-    
+
     gbif_fuzzy <- if (source %in% c("gbif", "both")) {
       memoise::memoise(function(name) {
         input_words <- length(strsplit(trimws(name), "\\s+")[[1]])
@@ -628,7 +631,7 @@ taxon_validate <- function(data, column, source = "both",
         canonical_fuzzy
       })
     }
-    
+
     map_fn <- if (parallel) {
       future::plan(future::multisession,
                    workers = min(4, parallel::detectCores() - 1))
@@ -636,7 +639,7 @@ taxon_validate <- function(data, column, source = "both",
     } else {
       lapply
     }
-    
+
     # ============================================================
     # PASS 1 -- ITIS strict + synonym
     # ============================================================
@@ -646,7 +649,7 @@ taxon_validate <- function(data, column, source = "both",
       unique_vals)
     itis_matched         <- character(0)
     itis_synonym_matched <- character(0)
-    
+
     if (source %in% c("itis", "both") && length(valid_for_itis) > 0) {
       message(sprintf("[taxon_validate] pass 1: ITIS strict + synonym (%d valid name(s))",
                       length(valid_for_itis)))
@@ -659,30 +662,30 @@ taxon_validate <- function(data, column, source = "both",
         itis_lookup(name)
       }), valid_for_itis)
       if (parallel) future::plan(future::sequential)
-      
+
       for (name in valid_for_itis)
         itis_results[[name]] <- itis_list[[name]]
-      
+
       itis_matched <- valid_for_itis[vapply(valid_for_itis, function(n)
         isTRUE(itis_results[[n]]$matched) && !isTRUE(itis_results[[n]]$synonym), logical(1))]
       itis_synonym_matched <- valid_for_itis[vapply(valid_for_itis, function(n)
         isTRUE(itis_results[[n]]$matched) && isTRUE(itis_results[[n]]$synonym), logical(1))]
-      
+
       message(sprintf("[taxon_validate] ITIS: %d strict, %d synonym, %d unmatched",
                       length(itis_matched), length(itis_synonym_matched),
                       length(valid_for_itis) - length(itis_matched) -
                         length(itis_synonym_matched)))
     }
-    
+
     itis_all_matched <- c(itis_matched, itis_synonym_matched)
     itis_unmatched   <- setdiff(unique_vals, itis_all_matched)
-    
+
     # ============================================================
     # PASS 2 -- ITIS substitution search
     # ============================================================
     itis_epithet_results <- list()
     epithet_candidates   <- intersect(itis_unmatched, valid_for_itis)
-    
+
     if (source %in% c("itis", "both") && length(epithet_candidates) > 0) {
       message(sprintf("[taxon_validate] pass 2: ITIS substitution (%d name(s))",
                       length(epithet_candidates)))
@@ -697,17 +700,17 @@ taxon_validate <- function(data, column, source = "both",
       }), epithet_candidates)
       if (parallel) future::plan(future::sequential)
     }
-    
+
     itis_epithet_matched <- names(itis_epithet_results)[vapply(names(itis_epithet_results),
                                                                function(n) !is.null(itis_epithet_results[[n]]), logical(1))]
     still_unmatched <- setdiff(itis_unmatched, itis_epithet_matched)
-    
+
     # ============================================================
     # PASS 3 -- GBIF strict
     # ============================================================
     gbif_strict_results <- list()
     gbif_phantom        <- character(0)
-    
+
     if (source %in% c("gbif", "both") && length(still_unmatched) > 0) {
       message(sprintf("[taxon_validate] pass 3: GBIF strict (%d names)",
                       length(still_unmatched)))
@@ -721,28 +724,28 @@ taxon_validate <- function(data, column, source = "both",
         gbif_strict(name)
       }), still_unmatched)
       if (parallel) future::plan(future::sequential)
-      
+
       gbif_phantom <- still_unmatched[vapply(still_unmatched, function(n)
         !isTRUE(gbif_strict_results[[n]]$matched) &&
           identical(gbif_strict_results[[n]]$reason, "phantom"), logical(1))]
-      
+
       gbif_strict_matched_n <- sum(vapply(still_unmatched, function(n)
         isTRUE(gbif_strict_results[[n]]$matched), logical(1)))
       message(sprintf("[taxon_validate] GBIF strict: %d matched, %d phantom, %d unmatched",
                       gbif_strict_matched_n, length(gbif_phantom),
                       length(still_unmatched) - gbif_strict_matched_n - length(gbif_phantom)))
     }
-    
+
     gbif_matched   <- names(gbif_strict_results)[vapply(names(gbif_strict_results),
                                                         function(n) isTRUE(gbif_strict_results[[n]]$matched), logical(1))]
     gbif_unmatched <- setdiff(still_unmatched, c(gbif_matched, gbif_phantom))
-    
+
     # ============================================================
     # PASS 4 -- GBIF fuzzy
     # ============================================================
     gbif_fuzzy_results <- list()
     fuzzy_candidates   <- setdiff(gbif_unmatched, gbif_phantom)
-    
+
     if (source %in% c("gbif", "both") && length(fuzzy_candidates) > 0) {
       message(sprintf("[taxon_validate] pass 4: GBIF fuzzy (%d names)",
                       length(fuzzy_candidates)))
@@ -757,10 +760,10 @@ taxon_validate <- function(data, column, source = "both",
       }), fuzzy_candidates)
       if (parallel) future::plan(future::sequential)
     }
-    
+
     gbif_fuzzy_matched <- names(gbif_fuzzy_results)[vapply(names(gbif_fuzzy_results),
                                                            function(n) !is.null(gbif_fuzzy_results[[n]]), logical(1))]
-    
+
     # ============================================================
     # PASS 5 -- authorship lookup (internal use only)
     # Not written to column -- stored in author_map for internal use
@@ -774,7 +777,7 @@ taxon_validate <- function(data, column, source = "both",
     ))
     resolved_canonicals <- resolved_canonicals[
       !is.na(resolved_canonicals) & nchar(resolved_canonicals) > 0]
-    
+
     author_map <- if (source %in% c("gbif", "both") &&
                       length(resolved_canonicals) > 0) {
       message(sprintf("[taxon_validate] pass 5: authorship lookup (%d resolved names)",
@@ -786,7 +789,7 @@ taxon_validate <- function(data, column, source = "both",
     } else {
       setNames(as.list(resolved_canonicals), resolved_canonicals)
     }
-    
+
     get_accepted <- function(canonical) {
       if (is.null(canonical) || length(canonical) == 0 || is.na(canonical))
         return(NA_character_)
@@ -794,55 +797,55 @@ taxon_validate <- function(data, column, source = "both",
       if (is.null(result) || length(result) == 0) return(canonical)
       result
     }
-    
+
     # ============================================================
     # Assemble final results
     # ============================================================
     results <- setNames(lapply(unique_vals, function(name) {
-      
+
       if (name %in% itis_matched)
         return(list(matched          = "ITIS",
                     accepted         = get_accepted(itis_results[[name]]$canonical),
                     fuzzy_suggestion = NULL,
                     is_phantom       = FALSE))
-      
+
       if (name %in% itis_synonym_matched)
         return(list(matched          = "ITIS",
                     accepted         = get_accepted(itis_results[[name]]$canonical),
                     fuzzy_suggestion = NULL,
                     is_phantom       = FALSE))
-      
+
       if (name %in% itis_epithet_matched)
         return(list(matched          = NA_character_,
                     accepted         = name,
                     fuzzy_suggestion = get_accepted(itis_epithet_results[[name]]),
                     is_phantom       = FALSE))
-      
+
       if (name %in% gbif_matched)
         return(list(matched          = "GBIF",
                     accepted         = get_accepted(gbif_strict_results[[name]]$canonical),
                     fuzzy_suggestion = NULL,
                     is_phantom       = FALSE))
-      
+
       if (name %in% gbif_fuzzy_matched)
         return(list(matched          = NA_character_,
                     accepted         = name,
                     fuzzy_suggestion = get_accepted(gbif_fuzzy_results[[name]]),
                     is_phantom       = name %in% gbif_phantom))
-      
+
       if (name %in% gbif_phantom)
         return(list(matched          = NA_character_,
                     accepted         = name,
                     fuzzy_suggestion = NULL,
                     is_phantom       = TRUE))
-      
+
       list(matched          = NA_character_,
            accepted         = name,
            fuzzy_suggestion = NULL,
            is_phantom       = FALSE)
-      
+
     }), unique_vals)
-    
+
     # ============================================================
     # Build accepted_vec
     # Canonical names only written to column
@@ -852,13 +855,13 @@ taxon_validate <- function(data, column, source = "both",
       if (is.na(name)) return(FALSE)
       !is.na(results[[name]]$matched)
     }, logical(1))
-    
+
     if (!is.null(matched_idx)) {
       if (length(matched_idx) != length(vals_canonical))
         matched_idx <- matched_idx[seq_along(vals_canonical)]
       is_matched <- is_matched & matched_idx
     }
-    
+
     accepted_vec <- vals
     accepted_vec[is_matched] <- vapply(vals_canonical[is_matched], function(name) {
       val <- tryCatch({
@@ -869,16 +872,16 @@ taxon_validate <- function(data, column, source = "both",
       }, error = function(e) name)
       if (length(val) == 0) name else val
     }, character(1))
-    
+
     data[[col]] <- accepted_vec
-    
+
     # ============================================================
     # Build report
     # ============================================================
     report_rows <- dplyr::bind_rows(Filter(Negate(is.null), lapply(unique_vals, function(name) {
       res <- results[[name]]
       n   <- as.integer(sum(vals_canonical == name, na.rm = TRUE))
-      
+
       if (is.na(res$matched)) {
         status <- if (isTRUE(res$is_phantom) && is.null(res$fuzzy_suggestion)) "phantom"
         else if (!is.null(res$fuzzy_suggestion)) "misspelling"
@@ -893,24 +896,24 @@ taxon_validate <- function(data, column, source = "both",
           status   = status
         ))
       }
-      
+
       canonical_accepted <- trimws(sub("\\s*\\(.*\\)\\s*$", "", res$accepted))
       is_updated <- !grepl(paste0("^", canonical_accepted), name, ignore.case = TRUE) &&
         !grepl(paste0("^", name), canonical_accepted, ignore.case = TRUE)
-      
+
       if (is_updated)
         return(tibble::tibble(column = col, original = name,
                               accepted = res$accepted, n = n, status = "updated"))
       NULL
     })))
-    
+
     # ============================================================
     # Messages
     # ============================================================
     if (is.null(matched_idx)) {
       for (name in unique_vals) {
         res <- results[[name]]
-        
+
         if (is.na(res$matched)) {
           if (isTRUE(res$is_phantom) && is.null(res$fuzzy_suggestion)) {
             message(sprintf(
@@ -931,7 +934,7 @@ taxon_validate <- function(data, column, source = "both",
           }
           next
         }
-        
+
         canonical_accepted <- trimws(sub("\\s*\\(.*\\)\\s*$", "", res$accepted))
         if (!grepl(paste0("^", canonical_accepted), name, ignore.case = TRUE) &&
             !grepl(paste0("^", name), canonical_accepted, ignore.case = TRUE)) {
@@ -945,28 +948,28 @@ taxon_validate <- function(data, column, source = "both",
         }
       }
     }
-    
+
     list(data = data, matched_idx = is_matched, report = report_rows)
   }
-  
+
   # Capture original values before primary column is updated
   taxon_column_original <- data[[col_name]]
-  
+
   primary_result    <- resolve_column(data, col_name, matched_idx = NULL)
   data              <- primary_result$data
   matched_idx       <- primary_result$matched_idx
   validation_report <- dplyr::bind_rows(validation_report, primary_result$report)
-  
+
   if (update_related && any(matched_idx, na.rm = TRUE)) {
-    
+
     detected     <- taxon_column(data, output = "list")
     rank_cols    <- unlist(lapply(detected, names))
     related_cols <- setdiff(rank_cols, col_name)
-    
+
     if (length(related_cols) > 0) {
       message(sprintf("[taxon_validate] updating %d related column(s): %s",
                       length(related_cols), paste(related_cols, collapse = ", ")))
-      
+
       original_canonical <- trimws(sub("\\s*\\(.*\\)\\s*$", "",
                                        as.character(taxon_column_original)))
       updated_canonical  <- trimws(sub("\\s*\\(.*\\)\\s*$", "",
@@ -974,10 +977,10 @@ taxon_validate <- function(data, column, source = "both",
       actually_changed   <- matched_idx &
         !is.na(original_canonical) & !is.na(updated_canonical) &
         (original_canonical != updated_canonical)
-      
+
       for (rel_col in related_cols) {
         if (!rel_col %in% names(data)) next
-        
+
         if (grepl("genus", tolower(rel_col)) && any(actually_changed, na.rm = TRUE)) {
           # Genus: derive directly from first word of updated primary binomial
           current     <- as.character(data[[rel_col]])
@@ -1000,7 +1003,7 @@ taxon_validate <- function(data, column, source = "both",
       }
     }
   }
-  
+
   attr(data, "validation_report") <- validation_report
   data
 }

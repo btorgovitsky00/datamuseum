@@ -11,7 +11,7 @@ or
 ## Usage
 
 ``` r
-taxon_columntype(data, columns)
+taxon_rank(data, columns)
 ```
 
 ## Arguments
@@ -79,17 +79,17 @@ df <- data.frame(
 )
 
 # Detect rank of a single column
-taxon_columntype(df, genus)
+taxon_rank(df, genus)
 #>   genus 
 #> "genus" 
 
 # Detect ranks of multiple columns
-taxon_columntype(df, c(genus, family_name, my_order))
+taxon_rank(df, c(genus, family_name, my_order))
 #>       genus family_name    my_order 
 #>     "genus"    "family"     "order" 
 
 # NA returned for columns with no recognisable rank pattern
-taxon_columntype(df, c(genus, site))
+taxon_rank(df, c(genus, site))
 #>   genus    site 
 #> "genus"      NA 
 ```

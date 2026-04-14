@@ -76,5 +76,3 @@ This includes options for removing repeat data (deduplicating) when
 multiple sources are accessioned, expanding your data set when one
 specimen lot contains multiple individuals, and preparing your taxonomic
 data for presentation on a ggplot2 graph!
-
-\`\`\`

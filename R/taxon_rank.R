@@ -54,13 +54,13 @@
 #' )
 #'
 #' # Detect rank of a single column
-#' taxon_columntype(df, genus)
+#' taxon_rank(df, genus)
 #'
 #' # Detect ranks of multiple columns
-#' taxon_columntype(df, c(genus, family_name, my_order))
+#' taxon_rank(df, c(genus, family_name, my_order))
 #'
 #' # NA returned for columns with no recognisable rank pattern
-#' taxon_columntype(df, c(genus, site))
+#' taxon_rank(df, c(genus, site))
 #'
 #' @export
 
@@ -82,8 +82,8 @@
 
 
 
-taxon_columntype <- function(data, columns) {
-  
+taxon_rank <- function(data, columns) {
+
   col_sub <- substitute(columns)
   columns <- if (is.call(col_sub) && deparse(col_sub[[1]]) == "c") {
     vapply(as.list(col_sub)[-1], function(x) gsub('^"|"$', '', deparse(x)), character(1))
@@ -93,12 +93,12 @@ taxon_columntype <- function(data, columns) {
   } else {
     gsub('^"|"$', '', deparse(col_sub))
   }
-  
+
   strong_patterns <- c(
     "scientificname", "species", "genus", "family",
     "order", "class", "phylum", "kingdom", "taxon"
   )
-  
+
   make_weak_patterns <- function(patterns, min_n = 3, max_n = 5) {
     unique(unlist(lapply(patterns, function(p) {
       n <- nchar(p)
@@ -111,16 +111,16 @@ taxon_columntype <- function(data, columns) {
       ))
     })))
   }
-  
+
   weak_patterns <- make_weak_patterns(strong_patterns)
   col_lower     <- tolower(columns)
   col_rank      <- setNames(rep(NA_character_, length(columns)), columns)
-  
+
   for (pat in strong_patterns) {
     hits <- columns[stringr::str_detect(col_lower, pat) & is.na(col_rank)]
     if (length(hits)) col_rank[hits] <- pat
   }
-  
+
   unassigned <- columns[is.na(col_rank)]
   if (length(unassigned)) {
     for (col in unassigned) {
@@ -130,6 +130,6 @@ taxon_columntype <- function(data, columns) {
       if (length(hit)) col_rank[col] <- hit[1]
     }
   }
-  
+
   col_rank
 }

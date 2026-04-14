@@ -158,7 +158,9 @@ decimal degrees before filtering.</p></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"rnaturalearth"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"sf"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  id  <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span></span>
 <span class="r-in"><span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35.6</span>, <span class="fl">34.0</span>, <span class="fl">51.5</span>, <span class="fl">48.8</span><span class="op">)</span>,</span></span>
@@ -180,7 +182,23 @@ decimal degrees before filtering.</p></div>
 <span class="r-in"><span><span class="co"># Drop NA rows before filtering</span></span></span>
 <span class="r-in"><span><span class="fu">latlong_region</span><span class="op">(</span><span class="va">df</span>, latitude <span class="op">=</span> <span class="va">lat</span>, longitude <span class="op">=</span> <span class="va">lon</span>,</span></span>
 <span class="r-in"><span>               region <span class="op">=</span> <span class="st">"Japan"</span>, drop_na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reading <a href="file://D:/TU_Research/TU%20Dissertation%20Chapter%201/dataMuseum/docs/reference/ne_50m_geography_regions_polys.zip"><span style="color: #0000BB;">ne_50m_geography_regions_polys.zip</span></a> from naturalearth...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [latlong_region] countries/territories matched: Japan</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [latlong_region] 1 row(s) retained, 3 row(s) excluded outside region(s)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reading <a href="file://D:/TU_Research/TU%20Dissertation%20Chapter%201/dataMuseum/docs/reference/ne_50m_geography_regions_polys.zip"><span style="color: #0000BB;">ne_50m_geography_regions_polys.zip</span></a> from naturalearth...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [latlong_region] countries/territories matched: Japan</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [latlong_region] 1 row(s) retained, 3 row(s) excluded outside region(s)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reading <a href="file://D:/TU_Research/TU%20Dissertation%20Chapter%201/dataMuseum/docs/reference/ne_50m_geography_regions_polys.zip"><span style="color: #0000BB;">ne_50m_geography_regions_polys.zip</span></a> from naturalearth...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [latlong_region] countries/territories matched: Vatican, Jersey, Guernsey, Isle of Man, United Kingdom, Ukraine, Switzerland, Sweden, Spain, Slovakia, Slovenia, Serbia, San Marino, Russian Federation, Romania, Portugal, Poland, Norway, Netherlands, Montenegro, Moldova, Monaco, Malta, North Macedonia, Luxembourg, Lithuania, Liechtenstein, Latvia, Kosovo, Italy, Ireland, Iceland, Hungary, Greece, Germany, France, Åland Islands, Finland, Estonia, Faeroe Islands, Denmark, Czech Republic, Croatia, Bulgaria, Bosnia and Herzegovina, Belgium, Belarus, Austria, Andorra, Albania, Uzbekistan, Turkmenistan, Turkey, Tajikistan, Kyrgyzstan, Kazakhstan, Georgia, Greenland, Northern Cyprus, Cyprus, Azerbaijan, Armenia</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [latlong_region] 2 row(s) retained, 2 row(s) excluded outside region(s)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [latlong_region] 0 NA row(s) removed</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reading <a href="file://D:/TU_Research/TU%20Dissertation%20Chapter%201/dataMuseum/docs/reference/ne_50m_geography_regions_polys.zip"><span style="color: #0000BB;">ne_50m_geography_regions_polys.zip</span></a> from naturalearth...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [latlong_region] countries/territories matched: Japan</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [latlong_region] 1 row(s) retained, 3 row(s) excluded outside region(s)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   id  lat   lon</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 35.6 139.7</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

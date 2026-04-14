@@ -121,7 +121,9 @@ df <- data.frame(
   species = c("Homo sapiens", "Panthera leo", "Canis lupus")
 )
 
-\dontrun{
+\donttest{
+if (requireNamespace("rgbif", quietly = TRUE) &&
+    requireNamespace("taxize", quietly = TRUE)) {
 # Check spelling and report suggestions without applying corrections
 taxon_spellcheck(df, column = species)
 
@@ -143,6 +145,7 @@ df2 <- data.frame(
   genus   = c("Homo", "Panthara")
 )
 taxon_spellcheck(df2, column = c(species, genus))
+}
 }
 
 }

@@ -64,8 +64,8 @@ reference:
       - taxon_cite
       - taxon_cleaner
       - taxon_column
-      - taxon_columntype
       - taxon_combine
+      - taxon_rank
       - taxon_spellcheck
       - taxon_split
       - taxon_sort

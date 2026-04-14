@@ -70,10 +70,12 @@
 #' df$SciName_italic
 #'
 #' # Use in a ggplot2 axis with parsed labels
-#' \dontrun{
-#' ggplot(df, aes(x = SciName_italic, y = count)) +
-#'   geom_col() +
-#'   scale_x_discrete(labels = ggplot2::label_parsed)
+#' \donttest{
+#' if (requireNamespace("ggplot2", quietly = TRUE)) {
+#'   ggplot2::ggplot(df, ggplot2::aes(x = SciName_italic, y = count)) +
+#'     ggplot2::geom_col() +
+#'     ggplot2::scale_x_discrete(labels = ggplot2::label_parsed)
+#' }
 #' }
 #'
 #' # Italicize multiple columns at once
@@ -108,22 +110,22 @@
 
 
 italicize <- function(data, columns, drop_na = FALSE) {
-  
+
   col_sub <- substitute(columns)
   columns <- if (is.call(col_sub) && deparse(col_sub[[1]]) == "c") {
     vapply(as.list(col_sub)[-1], function(x) gsub('^"|"$', '', deparse(x)), character(1))
   } else {
     gsub('^"|"$', '', deparse(col_sub))
   }
-  
+
   for (col in columns) {
     if (!col %in% names(data)) next
-    
+
     if (drop_na)
       data <- data[!is.na(data[[col]]), ]
-    
+
     vals <- as.character(data[[col]])
-    
+
     italic_vals <- vapply(vals, function(x) {
       if (is.na(x)) return(NA_character_)
       canonical  <- trimws(sub("\\s*\\(.*\\)\\s*$", "", x))
@@ -134,9 +136,9 @@ italicize <- function(data, columns, drop_na = FALSE) {
         sprintf('italic("%s")', canonical)
       }
     }, character(1), USE.NAMES = FALSE)
-    
+
     data[[paste0(col, "_italic")]] <- italic_vals
   }
-  
+
   data
 }

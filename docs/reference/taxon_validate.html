@@ -227,7 +227,9 @@ validation report,</p>
 <span class="r-in"><span>  species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Homo sapiens"</span>, <span class="st">"Panthera leo"</span>, <span class="st">"Canis lupus familiaris"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"rgbif"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"taxize"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co"># Validate against both ITIS and GBIF</span></span></span>
 <span class="r-in"><span><span class="fu">taxon_validate</span><span class="op">(</span><span class="va">df</span>, column <span class="op">=</span> <span class="va">species</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -254,7 +256,66 @@ validation report,</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Enable parallel API calls</span></span></span>
 <span class="r-in"><span><span class="fu">taxon_validate</span><span class="op">(</span><span class="va">df</span>, column <span class="op">=</span> <span class="va">species</span>, parallel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 1: ITIS strict + synonym (3 valid name(s))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 1 / 3</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 3 / 3</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 3 strict, 0 synonym, 0 unmatched</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 5: authorship lookup (3 resolved names)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 3: GBIF strict (3 names)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] GBIF strict: 1 / 3</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] GBIF strict: 3 / 3</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] GBIF strict: 1 matched, 1 phantom, 1 unmatched</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 4: GBIF fuzzy (1 names)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] GBIF fuzzy: 1 / 1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 5: authorship lookup (1 resolved names)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] phantom: "Panthera leo" (n = 1) -- lacks authorship/publication data.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] unmatched: "Canis lupus familiaris" (n = 1)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] column 'species' detected rank: species -- 2 unique name(s) to process</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 1: ITIS strict + synonym (2 valid name(s))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 1 / 2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 2 / 2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 2 strict, 0 synonym, 0 unmatched</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 5: authorship lookup (2 resolved names)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] updating 2 related column(s): family, genus</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] column 'family' detected rank: family -- 2 unique name(s) to process</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 1: ITIS strict + synonym (2 valid name(s))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 1 / 2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 2 / 2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 2 strict, 0 synonym, 0 unmatched</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 5: authorship lookup (2 resolved names)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] column 'genus' detected rank: genus -- 2 unique name(s) to process</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 1: ITIS strict + synonym (2 valid name(s))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 1 / 2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 2 / 2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 2 strict, 0 synonym, 0 unmatched</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 5: authorship lookup (2 resolved names)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 1: ITIS strict + synonym (3 valid name(s))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 1 / 3</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 3 / 3</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 3 strict, 0 synonym, 0 unmatched</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 5: authorship lookup (3 resolved names)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_spellcheck] no issues found for column 'species'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 1: ITIS strict + synonym (3 valid name(s))</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>package 'future' was built under R version 4.5.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 1 / 3</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>UNRELIABLE VALUE: Future (&lt;unnamed-1&gt;) unexpectedly generated random numbers without specifying argument 'seed'. There is a risk that those random numbers are not statistically sound and the overall results might be invalid. To fix this, specify 'seed=TRUE'. This ensures that proper, parallel-safe random numbers are produced. To disable this check, use 'seed=NULL', or set option 'future.rng.onMisuse' to "ignore". [future &lt;unnamed-1&gt; (c97a480f153b025a6ca8088256b8443c-1); on c97a480f153b025a6ca8088256b8443c@TUFGOVITSKY&lt;26876&gt;]</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>package 'future' was built under R version 4.5.2</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>UNRELIABLE VALUE: Future (&lt;unnamed-2&gt;) unexpectedly generated random numbers without specifying argument 'seed'. There is a risk that those random numbers are not statistically sound and the overall results might be invalid. To fix this, specify 'seed=TRUE'. This ensures that proper, parallel-safe random numbers are produced. To disable this check, use 'seed=NULL', or set option 'future.rng.onMisuse' to "ignore". [future &lt;unnamed-2&gt; (c97a480f153b025a6ca8088256b8443c-2); on c97a480f153b025a6ca8088256b8443c@TUFGOVITSKY&lt;26876&gt;]</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>package 'future' was built under R version 4.5.2</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 3 / 3</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>UNRELIABLE VALUE: Future (&lt;unnamed-3&gt;) unexpectedly generated random numbers without specifying argument 'seed'. There is a risk that those random numbers are not statistically sound and the overall results might be invalid. To fix this, specify 'seed=TRUE'. This ensures that proper, parallel-safe random numbers are produced. To disable this check, use 'seed=NULL', or set option 'future.rng.onMisuse' to "ignore". [future &lt;unnamed-3&gt; (c97a480f153b025a6ca8088256b8443c-3); on c97a480f153b025a6ca8088256b8443c@TUFGOVITSKY&lt;26876&gt;]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] ITIS: 3 strict, 0 synonym, 0 unmatched</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_validate] pass 5: authorship lookup (3 resolved names)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  species</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           Homo sapiens</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           Panthera leo</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Canis lupus familiaris</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -137,7 +137,9 @@ df <- data.frame(
   species = c("Homo sapiens", "Panthera leo", "Canis lupus familiaris")
 )
 
-\dontrun{
+\donttest{
+if (requireNamespace("rgbif", quietly = TRUE) &&
+    requireNamespace("taxize", quietly = TRUE)) {
 # Validate against both ITIS and GBIF
 taxon_validate(df, column = species)
 
@@ -164,6 +166,7 @@ result |>
 
 # Enable parallel API calls
 taxon_validate(df, column = species, parallel = TRUE)
+}
 }
 
 }

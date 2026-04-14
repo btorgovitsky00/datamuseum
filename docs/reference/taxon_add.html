@@ -201,7 +201,9 @@ before adding new ones.</p></div>
 <span class="r-in"><span>  species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Homo sapiens"</span>, <span class="st">"Panthera leo"</span>, <span class="st">"Canis lupus"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"rgbif"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"taxize"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co"># Add a single rank</span></span></span>
 <span class="r-in"><span><span class="fu">taxon_add</span><span class="op">(</span><span class="va">df</span>, column <span class="op">=</span> <span class="va">species</span>, ranks <span class="op">=</span> <span class="va">family</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -222,7 +224,23 @@ before adding new ones.</p></div>
 <span class="r-in"><span><span class="co"># Inspect names where ranks could not be resolved</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">taxon_add</span><span class="op">(</span><span class="va">df</span>, column <span class="op">=</span> <span class="va">species</span>, ranks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">family</span>, <span class="va">order</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">result</span>, <span class="st">"add_report"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_add] added column 'family' (3 / 3 values resolved)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_add] added column 'family' (3 / 3 values resolved)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_add] added column 'order' (3 / 3 values resolved)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_add] added column 'class' (3 / 3 values resolved)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_add] added column 'family' (3 / 3 values resolved)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_add] added column 'family' (3 / 3 values resolved)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_add] added column 'genus' (3 / 3 values resolved)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_add] added column 'family' (3 / 3 values resolved)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_add] added column 'order' (3 / 3 values resolved)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_add] added column 'class' (3 / 3 values resolved)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_sort] 4 taxonomic column(s) sorted from position 1: class -&gt; order -&gt; family -&gt; species</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_add] added column 'family' (3 / 3 values resolved)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [taxon_add] added column 'order' (3 / 3 values resolved)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 4 variables: column &lt;chr&gt;, name &lt;chr&gt;, missing_rank &lt;chr&gt;, n &lt;int&gt;</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -75,7 +75,9 @@ An error is raised if no polygons match any of the supplied
 \code{region} terms across either layer.
 }
 \examples{
-\dontrun{
+\donttest{
+if (requireNamespace("rnaturalearth", quietly = TRUE) &&
+    requireNamespace("sf", quietly = TRUE)) {
 df <- data.frame(
   id  = 1:4,
   lat = c(35.6, 34.0, 51.5, 48.8),
@@ -97,6 +99,7 @@ latlong_region(df, latitude = lat, longitude = lon,
 # Drop NA rows before filtering
 latlong_region(df, latitude = lat, longitude = lon,
                region = "Japan", drop_na = TRUE)
+}
 }
 
 }

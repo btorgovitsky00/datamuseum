@@ -113,7 +113,9 @@ filtering.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
+if (requireNamespace("rnaturalearth", quietly = TRUE) &&
+    requireNamespace("sf", quietly = TRUE)) {
 df <- data.frame(
   id  = 1:4,
   lat = c(35.6, 34.0, 51.5, 48.8),
@@ -135,5 +137,21 @@ latlong_region(df, latitude = lat, longitude = lon,
 # Drop NA rows before filtering
 latlong_region(df, latitude = lat, longitude = lon,
                region = "Japan", drop_na = TRUE)
-} # }
+}
+#> Reading ne_50m_geography_regions_polys.zip from naturalearth...
+#> [latlong_region] countries/territories matched: Japan
+#> [latlong_region] 1 row(s) retained, 3 row(s) excluded outside region(s)
+#> Reading ne_50m_geography_regions_polys.zip from naturalearth...
+#> [latlong_region] countries/territories matched: Japan
+#> [latlong_region] 1 row(s) retained, 3 row(s) excluded outside region(s)
+#> Reading ne_50m_geography_regions_polys.zip from naturalearth...
+#> [latlong_region] countries/territories matched: Vatican, Jersey, Guernsey, Isle of Man, United Kingdom, Ukraine, Switzerland, Sweden, Spain, Slovakia, Slovenia, Serbia, San Marino, Russian Federation, Romania, Portugal, Poland, Norway, Netherlands, Montenegro, Moldova, Monaco, Malta, North Macedonia, Luxembourg, Lithuania, Liechtenstein, Latvia, Kosovo, Italy, Ireland, Iceland, Hungary, Greece, Germany, France, Åland Islands, Finland, Estonia, Faeroe Islands, Denmark, Czech Republic, Croatia, Bulgaria, Bosnia and Herzegovina, Belgium, Belarus, Austria, Andorra, Albania, Uzbekistan, Turkmenistan, Turkey, Tajikistan, Kyrgyzstan, Kazakhstan, Georgia, Greenland, Northern Cyprus, Cyprus, Azerbaijan, Armenia
+#> [latlong_region] 2 row(s) retained, 2 row(s) excluded outside region(s)
+#> [latlong_region] 0 NA row(s) removed
+#> Reading ne_50m_geography_regions_polys.zip from naturalearth...
+#> [latlong_region] countries/territories matched: Japan
+#> [latlong_region] 1 row(s) retained, 3 row(s) excluded outside region(s)
+#>   id  lat   lon
+#> 1  1 35.6 139.7
+# }
 ```

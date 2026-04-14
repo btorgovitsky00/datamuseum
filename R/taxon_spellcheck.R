@@ -116,7 +116,9 @@
 #'   species = c("Homo sapiens", "Panthera leo", "Canis lupus")
 #' )
 #'
-#' \dontrun{
+#' \donttest{
+#' if (requireNamespace("rgbif", quietly = TRUE) &&
+#'     requireNamespace("taxize", quietly = TRUE)) {
 #' # Check spelling and report suggestions without applying corrections
 #' taxon_spellcheck(df, column = species)
 #'
@@ -139,6 +141,7 @@
 #' )
 #' taxon_spellcheck(df2, column = c(species, genus))
 #' }
+#' }
 #'
 #' @export
 
@@ -151,14 +154,14 @@ taxon_spellcheck <- function(data, column, source = "both", update = FALSE,
                              parallel = FALSE,
                              max_synonym_depth = 3,
                              validation_report = NULL) {
-  
+
   col_sub   <- substitute(column)
   col_names <- if (is.call(col_sub) && deparse(col_sub[[1]]) == "c") {
     vapply(as.list(col_sub)[-1], function(x) gsub('^"|"$', '', deparse(x)), character(1))
   } else {
     gsub('^"|"$', '', deparse(col_sub))
   }
-  
+
   # --- Run taxon_validate internally if no report provided ---
   if (is.null(validation_report)) {
     message("[taxon_spellcheck] no validation_report provided -- running taxon_validate internally")
@@ -172,21 +175,21 @@ taxon_spellcheck <- function(data, column, source = "both", update = FALSE,
     validation_report <- attr(data, "validation_report")
     message("[taxon_spellcheck] taxon_validate complete -- applying corrections")
   }
-  
+
   all_reports <- list()
-  
+
   for (col_name in col_names) {
-    
+
     if (!col_name %in% names(data)) {
       message(sprintf("[taxon_spellcheck] column '%s' not found -- skipped", col_name))
       next
     }
-    
+
     vals           <- as.character(data[[col_name]])
     vals_canonical <- trimws(sub("\\s*\\(.*\\)\\s*$", "", vals))
-    
+
     col_report <- validation_report[validation_report$column == col_name, ]
-    
+
     if (nrow(col_report) == 0) {
       message(sprintf("[taxon_spellcheck] no issues found for column '%s'", col_name))
       all_reports[[col_name]] <- tibble::tibble(
@@ -197,17 +200,17 @@ taxon_spellcheck <- function(data, column, source = "both", update = FALSE,
       )
       next
     }
-    
+
     # Names with suggestions from taxon_validate
     has_suggestion <- col_report[
       col_report$status %in% c("misspelling", "phantom") &
         !is.na(col_report$accepted), ]
-    
+
     # Names requiring manual review
     no_suggestion <- col_report[
       col_report$status %in% c("unmatched", "phantom") &
         (is.na(col_report$accepted) | col_report$accepted == ""), ]
-    
+
     if (nrow(has_suggestion) > 0) {
       message(sprintf("[taxon_spellcheck] %d correction(s) identified for column '%s':",
                       nrow(has_suggestion), col_name))
@@ -218,7 +221,7 @@ taxon_spellcheck <- function(data, column, source = "both", update = FALSE,
                         row$original, canonical_suggestion, row$n, row$status))
       }
     }
-    
+
     if (nrow(no_suggestion) > 0) {
       message(sprintf("[taxon_spellcheck] %d name(s) in '%s' require manual review:",
                       nrow(no_suggestion), col_name))
@@ -227,11 +230,11 @@ taxon_spellcheck <- function(data, column, source = "both", update = FALSE,
                         no_suggestion$original[i], no_suggestion$n[i],
                         no_suggestion$status[i]))
     }
-    
+
     if (nrow(has_suggestion) == 0 && nrow(no_suggestion) == 0)
       message(sprintf("[taxon_spellcheck] no corrections identified for column '%s'",
                       col_name))
-    
+
     # --- Build spellcheck report for this column ---
     report_rows <- dplyr::bind_rows(
       if (nrow(has_suggestion) > 0) {
@@ -257,7 +260,7 @@ taxon_spellcheck <- function(data, column, source = "both", update = FALSE,
         )
       } else tibble::tibble()
     )
-    
+
     if (nrow(report_rows) == 0) {
       report_rows <- tibble::tibble(
         column     = character(), original   = character(),
@@ -266,36 +269,36 @@ taxon_spellcheck <- function(data, column, source = "both", update = FALSE,
         status     = character()
       )
     }
-    
+
     all_reports[[col_name]] <- report_rows
-    
+
     # ============================================================
     # Apply corrections using match() for reliable lookup
     # Both keys and values are canonical only (authorship stripped)
     # ============================================================
     if (update && nrow(has_suggestion) > 0) {
-      
+
       orig_canonical <- trimws(sub("\\s*\\(.*\\)\\s*$", "", has_suggestion$original))
       acc_canonical  <- trimws(sub("\\s*\\(.*\\)\\s*$", "", has_suggestion$accepted))
-      
+
       corrected  <- vals_canonical
       to_correct <- vals_canonical %in% orig_canonical
-      
+
       message(sprintf("[taxon_spellcheck] %d row(s) to correct in '%s'",
                       sum(to_correct), col_name))
-      
+
       idx <- match(vals_canonical[to_correct], orig_canonical)
       corrected[to_correct] <- acc_canonical[idx]
-      
+
       na_introduced <- sum(is.na(corrected[to_correct]))
       if (na_introduced > 0)
         message(sprintf("[taxon_spellcheck] WARNING: %d NA(s) introduced -- check alignment",
                         na_introduced))
-      
+
       data[[col_name]] <- corrected
       message(sprintf("[taxon_spellcheck] %d unique name(s) corrected in '%s' across %d rows",
                       nrow(has_suggestion), col_name, sum(to_correct)))
-      
+
       # --- Update genus column for corrected rows ---
       # Derive genus from first word of corrected binomial
       # Only fires when corrections were applied to binomial names
@@ -304,10 +307,10 @@ taxon_spellcheck <- function(data, column, source = "both", update = FALSE,
         rank_cols  <- unlist(lapply(detected, names))
         genus_cols <- rank_cols[grepl("genus", tolower(rank_cols))]
         genus_cols <- setdiff(genus_cols, col_name)
-        
+
         corrected_canonical <- as.character(data[[col_name]])
         is_binomial         <- grepl("^[A-Z][a-z]+ [a-z]+", corrected_canonical)
-        
+
         for (g_col in genus_cols) {
           if (!g_col %in% names(data)) next
           current     <- as.character(data[[g_col]])
@@ -323,11 +326,11 @@ taxon_spellcheck <- function(data, column, source = "both", update = FALSE,
           }
         }
       }
-      
-      
+
+
     }
   }
-  
+
   spellcheck_report <- dplyr::bind_rows(all_reports)
   if (nrow(spellcheck_report) == 0) {
     spellcheck_report <- tibble::tibble(
@@ -337,7 +340,7 @@ taxon_spellcheck <- function(data, column, source = "both", update = FALSE,
       status     = character()
     )
   }
-  
+
   attr(data, "spellcheck_report") <- spellcheck_report
   data
 }

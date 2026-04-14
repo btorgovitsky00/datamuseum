@@ -83,7 +83,7 @@ taxon_column(df, output = "list")
 
 }
 \seealso{
-\code{\link{taxon_columntype}} for detecting the rank of specific columns
+\code{\link{taxon_rank}} for detecting the rank of specific columns
 by name,
 
 \code{\link{taxon_add}} for appending higher taxonomic rank columns,

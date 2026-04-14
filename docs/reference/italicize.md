@@ -96,11 +96,14 @@ df$SciName_italic
 #> [3] "italic(\"Canis lupus\")" 
 
 # Use in a ggplot2 axis with parsed labels
-if (FALSE) { # \dontrun{
-ggplot(df, aes(x = SciName_italic, y = count)) +
-  geom_col() +
-  scale_x_discrete(labels = ggplot2::label_parsed)
-} # }
+# \donttest{
+if (requireNamespace("ggplot2", quietly = TRUE)) {
+  ggplot2::ggplot(df, ggplot2::aes(x = SciName_italic, y = count)) +
+    ggplot2::geom_col() +
+    ggplot2::scale_x_discrete(labels = ggplot2::label_parsed)
+}
+
+# }
 
 # Italicize multiple columns at once
 df2 <- data.frame(

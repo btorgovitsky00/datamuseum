@@ -77,7 +77,7 @@ sorting.
 
 ## See also
 
-[`taxon_columntype`](https://btorgovitsky00.github.io/datamuseum/reference/taxon_columntype.md)
+[`taxon_rank`](https://btorgovitsky00.github.io/datamuseum/reference/taxon_rank.md)
 for detecting the rank of specific columns by name,
 
 [`taxon_add`](https://btorgovitsky00.github.io/datamuseum/reference/taxon_add.md)

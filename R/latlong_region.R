@@ -73,7 +73,9 @@
 #' decimal degrees before filtering.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' if (requireNamespace("rnaturalearth", quietly = TRUE) &&
+#'     requireNamespace("sf", quietly = TRUE)) {
 #' df <- data.frame(
 #'   id  = 1:4,
 #'   lat = c(35.6, 34.0, 51.5, 48.8),
@@ -96,6 +98,7 @@
 #' latlong_region(df, latitude = lat, longitude = lon,
 #'                region = "Japan", drop_na = TRUE)
 #' }
+#' }
 #'
 #' @export
 
@@ -106,20 +109,20 @@
 
 latlong_region <- function(data, latitude, longitude, region, dataset = "auto",
                            drop_na = FALSE) {
-  
+
   lat_col <- gsub('^"|"$', '', deparse(substitute(latitude)))
   lon_col <- gsub('^"|"$', '', deparse(substitute(longitude)))
-  
+
   if (!lat_col %in% names(data))
     stop(paste0("[latlong_region] latitude column not found -> ",  lat_col))
   if (!lon_col %in% names(data))
     stop(paste0("[latlong_region] longitude column not found -> ", lon_col))
-  
+
   if (!requireNamespace("rnaturalearth", quietly = TRUE))
     stop("Package 'rnaturalearth' is required. Install with: install.packages('rnaturalearth')")
   if (!requireNamespace("sf", quietly = TRUE))
     stop("Package 'sf' is required. Install with: install.packages('sf')")
-  
+
   # --- Optional NA removal ---
   na_removed <- 0
   if (drop_na) {
@@ -128,14 +131,14 @@ latlong_region <- function(data, latitude, longitude, region, dataset = "auto",
     data       <- data[keep, , drop = FALSE]
     message(sprintf("[latlong_region] %d NA row(s) removed", na_removed))
   }
-  
+
   # --- Load polygon layers ---
   # Layer 1: countries — land territories, regions, continents
   countries_sf <- tryCatch(
     rnaturalearth::ne_countries(scale = "medium", returnclass = "sf"),
     error = function(e) NULL
   )
-  
+
   # Layer 2: geographic regions — named seas, bays, gulfs, straits, ocean basins
   geo_regions_sf <- tryCatch(
     rnaturalearth::ne_download(scale = "medium",
@@ -144,10 +147,10 @@ latlong_region <- function(data, latitude, longitude, region, dataset = "auto",
                                returnclass = "sf", load = TRUE),
     error = function(e) NULL
   )
-  
+
   # --- Match region terms against all available layers ---
   matched_sf_list <- list()
-  
+
   # Countries
   if (!is.null(countries_sf)) {
     search_fields <- c("name", "name_long", "sovereignt", "admin",
@@ -165,7 +168,7 @@ latlong_region <- function(data, latitude, longitude, region, dataset = "auto",
                       paste(unique(matched_countries$name_long), collapse = ", ")))
     }
   }
-  
+
   # Geographic regions — seas, bays, gulfs, straits, ocean basins
   if (!is.null(geo_regions_sf)) {
     geo_fields <- c("name", "name_alt", "featurecla", "scalerank")
@@ -182,15 +185,15 @@ latlong_region <- function(data, latitude, longitude, region, dataset = "auto",
                       paste(unique(matched_geo$name), collapse = ", ")))
     }
   }
-  
+
   if (length(matched_sf_list) == 0)
     stop(paste0("[latlong_region] no matching regions found -> ",
                 paste(region, collapse = ", ")))
-  
+
   # --- Combine all matched polygons ---
   all_geoms <- do.call(c, matched_sf_list)
   region_sf <- sf::st_as_sf(sf::st_union(all_geoms))
-  
+
   # --- Convert points to sf ---
   points_sf <- sf::st_as_sf(
     dplyr::filter(data, !is.na(.data[[lat_col]]) & !is.na(.data[[lon_col]])),
@@ -198,17 +201,17 @@ latlong_region <- function(data, latitude, longitude, region, dataset = "auto",
     crs    = 4326,
     remove = FALSE
   )
-  
+
   # Ensure CRS matches
   points_sf <- sf::st_transform(points_sf, sf::st_crs(region_sf))
-  
+
   # --- Spatial filter ---
   inside_idx  <- sf::st_within(points_sf, region_sf, sparse = FALSE)
   inside_rows <- apply(inside_idx, 1, any)
   result      <- data[inside_rows, , drop = FALSE]
-  
+
   message(sprintf("[latlong_region] %d row(s) retained, %d row(s) excluded outside region(s)",
                   nrow(result), nrow(data) - nrow(result)))
-  
+
   result
 }

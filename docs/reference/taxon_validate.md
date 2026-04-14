@@ -198,7 +198,9 @@ df <- data.frame(
   species = c("Homo sapiens", "Panthera leo", "Canis lupus familiaris")
 )
 
-if (FALSE) { # \dontrun{
+# \donttest{
+if (requireNamespace("rgbif", quietly = TRUE) &&
+    requireNamespace("taxize", quietly = TRUE)) {
 # Validate against both ITIS and GBIF
 taxon_validate(df, column = species)
 
@@ -225,5 +227,64 @@ result |>
 
 # Enable parallel API calls
 taxon_validate(df, column = species, parallel = TRUE)
-} # }
+}
+#> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (3 valid name(s))
+#> [taxon_validate] ITIS: 1 / 3
+#> [taxon_validate] ITIS: 3 / 3
+#> [taxon_validate] ITIS: 3 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (3 resolved names)
+#> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process
+#> [taxon_validate] pass 3: GBIF strict (3 names)
+#> [taxon_validate] GBIF strict: 1 / 3
+#> [taxon_validate] GBIF strict: 3 / 3
+#> [taxon_validate] GBIF strict: 1 matched, 1 phantom, 1 unmatched
+#> [taxon_validate] pass 4: GBIF fuzzy (1 names)
+#> [taxon_validate] GBIF fuzzy: 1 / 1
+#> [taxon_validate] pass 5: authorship lookup (1 resolved names)
+#> [taxon_validate] phantom: "Panthera leo" (n = 1) -- lacks authorship/publication data.
+#> [taxon_validate] unmatched: "Canis lupus familiaris" (n = 1)
+#> [taxon_validate] column 'species' detected rank: species -- 2 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (2 valid name(s))
+#> [taxon_validate] ITIS: 1 / 2
+#> [taxon_validate] ITIS: 2 / 2
+#> [taxon_validate] ITIS: 2 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (2 resolved names)
+#> [taxon_validate] updating 2 related column(s): family, genus
+#> [taxon_validate] column 'family' detected rank: family -- 2 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (2 valid name(s))
+#> [taxon_validate] ITIS: 1 / 2
+#> [taxon_validate] ITIS: 2 / 2
+#> [taxon_validate] ITIS: 2 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (2 resolved names)
+#> [taxon_validate] column 'genus' detected rank: genus -- 2 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (2 valid name(s))
+#> [taxon_validate] ITIS: 1 / 2
+#> [taxon_validate] ITIS: 2 / 2
+#> [taxon_validate] ITIS: 2 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (2 resolved names)
+#> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (3 valid name(s))
+#> [taxon_validate] ITIS: 1 / 3
+#> [taxon_validate] ITIS: 3 / 3
+#> [taxon_validate] ITIS: 3 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (3 resolved names)
+#> [taxon_spellcheck] no issues found for column 'species'
+#> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (3 valid name(s))
+#> Warning: package 'future' was built under R version 4.5.2
+#> [taxon_validate] ITIS: 1 / 3
+#> Warning: UNRELIABLE VALUE: Future (<unnamed-1>) unexpectedly generated random numbers without specifying argument 'seed'. There is a risk that those random numbers are not statistically sound and the overall results might be invalid. To fix this, specify 'seed=TRUE'. This ensures that proper, parallel-safe random numbers are produced. To disable this check, use 'seed=NULL', or set option 'future.rng.onMisuse' to "ignore". [future <unnamed-1> (c97a480f153b025a6ca8088256b8443c-1); on c97a480f153b025a6ca8088256b8443c@TUFGOVITSKY<26876>]
+#> Warning: package 'future' was built under R version 4.5.2
+#> Warning: UNRELIABLE VALUE: Future (<unnamed-2>) unexpectedly generated random numbers without specifying argument 'seed'. There is a risk that those random numbers are not statistically sound and the overall results might be invalid. To fix this, specify 'seed=TRUE'. This ensures that proper, parallel-safe random numbers are produced. To disable this check, use 'seed=NULL', or set option 'future.rng.onMisuse' to "ignore". [future <unnamed-2> (c97a480f153b025a6ca8088256b8443c-2); on c97a480f153b025a6ca8088256b8443c@TUFGOVITSKY<26876>]
+#> Warning: package 'future' was built under R version 4.5.2
+#> [taxon_validate] ITIS: 3 / 3
+#> Warning: UNRELIABLE VALUE: Future (<unnamed-3>) unexpectedly generated random numbers without specifying argument 'seed'. There is a risk that those random numbers are not statistically sound and the overall results might be invalid. To fix this, specify 'seed=TRUE'. This ensures that proper, parallel-safe random numbers are produced. To disable this check, use 'seed=NULL', or set option 'future.rng.onMisuse' to "ignore". [future <unnamed-3> (c97a480f153b025a6ca8088256b8443c-3); on c97a480f153b025a6ca8088256b8443c@TUFGOVITSKY<26876>]
+#> [taxon_validate] ITIS: 3 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (3 resolved names)
+#>                  species
+#> 1           Homo sapiens
+#> 2           Panthera leo
+#> 3 Canis lupus familiaris
+# }
 ```

@@ -299,7 +299,7 @@ catalog numbers removed and specimen lots duplicated, can be found at:
 
 taxon_column(museum, output = "list")
 
-taxon_columntype(museum, c(Family, Genus, SciName))
+taxon_rank(museum, c(Family, Genus, SciName))
 
 museum_clean <- taxon_cleaner(museum, SciName, in_place = TRUE, drop_na = TRUE) #2222 Observations
 

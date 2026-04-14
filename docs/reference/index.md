@@ -37,10 +37,10 @@ Functions for managing taxonomic data.
   : Clean taxonomic name formatting
 - [`taxon_column()`](https://btorgovitsky00.github.io/datamuseum/reference/taxon_column.md)
   : Identify taxonomic columns
-- [`taxon_columntype()`](https://btorgovitsky00.github.io/datamuseum/reference/taxon_columntype.md)
-  : Detect the taxonomic rank of a column
 - [`taxon_combine()`](https://btorgovitsky00.github.io/datamuseum/reference/taxon_combine.md)
   : Combine genus and epithet columns into a binomial name
+- [`taxon_rank()`](https://btorgovitsky00.github.io/datamuseum/reference/taxon_rank.md)
+  : Detect the taxonomic rank of a column
 - [`taxon_spellcheck()`](https://btorgovitsky00.github.io/datamuseum/reference/taxon_spellcheck.md)
   : Check and correct taxonomic name spelling
 - [`taxon_split()`](https://btorgovitsky00.github.io/datamuseum/reference/taxon_split.md)

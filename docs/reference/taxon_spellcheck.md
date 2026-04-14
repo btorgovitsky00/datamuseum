@@ -191,7 +191,9 @@ df <- data.frame(
   species = c("Homo sapiens", "Panthera leo", "Canis lupus")
 )
 
-if (FALSE) { # \dontrun{
+# \donttest{
+if (requireNamespace("rgbif", quietly = TRUE) &&
+    requireNamespace("taxize", quietly = TRUE)) {
 # Check spelling and report suggestions without applying corrections
 taxon_spellcheck(df, column = species)
 
@@ -213,5 +215,53 @@ df2 <- data.frame(
   genus   = c("Homo", "Panthara")
 )
 taxon_spellcheck(df2, column = c(species, genus))
-} # }
+}
+#> [taxon_spellcheck] no validation_report provided -- running taxon_validate internally
+#> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (3 valid name(s))
+#> [taxon_validate] ITIS: 1 / 3
+#> [taxon_validate] ITIS: 3 / 3
+#> [taxon_validate] ITIS: 3 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (3 resolved names)
+#> [taxon_spellcheck] taxon_validate complete -- applying corrections
+#> [taxon_spellcheck] no issues found for column 'species'
+#> [taxon_spellcheck] no validation_report provided -- running taxon_validate internally
+#> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (3 valid name(s))
+#> [taxon_validate] ITIS: 1 / 3
+#> [taxon_validate] ITIS: 3 / 3
+#> [taxon_validate] ITIS: 3 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (3 resolved names)
+#> [taxon_spellcheck] taxon_validate complete -- applying corrections
+#> [taxon_spellcheck] no issues found for column 'species'
+#> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (3 valid name(s))
+#> [taxon_validate] ITIS: 1 / 3
+#> [taxon_validate] ITIS: 3 / 3
+#> [taxon_validate] ITIS: 3 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (3 resolved names)
+#> [taxon_spellcheck] no issues found for column 'species'
+#> [taxon_spellcheck] no validation_report provided -- running taxon_validate internally
+#> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (3 valid name(s))
+#> [taxon_validate] ITIS: 1 / 3
+#> [taxon_validate] ITIS: 3 / 3
+#> [taxon_validate] ITIS: 3 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (3 resolved names)
+#> [taxon_spellcheck] taxon_validate complete -- applying corrections
+#> [taxon_spellcheck] no issues found for column 'species'
+#> [taxon_spellcheck] no validation_report provided -- running taxon_validate internally
+#> [taxon_validate] column 'species' detected rank: species -- 2 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (2 valid name(s))
+#> [taxon_validate] ITIS: 1 / 2
+#> [taxon_validate] ITIS: 2 / 2
+#> [taxon_validate] ITIS: 2 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (2 resolved names)
+#> [taxon_spellcheck] taxon_validate complete -- applying corrections
+#> [taxon_spellcheck] no issues found for column 'species'
+#> [taxon_spellcheck] no issues found for column 'genus'
+#>        species    genus
+#> 1 Homo sapiens     Homo
+#> 2 Panthera leo Panthara
+# }
 ```

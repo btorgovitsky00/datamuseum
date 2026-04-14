@@ -5,34 +5,42 @@ Depends: R (>= 4.1.0)
 Authors@R: c(
     person("Bryson Y.", "Torgovitsky", email = "torgovitsky.yerik.bryson.q7@dc.tohoku.ac.jp", role = c("aut", "cre")),
     person("Cheryl L.", "Ames", email = "ames.cheryl.lynn.a1@tohoku.ac.jp", role = "aut"))
-Description: Functions for cleaning, validating, and standardizing 
-    coordinate and taxonomic data in biological museum data sets.
+Description: A management tool for specimen data ranging from public museum
+    collections to private specimen repositories. The main types of data
+    addressed are spatial (coordinates, longitude and latitude) and taxonomic
+    data (ranking and nomenclature validity) with some additional options for
+    user-determined dataset refinement. Combined or individual calls to the
+    online repositories of the Global Biodiversity Information Facility (GBIF)
+    via 'rgbif' and the Integrated Taxonomic Information System (ITIS) via
+    'taxize' enable built-in taxonomic checks.
 URL: https://btorgovitsky00.github.io/datamuseum/
 BugReports: https://github.com/btorgovitsky00/datamuseum/issues/
 License: MIT + file LICENSE  
 Encoding: UTF-8
 Imports:
-    stringr,
     dplyr,
-    tibble,
-    tools,
-    rlang
-Suggests:
+    stringr,
     rgbif,
     taxize,
     memoise,
     cachem,
     rnaturalearth,
     sf,
-    R.utils,
     furrr,
     future,
+    tibble,
+    tools,
+    stats,
+    utils,
+    rlang
+Suggests:
+    R.utils,
+    ggplot2,
     knitr,
     rmarkdown,
     tidyr,
     lubridate,
     googlesheets4,
-    ggplot2,
     maps,
     rnaturalearthdata
 LazyData: true

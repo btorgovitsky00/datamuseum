@@ -171,7 +171,9 @@ df <- data.frame(
   species = c("Homo sapiens", "Panthera leo", "Canis lupus")
 )
 
-if (FALSE) { # \dontrun{
+# \donttest{
+if (requireNamespace("rgbif", quietly = TRUE) &&
+    requireNamespace("taxize", quietly = TRUE)) {
 # Add a single rank
 taxon_add(df, column = species, ranks = family)
 
@@ -192,5 +194,21 @@ taxon_add(df, column = species, ranks = c(family, order, class),
 # Inspect names where ranks could not be resolved
 result <- taxon_add(df, column = species, ranks = c(family, order))
 attr(result, "add_report")
-} # }
+}
+#> [taxon_add] added column 'family' (3 / 3 values resolved)
+#> [taxon_add] added column 'family' (3 / 3 values resolved)
+#> [taxon_add] added column 'order' (3 / 3 values resolved)
+#> [taxon_add] added column 'class' (3 / 3 values resolved)
+#> [taxon_add] added column 'family' (3 / 3 values resolved)
+#> [taxon_add] added column 'family' (3 / 3 values resolved)
+#> [taxon_add] added column 'genus' (3 / 3 values resolved)
+#> [taxon_add] added column 'family' (3 / 3 values resolved)
+#> [taxon_add] added column 'order' (3 / 3 values resolved)
+#> [taxon_add] added column 'class' (3 / 3 values resolved)
+#> [taxon_sort] 4 taxonomic column(s) sorted from position 1: class -> order -> family -> species
+#> [taxon_add] added column 'family' (3 / 3 values resolved)
+#> [taxon_add] added column 'order' (3 / 3 values resolved)
+#> # A tibble: 0 × 4
+#> # ℹ 4 variables: column <chr>, name <chr>, missing_rank <chr>, n <int>
+# }
 ```

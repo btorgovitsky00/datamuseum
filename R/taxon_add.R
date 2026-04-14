@@ -109,7 +109,9 @@
 #'   species = c("Homo sapiens", "Panthera leo", "Canis lupus")
 #' )
 #'
-#' \dontrun{
+#' \donttest{
+#' if (requireNamespace("rgbif", quietly = TRUE) &&
+#'     requireNamespace("taxize", quietly = TRUE)) {
 #' # Add a single rank
 #' taxon_add(df, column = species, ranks = family)
 #'
@@ -131,6 +133,7 @@
 #' result <- taxon_add(df, column = species, ranks = c(family, order))
 #' attr(result, "add_report")
 #' }
+#' }
 #'
 #' @export
 
@@ -141,18 +144,18 @@
 
 taxon_add <- function(data, column, ranks, source = "both",
                       author_year = FALSE, sort = FALSE, drop_na = FALSE) {
-  
+
   col_name <- gsub('^"|"$', '', deparse(substitute(column)))
-  
+
   rank_sub <- substitute(ranks)
   ranks <- if (is.call(rank_sub) && deparse(rank_sub[[1]]) == "c") {
     vapply(as.list(rank_sub)[-1], function(x) gsub('^"|"$', '', deparse(x)), character(1))
   } else {
     gsub('^"|"$', '', deparse(rank_sub))
   }
-  
+
   source <- match.arg(tolower(source), c("gbif", "itis", "both"))
-  
+
   supported_ranks <- c("genus", "family", "order", "class", "phylum", "kingdom")
   unsupported     <- ranks[!ranks %in% supported_ranks]
   if (length(unsupported) > 0)
@@ -161,7 +164,7 @@ taxon_add <- function(data, column, ranks, source = "both",
       paste(unsupported, collapse = ", "),
       paste(supported_ranks, collapse = ", ")
     ))
-  
+
   if (source %in% c("gbif", "both")) {
     if (!requireNamespace("rgbif", quietly = TRUE))
       stop("Package 'rgbif' is required. Install with: install.packages('rgbif')")
@@ -174,7 +177,7 @@ taxon_add <- function(data, column, ranks, source = "both",
     stop("Package 'memoise' is required. Install with: install.packages('memoise')")
   if (!requireNamespace("cachem",  quietly = TRUE))
     stop("Package 'cachem' is required. Install with: install.packages('cachem')")
-  
+
   if (sort) {
     detected   <- taxon_column(data, output = "list")
     duplicates <- Filter(function(x) length(x) > 1, detected)
@@ -194,13 +197,13 @@ taxon_add <- function(data, column, ranks, source = "both",
       ))
     }
   }
-  
+
   cache_dir <- tools::R_user_dir("taxon_add", which = "cache")
   dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
-  
+
   safe_get <- function(expr, default = NULL)
     tryCatch(expr, error = function(e) default)
-  
+
   gbif_author <- if (author_year && source %in% c("gbif", "both")) {
     if (!requireNamespace("rgbif", quietly = TRUE))
       stop("Package 'rgbif' is required. Install with: install.packages('rgbif')")
@@ -253,7 +256,7 @@ taxon_add <- function(data, column, ranks, source = "both",
         canonical
     }, cache = gbif_author_cache)
   }
-  
+
   gbif_lookup <- if (source %in% c("gbif", "both")) {
     gbif_cache <- cachem::cache_disk(file.path(cache_dir, "gbif"))
     memoise::memoise(function(name) {
@@ -270,7 +273,7 @@ taxon_add <- function(data, column, ranks, source = "both",
       list(backbone = as.list(res), parents = parents)
     }, cache = gbif_cache)
   }
-  
+
   itis_lookup <- if (source %in% c("itis", "both")) {
     itis_cache <- cachem::cache_disk(file.path(cache_dir, "itis"))
     memoise::memoise(function(name) {
@@ -284,11 +287,11 @@ taxon_add <- function(data, column, ranks, source = "both",
       ))
     }, cache = itis_cache)
   }
-  
+
   resolve_rank <- function(name, rank) {
-    
+
     canonical_val <- NULL
-    
+
     if (!is.null(gbif_lookup)) {
       res <- gbif_lookup(name)
       if (!is.null(res)) {
@@ -319,7 +322,7 @@ taxon_add <- function(data, column, ranks, source = "both",
         }
       }
     }
-    
+
     if (is.null(canonical_val) && !is.null(itis_lookup)) {
       cls <- itis_lookup(name)
       if (!is.null(cls) && is.list(cls) && length(cls) > 0) {
@@ -330,9 +333,9 @@ taxon_add <- function(data, column, ranks, source = "both",
         }
       }
     }
-    
+
     if (is.null(canonical_val)) return(NA_character_)
-    
+
     if (author_year && !is.null(gbif_author)) {
       with_author <- safe_get(gbif_author(canonical_val))
       if (!is.null(with_author) &&
@@ -341,10 +344,10 @@ taxon_add <- function(data, column, ranks, source = "both",
         return(with_author)
       }
     }
-    
+
     canonical_val
   }
-  
+
   if (drop_na) {
     keep    <- !is.na(data[[col_name]])
     removed <- sum(!keep)
@@ -352,10 +355,10 @@ taxon_add <- function(data, column, ranks, source = "both",
     if (removed > 0)
       message(sprintf("[taxon_add] %d NA row(s) removed from '%s'", removed, col_name))
   }
-  
+
   vals        <- as.character(data[[col_name]])
   unique_vals <- unique(vals[!is.na(vals)])
-  
+
   rank_results <- setNames(
     lapply(unique_vals, function(name) {
       setNames(
@@ -365,30 +368,30 @@ taxon_add <- function(data, column, ranks, source = "both",
     }),
     unique_vals
   )
-  
+
   # --- Build report: names where rank could not be resolved ---
   all_reports <- list()
-  
+
   for (rank in ranks) {
     col_vals <- vapply(vals, function(name) {
       if (is.na(name)) return(NA_character_)
       val <- rank_results[[name]][[rank]]
       if (is.null(val)) NA_character_ else val
     }, character(1))
-    
+
     data[[rank]] <- col_vals
-    
+
     resolved_n   <- sum(!is.na(col_vals))
     unresolved_n <- sum(is.na(col_vals) & !is.na(vals))
     message(sprintf("[taxon_add] added column '%s' (%d / %d values resolved)",
                     rank, resolved_n, length(col_vals)))
-    
+
     # Names with no resolved value for this rank
     no_result <- unique_vals[vapply(unique_vals, function(name) {
       val <- rank_results[[name]][[rank]]
       is.null(val) || is.na(val)
     }, logical(1))]
-    
+
     if (length(no_result) > 0) {
       report_rows <- tibble::tibble(
         column       = col_name,
@@ -407,10 +410,10 @@ taxon_add <- function(data, column, ranks, source = "both",
         missing_rank = character(), n = integer()
       )
     }
-    
+
     all_reports[[rank]] <- report_rows
   }
-  
+
   add_report <- dplyr::bind_rows(all_reports)
   if (nrow(add_report) == 0) {
     add_report <- tibble::tibble(
@@ -418,9 +421,9 @@ taxon_add <- function(data, column, ranks, source = "both",
       missing_rank = character(), n = integer()
     )
   }
-  
+
   if (sort) data <- taxon_sort(data)
-  
+
   attr(data, "add_report") <- add_report
   data
 }

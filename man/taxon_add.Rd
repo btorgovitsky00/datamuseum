@@ -114,7 +114,9 @@ df <- data.frame(
   species = c("Homo sapiens", "Panthera leo", "Canis lupus")
 )
 
-\dontrun{
+\donttest{
+if (requireNamespace("rgbif", quietly = TRUE) &&
+    requireNamespace("taxize", quietly = TRUE)) {
 # Add a single rank
 taxon_add(df, column = species, ranks = family)
 
@@ -135,6 +137,7 @@ taxon_add(df, column = species, ranks = c(family, order, class),
 # Inspect names where ranks could not be resolved
 result <- taxon_add(df, column = species, ranks = c(family, order))
 attr(result, "add_report")
+}
 }
 
 }
