@@ -43,10 +43,10 @@
 <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Example Workflows</h6></li>
     <li><a class="dropdown-item" href="../articles/octopodoidea_japan.html">Octopodoidea in Japan</a></li>
+    <li><a class="dropdown-item" href="../articles/github_data.html">Accessing GitHub Data</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Publications</h6></li>
     <li><a class="dropdown-item" href="../articles/publications.html">Publications</a></li>
-    <li><a class="dropdown-item" href="../articles/github_data.html">Accessing GitHub Data</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
@@ -95,10 +95,30 @@ GitHub repository for <code>datamuseum</code> will be demonstrated.</p>
 <p>Due to the size of the data, the files are stored within a .zip
 folder. Luckily, R is capable of downloading and unzipping the files
 directly from a GitHub link!</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">rawzip</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="st">"https://github.com/btorgovitsky00/datamuseum/raw/master/data-raw.zip"</span>, <span class="va">rawzip</span>, </span>
+<span>  mode <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html" class="external-link">unzip</a></span><span class="op">(</span><span class="va">rawzip</span>, exdir <span class="op">=</span> <span class="va">temp</span><span class="op">)</span></span></code></pre></div>
 <p>Each data set in <code>datamuseum</code> has two associated parent
 files: the actual original accession from the respective repository
 (denoted as “raw”), and a version with some columns removed for improved
 visibility (“trim”).</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co">#Raw Original Data</span></span>
+<span></span>
+<span><span class="va">GBIF_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">temp</span>, <span class="st">"data-raw"</span>, <span class="st">"GBIF_Octopodoidea_raw.csv"</span><span class="op">)</span><span class="op">)</span> <span class="co">#88256 Observations</span></span>
+<span></span>
+<span></span>
+<span><span class="co">#Trimmed Original Data</span></span>
+<span></span>
+<span><span class="va">GBIF_clean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">temp</span>, <span class="st">"data-raw"</span>, <span class="st">"GBIF_Octopodoidea_trim.csv"</span><span class="op">)</span><span class="op">)</span> <span class="co">#88256 Observations</span></span></code></pre></div>
 <p>The GBIF data sets were obtained and refined from the following
 occurrence download:</p>
 <blockquote>

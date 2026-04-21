@@ -39,7 +39,7 @@ Due to the size of the data, the files are stored within a .zip
 folder. Luckily, R is capable of downloading and unzipping the files
 directly from a GitHub link!
 
-```{r Access Data from GitHub, echo = FALSE, warning = FALSE}
+```{r Access Data from GitHub, eval = FALSE}
 
 rawzip <- tempfile()
 
@@ -57,7 +57,7 @@ the actual original accession from the respective repository
 (denoted as "raw"), and a version with some columns removed
 for improved visibility ("trim").
 
-```{r GBIF, echo = FALSE, warning = FALSE}
+```{r GBIF, eval = FALSE}
 
 #Raw Original Data
 

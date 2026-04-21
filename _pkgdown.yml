@@ -36,12 +36,12 @@ articles:
     navbar: Example Workflows
     contents:
       - octopodoidea_japan
+      - github_data
 
   - title: ~
     navbar: Publications
     contents:
       - publications
-      - github_data
 
 reference:
   - title: latlong

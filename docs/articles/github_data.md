@@ -20,10 +20,34 @@ Due to the size of the data, the files are stored within a .zip folder.
 Luckily, R is capable of downloading and unzipping the files directly
 from a GitHub link!
 
+``` r
+
+rawzip <- tempfile()
+
+download.file("https://github.com/btorgovitsky00/datamuseum/raw/master/data-raw.zip", rawzip, 
+  mode = "wb")
+
+temp <- tempdir()
+
+unzip(rawzip, exdir = temp)
+```
+
 Each data set in `datamuseum` has two associated parent files: the
 actual original accession from the respective repository (denoted as
 “raw”), and a version with some columns removed for improved visibility
 (“trim”).
+
+``` r
+
+#Raw Original Data
+
+GBIF_clean <- read.csv(file.path(temp, "data-raw", "GBIF_Octopodoidea_raw.csv")) #88256 Observations
+
+
+#Trimmed Original Data
+
+GBIF_clean <- read.csv(file.path(temp, "data-raw", "GBIF_Octopodoidea_trim.csv")) #88256 Observations
+```
 
 The GBIF data sets were obtained and refined from the following
 occurrence download:
