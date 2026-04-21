@@ -41,7 +41,7 @@ Appends authorship and year to one or more taxonomic name columns using
 GBIF (preferred) and ITIS (fallback) as reference sources. For each
 specified column a new \code{<column>_cite} column is appended containing
 names in the format \code{"Genus species (Author, Year)"}. Intended as
-the final step in the \code{\link{taxon_validate}} -> \code{\link{taxon_spellcheck}} 
+the final step in the \code{\link{taxon_validate}} -> \code{\link{taxon_spellcheck}}
 workflow.
 }
 \details{
@@ -96,7 +96,9 @@ df <- data.frame(
   species = c("Homo sapiens", "Panthera leo", "Canis lupus")
 )
 
-\dontrun{
+\donttest{
+if (requireNamespace("rgbif", quietly = TRUE) &&
+    requireNamespace("taxize", quietly = TRUE)) {
 # Append authorship to a single column
 taxon_cite(df, species)
 
@@ -120,6 +122,7 @@ df |>
   taxon_spellcheck(column = species, update = TRUE) |>
   taxon_add(column = species, ranks = c(family, order)) |>
   taxon_cite(columns = species)
+}
 }
 
 }

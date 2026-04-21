@@ -137,7 +137,9 @@ df <- data.frame(
   species = c("Homo sapiens", "Panthera leo", "Canis lupus")
 )
 
-if (FALSE) { # \dontrun{
+# \donttest{
+if (requireNamespace("rgbif", quietly = TRUE) &&
+    requireNamespace("taxize", quietly = TRUE)) {
 # Append authorship to a single column
 taxon_cite(df, species)
 
@@ -161,5 +163,51 @@ df |>
   taxon_spellcheck(column = species, update = TRUE) |>
   taxon_add(column = species, ranks = c(family, order)) |>
   taxon_cite(columns = species)
-} # }
+}
+#> [taxon_cite] looking up authorship for 3 unique name(s) in 'species'
+#> [taxon_cite] species: 1 / 3
+#> [taxon_cite] species: 3 / 3
+#> [taxon_cite] 'species_cite' appended -- 3 / 3 name(s) with authorship
+#> [taxon_cite] looking up authorship for 2 unique name(s) in 'genus'
+#> [taxon_cite] genus: 1 / 2
+#> [taxon_cite] genus: 2 / 2
+#> [taxon_cite] 'genus_cite' appended -- 2 / 2 name(s) with authorship
+#> [taxon_cite] looking up authorship for 2 unique name(s) in 'species'
+#> [taxon_cite] species: 1 / 2
+#> [taxon_cite] species: 2 / 2
+#> [taxon_cite] 'species_cite' appended -- 2 / 2 name(s) with authorship
+#> [taxon_cite] looking up authorship for 3 unique name(s) in 'species'
+#> [taxon_cite] species: 1 / 3
+#> [taxon_cite] species: 3 / 3
+#> [taxon_cite] 'species_cite' appended -- 3 / 3 name(s) with authorship
+#> [taxon_cite] looking up authorship for 3 unique name(s) in 'species'
+#> [taxon_cite] species: 1 / 3
+#> [taxon_cite] species: 3 / 3
+#> [taxon_cite] 'species_cite' appended -- 3 / 3 name(s) with authorship
+#> [taxon_spellcheck] no validation_report provided -- running taxon_validate internally
+#> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (3 valid name(s))
+#> [taxon_validate] ITIS: 1 / 3
+#> [taxon_validate] ITIS: 3 / 3
+#> [taxon_validate] ITIS: 3 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (3 resolved names)
+#> [taxon_validate] column 'species' detected rank: species -- 3 unique name(s) to process
+#> [taxon_validate] pass 1: ITIS strict + synonym (3 valid name(s))
+#> [taxon_validate] ITIS: 1 / 3
+#> [taxon_validate] ITIS: 3 / 3
+#> [taxon_validate] ITIS: 3 strict, 0 synonym, 0 unmatched
+#> [taxon_validate] pass 5: authorship lookup (3 resolved names)
+#> [taxon_spellcheck] taxon_validate complete -- applying corrections
+#> [taxon_spellcheck] no issues found for column 'species'
+#> [taxon_add] added column 'family' (3 / 3 values resolved)
+#> [taxon_add] added column 'order' (3 / 3 values resolved)
+#> [taxon_cite] looking up authorship for 3 unique name(s) in 'species'
+#> [taxon_cite] species: 1 / 3
+#> [taxon_cite] species: 3 / 3
+#> [taxon_cite] 'species_cite' appended -- 3 / 3 name(s) with authorship
+#>        species    family     order                  species_cite
+#> 1 Homo sapiens Hominidae  Primates Homo sapiens (Linnaeus, 1758)
+#> 2 Panthera leo   Felidae Carnivora Panthera leo (Linnaeus, 1758)
+#> 3  Canis lupus   Canidae Carnivora  Canis lupus (Linnaeus, 1758)
+# }
 ```

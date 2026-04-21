@@ -41,6 +41,7 @@ articles:
     navbar: Publications
     contents:
       - publications
+      - github_data
 
 reference:
   - title: latlong

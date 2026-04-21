@@ -5,7 +5,7 @@
 #' GBIF (preferred) and ITIS (fallback) as reference sources. For each
 #' specified column a new \code{<column>_cite} column is appended containing
 #' names in the format \code{"Genus species (Author, Year)"}. Intended as
-#' the final step in the \code{\link{taxon_validate}} -> \code{\link{taxon_spellcheck}} 
+#' the final step in the \code{\link{taxon_validate}} -> \code{\link{taxon_spellcheck}}
 #' workflow.
 #'
 #' @param data A data frame.
@@ -93,13 +93,15 @@
 #'
 #' \code{\link{italicize}} for formatting cited names for \pkg{ggplot2}
 #' display as the final step in the workflow.
-#' 
+#'
 #' @examples
 #' df <- data.frame(
 #'   species = c("Homo sapiens", "Panthera leo", "Canis lupus")
 #' )
 #'
-#' \dontrun{
+#' \donttest{
+#' if (requireNamespace("rgbif", quietly = TRUE) &&
+#'     requireNamespace("taxize", quietly = TRUE)) {
 #' # Append authorship to a single column
 #' taxon_cite(df, species)
 #'
@@ -124,6 +126,7 @@
 #'   taxon_add(column = species, ranks = c(family, order)) |>
 #'   taxon_cite(columns = species)
 #' }
+#' }
 #'
 #' @export
 
@@ -138,16 +141,16 @@
 
 
 taxon_cite <- function(data, columns, source = "both", drop_na = FALSE) {
-  
+
   col_sub   <- substitute(columns)
   col_names <- if (is.call(col_sub) && deparse(col_sub[[1]]) == "c") {
     vapply(as.list(col_sub)[-1], function(x) gsub('^"|"$', '', deparse(x)), character(1))
   } else {
     gsub('^"|"$', '', deparse(col_sub))
   }
-  
+
   source <- match.arg(tolower(source), c("gbif", "itis", "both"))
-  
+
   if (source %in% c("gbif", "both")) {
     if (!requireNamespace("rgbif", quietly = TRUE))
       stop("Package 'rgbif' is required. Install with: install.packages('rgbif')")
@@ -158,37 +161,37 @@ taxon_cite <- function(data, columns, source = "both", drop_na = FALSE) {
   }
   if (!requireNamespace("memoise", quietly = TRUE))
     stop("Package 'memoise' is required. Install with: install.packages('memoise')")
-  
+
   safe_get <- function(expr, default = NULL)
     tryCatch(expr, error = function(e) default)
-  
+
   # --- GBIF authorship lookup ---
   author_lookup <- memoise::memoise(function(canonical_name) {
-    
+
     if (is.null(canonical_name) || length(canonical_name) == 0 ||
         is.na(canonical_name) || nchar(trimws(canonical_name)) == 0)
       return(canonical_name)
-    
+
     gbif_author    <- NULL
     gbif_canonical <- canonical_name
-    
+
     if (source %in% c("gbif", "both")) {
-      
+
       res <- safe_get(rgbif::name_backbone(name = canonical_name, strict = TRUE))
-      
+
       if (!is.null(res) && nrow(res) > 0 && !isTRUE(res$matchType == "NONE")) {
-        
+
         canonical_check <- safe_get(res$canonicalName[1])
-        
+
         higherrank_mismatch <- isTRUE(res$matchType == "HIGHERRANK") &&
           !is.null(canonical_check) && length(canonical_check) > 0 &&
           !identical(tolower(trimws(canonical_check)), tolower(trimws(canonical_name)))
-        
+
         if (!higherrank_mismatch &&
             !is.null(canonical_check) &&
             length(canonical_check) > 0 &&
             identical(tolower(trimws(canonical_check)), tolower(trimws(canonical_name)))) {
-          
+
           usage_key <- safe_get({
             val <- res[["acceptedUsageKey"]]
             if (!is.null(val) && length(val) > 0 && !is.na(val[1])) val[1] else {
@@ -196,7 +199,7 @@ taxon_cite <- function(data, columns, source = "both", drop_na = FALSE) {
               if (!is.null(val2) && length(val2) > 0 && !is.na(val2[1])) val2[1] else NULL
             }
           })
-          
+
           resolved <- if (!is.null(usage_key)) {
             safe_get({
               usage <- rgbif::name_usage(key = usage_key)$data
@@ -214,7 +217,7 @@ taxon_cite <- function(data, columns, source = "both", drop_na = FALSE) {
               usage
             })
           } else NULL
-          
+
           author_raw <- safe_get({
             src <- if (!is.null(resolved)) resolved else res
             val <- src[["authorship"]]
@@ -222,13 +225,13 @@ taxon_cite <- function(data, columns, source = "both", drop_na = FALSE) {
                 nchar(trimws(val[1])) > 0)
               gsub("^\\(|\\)$", "", trimws(val[1])) else NULL
           })
-          
+
           if (!is.null(author_raw) && length(author_raw) > 0 &&
               !grepl("^[,;\\s]", author_raw) &&
               nchar(trimws(author_raw)) > 0) {
             gbif_author <- author_raw
           }
-          
+
           gbif_canonical <- safe_get({
             if (!is.null(resolved) && !is.null(resolved$canonicalName) &&
                 length(resolved$canonicalName) > 0 &&
@@ -237,13 +240,13 @@ taxon_cite <- function(data, columns, source = "both", drop_na = FALSE) {
                      length(canonical_check) > 0) canonical_check
             else canonical_name
           }, canonical_name)
-          
+
           if (length(gbif_canonical) == 0 || is.na(gbif_canonical))
             gbif_canonical <- canonical_name
         }
       }
     }
-    
+
     # --- ITIS fallback when GBIF has no valid authorship ---
     if (is.null(gbif_author) && source == "both" &&
         requireNamespace("taxize", quietly = TRUE)) {
@@ -267,28 +270,28 @@ taxon_cite <- function(data, columns, source = "both", drop_na = FALSE) {
         return(result)
       }
     }
-    
+
     if (!is.null(gbif_author) && length(gbif_author) > 0)
       return(paste0(gbif_canonical, " (", gbif_author, ")"))
-    
+
     gbif_canonical
   })
-  
+
   # --- Process each column ---
   all_reports <- list()
-  
+
   for (col_name in col_names) {
-    
+
     if (!col_name %in% names(data)) {
       message(sprintf("[taxon_cite] column '%s' not found -- skipped", col_name))
       next
     }
-    
+
     vals           <- as.character(data[[col_name]])
     vals_canonical <- trimws(sub("\\s*\\(.*\\)\\s*$", "", vals))
     unique_vals    <- unique(vals_canonical[!is.na(vals_canonical) &
                                               nchar(trimws(vals_canonical)) > 0])
-    
+
     if (drop_na) {
       keep       <- !is.na(vals)
       removed_na <- sum(!keep)
@@ -299,10 +302,10 @@ taxon_cite <- function(data, columns, source = "both", drop_na = FALSE) {
       vals           <- vals[keep]
       vals_canonical <- vals_canonical[keep]
     }
-    
+
     message(sprintf("[taxon_cite] looking up authorship for %d unique name(s) in '%s'",
                     length(unique_vals), col_name))
-    
+
     cite_map <- setNames(lapply(seq_along(unique_vals), function(i) {
       name <- unique_vals[i]
       if (i == 1 || i %% 25 == 0 || i == length(unique_vals))
@@ -310,16 +313,16 @@ taxon_cite <- function(data, columns, source = "both", drop_na = FALSE) {
       result <- safe_get(author_lookup(name))
       if (is.null(result) || length(result) == 0) name else result
     }), unique_vals)
-    
+
     cite_vals <- vapply(vals_canonical, function(name) {
       if (is.na(name) || nchar(trimws(name)) == 0) return(NA_character_)
       val <- cite_map[[name]]
       if (is.null(val) || length(val) == 0) return(name)
       val
     }, character(1), USE.NAMES = FALSE)
-    
+
     data[[paste0(col_name, "_cite")]] <- cite_vals
-    
+
     # --- Build report: names where no authorship was found ---
     no_citation <- vapply(unique_vals, function(name) {
       cited <- cite_map[[name]]
@@ -327,7 +330,7 @@ taxon_cite <- function(data, columns, source = "both", drop_na = FALSE) {
       # No authorship found if cited value equals canonical input
       identical(trimws(cited), trimws(name))
     }, logical(1))
-    
+
     if (any(no_citation)) {
       missing_names <- unique_vals[no_citation]
       report_rows <- tibble::tibble(
@@ -346,21 +349,21 @@ taxon_cite <- function(data, columns, source = "both", drop_na = FALSE) {
         column = character(), name = character(), n = integer()
       )
     }
-    
+
     all_reports[[col_name]] <- report_rows
-    
+
     resolved_n <- sum(!no_citation, na.rm = TRUE)
     message(sprintf("[taxon_cite] '%s_cite' appended -- %d / %d name(s) with authorship",
                     col_name, resolved_n, length(unique_vals)))
   }
-  
+
   cite_report <- dplyr::bind_rows(all_reports)
   if (nrow(cite_report) == 0) {
     cite_report <- tibble::tibble(
       column = character(), name = character(), n = integer()
     )
   }
-  
+
   attr(data, "cite_report") <- cite_report
   data
 }

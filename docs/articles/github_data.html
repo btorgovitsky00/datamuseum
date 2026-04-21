@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Publications • datamuseum</title>
+<title>Accessing GitHub Data • datamuseum</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<script src="../extra.js"></script><meta property="og:title" content="Publications">
+<script src="../extra.js"></script><meta property="og:title" content="Accessing GitHub Data">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -69,17 +69,43 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Publications</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Accessing GitHub Data</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/btorgovitsky00/datamuseum/blob/HEAD/vignettes/publications.Rmd" class="external-link"><code>vignettes/publications.Rmd</code></a></small>
-      <div class="d-none name"><code>publications.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/btorgovitsky00/datamuseum/blob/HEAD/vignettes/github_data.Rmd" class="external-link"><code>vignettes/github_data.Rmd</code></a></small>
+      <div class="d-none name"><code>github_data.Rmd</code></div>
     </div>
 
     
     
+<div class="section level2">
+<h2 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
+</h2>
+<p>The original accessions for the data sets included within
+<code>datamuseum</code> are also available on GitHub. These are from the
+Global Biodiversity Information Facility (GBIF), Invert-E-Base
+(InvBase), the Biological Information System for Marine Life (BISMAL),
+Ocean Biodiversity Information System (OBIS), and one data set obtained
+by direct request from the National Museum of Nature and Science, Japan
+(NSMT).</p>
+<p>In this workflow, accessing the GBIF-sourced data directly from the
+GitHub repository for <code>datamuseum</code> will be demonstrated.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://btorgovitsky00.github.io/datamuseum/">datamuseum</a></span><span class="op">)</span></span></code></pre></div>
+<p>Due to the size of the data, the files are stored within a .zip
+folder. Luckily, R is capable of downloading and unzipping the files
+directly from a GitHub link!</p>
+<p>Each data set in <code>datamuseum</code> has two associated parent
+files: the actual original accession from the respective repository
+(denoted as “raw”), and a version with some columns removed for improved
+visibility (“trim”).</p>
+<p>The GBIF data sets were obtained and refined from the following
+occurrence download:</p>
+<blockquote>
+<p>Global Biodiversity Information Facility (GBIF). GBIF.org (30 March
+2026) GBIF Occurrence Download. <a href="https://www.gbif.org" class="external-link uri">https://www.gbif.org</a>. doi: <a href="https://doi.org/10.15468/dl.2379hj" class="external-link">10.15468/dl.2379hj</a></p>
+</blockquote>
+</div>
   </main>
 </div>
 
