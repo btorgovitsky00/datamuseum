@@ -42,7 +42,9 @@ trimmedzip <- tempfile()
 download.file("https://github.com/btorgovitsky00/datamuseum/raw/master/data-raw.zip", trimmedzip, 
   mode = "wb")
 
-unzip(trimmedzip, list = TRUE)
+temp <- tempdir()
+
+unzip(trimmedzip, exdir = temp)
 
 
 ```
@@ -52,7 +54,7 @@ unzip(trimmedzip, list = TRUE)
 
 #Trimmed Original Data
 
-NSMT_clean <- read.csv(unz(trimmedzip, "data-raw/NSMT_Octopodoidea_trim.csv")) #870 Observations
+NSMT_clean <- read.csv(file.path(temp, "data-raw", "NSMT_Octopodoidea_raw.csv")) #870 Observations
 
 latlong_column(NSMT_clean)
 
@@ -95,7 +97,7 @@ NSMT_Japan <- NSMT_Japan[ -c(6, 7)]
 
 #Trimmed Original Data
 
-GBIF_clean <- read.csv(unz(trimmedzip, "data-raw/GBIF_Octopodoidea_trim.csv")) #88256 Observations
+GBIF_clean <- read.csv(file.path(temp, "data-raw", "GBIF_Octopodoidea_raw.csv")) #88256 Observations
 
 latlong_column(GBIF_clean)
 
@@ -128,7 +130,7 @@ GBIF_Japan <- GBIF_Japan %>%
 
 #Trimmed Original Data
 
-InvBase_clean <- read.csv(unz(trimmedzip, "data-raw/InvBase_Octopodoidea_trim.csv")) #22608 Observations
+InvBase_clean <- read.csv(file.path(temp, "data-raw", "InvBase_Octopodoidea_raw.csv")) #22608 Observations
 
 latlong_column(InvBase_clean)
 
@@ -170,7 +172,7 @@ InvBase_Japan <- InvBase_Japan[ -c(5)]
 
 #Trimmed Original Data
 
-BISMAL_clean <- read.csv(unz(trimmedzip, "data-raw/BISMAL_Octopodoidea_trim.csv")) #1547 Observations
+BISMAL_clean <- read.csv(file.path(temp, "data-raw", "BISMAL_Octopodoidea_raw.csv")) #1547 Observations
 
 latlong_column(BISMAL_clean)
 
@@ -211,16 +213,14 @@ BISMAL_Japan <- BISMAL_Japan[ -c(12)]
 
 #Trimmed Original Data
 
-OBIS_clean <- read.csv(unz(trimmedzip, "data-raw/OBIS_Octopodoidea_trim.csv")) #1130 Observations
-
-write.csv(OBIS_clean, "OBIS_Octopodoidea_trim.csv", row.names = FALSE)
+OBIS_clean <- read.csv(file.path(temp, "data-raw", "OBIS_Octopodoidea_raw.csv")) #58526 Observations
 
 latlong_column(OBIS_clean)
 
 latlong_format(OBIS_clean, c(decimalLatitude, decimalLongitude))
 
 OBIS_clean <- latlong_convert(OBIS_clean, c(decimalLatitude, decimalLongitude),
-                convert = "decimal", drop_na = TRUE) #1537 Observations
+                convert = "decimal", drop_na = TRUE)
 
 OBIS_clean <- latlong_filter(OBIS_clean, latitude = decimalLatitude, 
                 longitude = decimalLongitude, drop_na = TRUE)
