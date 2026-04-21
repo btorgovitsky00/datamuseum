@@ -182,7 +182,7 @@ BISMAL_clean <- latlong_convert(BISMAL_clean, c(decimalLatitude, decimalLongitud
 BISMAL_clean <- latlong_filter(BISMAL_clean, latitude = decimalLatitude, 
                 longitude = decimalLongitude, drop_na = TRUE)
 
-#Japan Octopus Data
+#Japanese Data
 
 BISMAL_Japan <- latlong_range(BISMAL_clean, "decimalLatitude", "decimalLongitude", 
                              25, 50, 125, 150, drop_na = TRUE) %>% dplyr::rename( "Prefecture" = "stateProvince",
@@ -204,6 +204,45 @@ BISMAL_Japan <- taxon_combine(BISMAL_Japan, genus = Genus, epithet = specificEpi
                             new_column = "SciName")
 
 BISMAL_Japan <- BISMAL_Japan[ -c(12)]
+
+```
+
+```{r OBIS, echo = FALSE, warning = FALSE}
+
+#Trimmed Original Data
+
+OBIS_clean <- read.csv(unz(trimmedzip, "data-raw/OBIS_Octopodoidea_trim.csv")) #1130 Observations
+
+write.csv(OBIS_clean, "OBIS_Octopodoidea_trim.csv", row.names = FALSE)
+
+latlong_column(OBIS_clean)
+
+latlong_format(OBIS_clean, c(decimalLatitude, decimalLongitude))
+
+OBIS_clean <- latlong_convert(OBIS_clean, c(decimalLatitude, decimalLongitude),
+                convert = "decimal", drop_na = TRUE) #1537 Observations
+
+OBIS_clean <- latlong_filter(OBIS_clean, latitude = decimalLatitude, 
+                longitude = decimalLongitude, drop_na = TRUE)
+
+#Japanese Data
+
+OBIS_Japan <- latlong_range(OBIS_clean, "decimalLatitude", "decimalLongitude", 
+                             25, 50, 125, 150, drop_na = TRUE) %>% dplyr::rename(
+              "Prefecture" = "stateProvince", "Country" = "country",
+              "Precise Location" = "locality", "Longitude" = "decimalLongitude", "Latitude" = "decimalLatitude",
+              "Year" = "date_year", "Source" = "institutionCode", "Family" = "family", "Genus" = "genus",
+              "SciName" = "species") #859 Observations
+
+OBIS_Japan <- replace(OBIS_Japan, OBIS_Japan=='', NA)
+
+OBIS_Japan <- OBIS_Japan %>% 
+  filter(!is.na(Source) & !is.na(Family) & !is.na(Genus) & !is.na(SciName)
+         & !is.na(Year)) #698 Observations
+
+OBIS_Japan$SciName <-sub("\\s+(?:NA)$", "", OBIS_Japan$SciName) #668 Observations
+
+OBIS_Japan <- OBIS_Japan[ -c(9)]
 
 ```
 
