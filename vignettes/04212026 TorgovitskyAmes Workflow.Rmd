@@ -213,7 +213,12 @@ BISMAL_Japan <- BISMAL_Japan[ -c(12)]
 
 #Trimmed Original Data
 
-OBIS_clean <- read.csv(file.path(temp, "data-raw", "OBIS_Octopodoidea_raw.csv")) #58526 Observations
+OBIS_raw <- read.csv(file.path(temp, "data-raw", "OBIS_Octopodoidea_raw.csv")) #58526 Observations
+
+OBIS_clean <- OBIS_raw[ -c(0:20, 22:28, 30:39, 41, 44:63, 65:74, 76:100, 102:112, 114:127, 129:203, 205:209,
+                                   211:282)] #58526 Observations
+
+write.csv(OBIS_clean, "OBIS_Octopodoidea_trim.csv", row.names = FALSE)
 
 latlong_column(OBIS_clean)
 

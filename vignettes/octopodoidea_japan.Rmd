@@ -198,7 +198,7 @@ OBIS_raw <- read.csv("OBIS_Octopodoidea_raw.csv") #58526 Observations
 
 #Trimmed Data
 
-OBIS_clean <- OBIS_raw[ -c(0:20, 22:28, 30:39, 41, 44:63, 65:74, 76:100, 102:127, 129:203, 205:209,
+OBIS_clean <- OBIS_raw[ -c(0:20, 22:28, 30:39, 41, 44:63, 65:74, 76:100, 102:112, 114:127, 129:203, 205:209,
                                    211:282)] #58526 Observations
 
 #Also available on Github as OBIS_Octopodoidea_trim.csv
