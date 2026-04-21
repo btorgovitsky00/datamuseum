@@ -1,0 +1,212 @@
+---
+title: "Octopodoidea in Japan"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+vignette: >
+  %\VignetteIndexEntry{Octopodoidea in Japan}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+options(rmarkdown.html_vignette.check_title = FALSE)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r packages, echo = FALSE}
+library(datamuseum)
+
+library(tidyr)
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(googlesheets4)
+
+library(ggplot2)
+library(maps)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(sf)
+```
+
+```{r Access Trimmed Data from GitHub, echo = FALSE, warning = FALSE}
+
+trimmedzip <- tempfile()
+
+download.file("https://github.com/btorgovitsky00/datamuseum/raw/master/data-raw.zip", trimmedzip, 
+  mode = "wb")
+
+unzip(trimmedzip, list = TRUE)
+
+
+```
+
+
+```{r NSMT 1/19/2024 + 3/11/2024, echo = FALSE, warning = FALSE}
+
+#Trimmed Original Data
+
+NSMT_clean <- read.csv(unz(trimmedzip, "data-raw/NSMT_Octopodoidea_trim.csv")) #870 Observations
+
+latlong_column(NSMT_clean)
+
+latlong_format(NSMT_clean, c(Latitude, Longitude))
+
+NSMT_clean <- latlong_convert(NSMT_clean, c(Latitude, Longitude),
+                convert = "decimal", drop_na = TRUE)
+
+NSMT_clean <- latlong_filter(NSMT_clean, latitude = Latitude, 
+                longitude = Longitude)
+
+latlong_limits(NSMT_clean, latitude = Latitude, 
+               longitude = Longitude)
+
+#Japanese Data
+
+NSMT_Japan <- latlong_range(NSMT_clean, "Latitude", "Longitude",
+                            25, 50, 125, 150, drop_na = TRUE) %>% dplyr::rename(
+                              "Prefecture" = "Region", "Precise Location" = "Previse.loc.",  
+                              "Source" = "Group.Abb.") #727 Observations
+
+NSMT_Japan <- replace(NSMT_Japan, NSMT_Japan=='', NA) 
+
+NSMT_Japan <- NSMT_Japan %>% filter(!is.na(Source) & !is.na(Family) & !is.na(Genus) &	
+                                      !is.na(Species)& !is.na(Year)) #726 Observations
+
+taxon_column(NSMT_Japan, output = "list")
+
+taxon_rank(NSMT_Japan, c(Family, Genus, Species))
+
+NSMT_Japan <- taxon_combine(NSMT_Japan, genus = Genus, epithet = Species,
+                            new_column = "SciName")
+
+NSMT_Japan <- NSMT_Japan[ -c(6, 7)]
+
+```
+
+
+```{r GBIF, echo = FALSE, warning = FALSE}
+
+#Trimmed Original Data
+
+GBIF_clean <- read.csv(unz(trimmedzip, "data-raw/GBIF_Octopodoidea_trim.csv")) #88256 Observations
+
+latlong_column(GBIF_clean)
+
+latlong_format(GBIF_clean, c(decimalLatitude, decimalLongitude))
+
+GBIF_clean <- latlong_convert(GBIF_clean, c(decimalLatitude, decimalLongitude),
+                convert = "decimal", drop_na = TRUE)
+
+GBIF_clean <- latlong_filter(GBIF_clean, latitude = decimalLatitude, 
+                longitude = decimalLongitude)
+
+#Japanese Data
+
+GBIF_Japan <- latlong_range(GBIF_clean, "decimalLatitude", "decimalLongitude", 
+                             25, 50, 125, 150, drop_na = TRUE) %>% dplyr::rename(
+              "Prefecture" = "stateProvince",
+              "Precise Location" = "locality", "Longitude" = "decimalLongitude", "Latitude" = "decimalLatitude",
+              "Year" = "year", "Genus" = "genus", "Country" = "countryCode", 
+              "SciName" = "species", "Family" = "family","Source" = "institutionCode") #2145 Observations
+
+GBIF_Japan <- replace(GBIF_Japan, GBIF_Japan=='', NA)
+
+GBIF_Japan <- GBIF_Japan %>% 
+  filter(!is.na(Source) & !is.na(Family) &  !is.na(Genus) & !is.na(SciName)
+         & !is.na(Year)) #798 Observations
+```
+
+
+```{r InvBase, echo = FALSE, warning = FALSE}
+
+#Trimmed Original Data
+
+InvBase_clean <- read.csv(unz(trimmedzip, "data-raw/InvBase_Octopodoidea_trim.csv")) #22608 Observations
+
+latlong_column(InvBase_clean)
+
+latlong_format(InvBase_clean, c(decimalLatitude, decimalLongitude))
+
+InvBase_clean <- latlong_convert(InvBase_clean, c(decimalLatitude, decimalLongitude),
+                convert = "decimal", drop_na = TRUE) #19634 Observations
+
+InvBase_clean <- latlong_filter(InvBase_clean, latitude = decimalLatitude, 
+                longitude = decimalLongitude, drop_na = TRUE)
+
+#Japan Octopus Data
+
+InvBase_Japan <- latlong_range(InvBase_clean, "decimalLatitude", "decimalLongitude", 
+                             25, 50, 125, 150, drop_na = TRUE) %>% dplyr::rename(
+              "Prefecture" = "stateProvince", "Country" = "country",
+              "Precise Location" = "county", "Longitude" = "decimalLongitude", "Latitude" = "decimalLatitude",
+              "Year" = "year", "Genus" = "genus", "Source" = "institutionCode", "Family" = "family"
+              ) #50 Observations
+
+InvBase_Japan <- replace(InvBase_Japan, InvBase_Japan=='', NA)
+
+InvBase_Japan <- InvBase_Japan %>% 
+  filter(!is.na(Source) & !is.na(Family) &  !is.na(Genus) & !is.na(specificEpithet)
+         & !is.na(Year)) #43 Observations
+
+taxon_column(InvBase_Japan, output = "list")
+
+taxon_rank(InvBase_Japan, c(Family, Genus, specificEpithet))
+
+InvBase_Japan <- taxon_combine(InvBase_Japan, genus = Genus, epithet = specificEpithet,
+                            new_column = "SciName")
+
+InvBase_Japan <- InvBase_Japan[ -c(5)]
+
+```
+
+```{r BISMAL, echo = FALSE, warning = FALSE}
+
+#Trimmed Original Data
+
+BISMAL_clean <- read.csv(unz(trimmedzip, "data-raw/BISMAL_Octopodoidea_trim.csv")) #1547 Observations
+
+latlong_column(BISMAL_clean)
+
+latlong_format(BISMAL_clean, c(decimalLatitude, decimalLongitude))
+
+BISMAL_clean <- latlong_convert(BISMAL_clean, c(decimalLatitude, decimalLongitude),
+                convert = "decimal", drop_na = TRUE) #1537 Observations
+
+BISMAL_clean <- latlong_filter(BISMAL_clean, latitude = decimalLatitude, 
+                longitude = decimalLongitude, drop_na = TRUE)
+
+#Japan Octopus Data
+
+BISMAL_Japan <- latlong_range(BISMAL_clean, "decimalLatitude", "decimalLongitude", 
+                             25, 50, 125, 150, drop_na = TRUE) %>% dplyr::rename( "Prefecture" = "stateProvince",
+              "Precise Location" = "locality", "Longitude" = "decimalLongitude", "Latitude" = "decimalLatitude",
+              "Year" = "year", "Genus" = "genus", "Country" = "country", "Source" = "institutionCode", 
+              "Family" = "family") #1507 Observations
+
+BISMAL_Japan <- replace(BISMAL_Japan, BISMAL_Japan=='', NA)
+
+BISMAL_Japan <- BISMAL_Japan %>% 
+  filter(!is.na(Source) & !is.na(Family) &  !is.na(Genus) & !is.na(specificEpithet)
+         & !is.na(Year)) #473 Observations
+
+taxon_column(BISMAL_Japan, output = "list")
+
+taxon_rank(BISMAL_Japan, c(Family, Genus, specificEpithet))
+
+BISMAL_Japan <- taxon_combine(BISMAL_Japan, genus = Genus, epithet = specificEpithet,
+                            new_column = "SciName")
+
+BISMAL_Japan <- BISMAL_Japan[ -c(12)]
+
+```
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -150,12 +150,12 @@ Octopodoidea, can be found at:
 
 #Raw Data
 
-BISMAL_raw <- read.csv("BISMAL_Octopodoidea_raw.csv") #2487 Observations
+BISMAL_raw <- read.csv("BISMAL_Octopodoidea_raw.csv") #1547 Observations
 
 #Trimmed Data
 
 BISMAL_clean <- BISMAL_raw[ -c(1:11, 13:18, 20:21, 23:49, 51:67, 67, 70, 
-                                       72:79, 82:99, 100:104, 106:108, 110, 112:116)] #2487 Observations
+                                       72:79, 82:99, 100:104, 106:108, 110, 112:116)] #1547 Observations
 
 #Also available on Github as BISMAL_Octopodoidea_trim.csv
 
