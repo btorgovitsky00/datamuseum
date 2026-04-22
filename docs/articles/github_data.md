@@ -30,6 +30,8 @@ download.file("https://github.com/btorgovitsky00/datamuseum/raw/master/data-raw.
 temp <- tempdir()
 
 unzip(rawzip, exdir = temp)
+
+list.files(file.path(temp, "data-raw"))
 ```
 
 Each data set in `datamuseum` has two associated parent files: the
@@ -41,7 +43,7 @@ actual original accession from the respective repository (denoted as
 
 #Raw Original Data
 
-GBIF_clean <- read.csv(file.path(temp, "data-raw", "GBIF_Octopodoidea_raw.csv")) #88256 Observations
+GBIF_raw <- read.csv(file.path(temp, "data-raw", "GBIF_Octopodoidea_raw.csv")) #88256 Observations
 
 
 #Trimmed Original Data
